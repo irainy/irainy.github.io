@@ -4,7 +4,7 @@ sniky.github.com
 > My blog
 
 
-**[Homepage](/index.html)**
+**[Homepage](http://sniky.github.com/index.html)**
 
 ----------------
 
