@@ -1,15 +1,19 @@
 @font-face
 {
 	font-family: 'Averia Gruesa Libre';
-	src: url('AveriaGruesaLibre-Regular.ttf');
+	src: url('../font/AveriaGruesaLibre-Regular.ttf');
 }
 a {
   text-decoration: none;
   color: white;
 }
+
 body {
   min-width: 960px;
+  /*
   background-color: #acddde;
+  */
+	background: url('../image/sniky-bg-5.png') repeat scroll 0 0 #fff;
   width: 100%;
   margin: 0px;
 }
@@ -45,11 +49,7 @@ ul.nav > li:hover {
 ul.nav > li.now > a {
   color: #54debc;
 }
-div.footer {
-  height: 240px;
-  width: 100%;
-  background-color: #90d2d3;
-}
+
 div.main {
   margin: 70px auto;
   width: 960px;
@@ -57,17 +57,83 @@ div.main {
 }
 div.side-nav {
   float: left;
-  width: 220px;
-  height: 500px;
-  background-color: white;
+  width: 180px;
+  border-right: 1px dashed #43a8aa;
+}
+img.avatar {
+  margin: 10px;
+  border: 3px solid white;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px #58bbbd;
+}
+ul.nav-menu {
+  padding-left: 4px;
+  list-style: none;
+}
+ul.nav-menu>li {
+  line-height: 50px;
+  padding-left: 5px;
+}
+ul.nav-menu>li:hover {
+  border-right: 3px solid #e8421c;
+  background-color: #c8e8e9;
+}
+ul.nav-menu>li>a {
+  color: #43A8AA;
+  font-family: 'Averia Gruesa Libre', cursive;
+  font-size: 20px;
+  text-shadow: 0px 0px 0px #358485;
+}
+div.tags {
+  border-top: 1px dashed #43a8aa;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+span.tag {
+  color: #3b5973;
+  font-family: 'Averia Gruesa Libre', cursive;
+  font-size: 20px;
+
+  text-shadow: 0px 0px 1px #358485;
+}
+ul.taglst {
+  padding: 0px;
+  list-style: none;
+}
+ul.taglst>li {
+  margin-top: 2px;
+}
+a.tagn {
+  padding: 4px;
+  color: #3b5973;
+  font-family: 'Averia Gruesa Libre', cursive, 'Microsoft YaHei';
+  font-size: 15px;
 }
 div.wrapper {
   margin-left: 20px;
   float: left;
-  width: 720px;
+  width: 740px;
   height: 200px;
-  background-color: white;
+  background-color: #c8e8e9;
+  box-shadow: 0px 0px 5px #58bbbd;
 }
 div.clear {
   clear: both;
+}
+div.footer {
+  height: 20px;
+  width: 100%;
+}
+div.footer-content {
+  text-align: right;
+  width: 960px;
+  margin: 15px auto;
+  font-color: red;
+  padding: 10px;
+}
+div.footer-content>a {
+  color: #9d261d;
+  text-shadow: 0px -1px 0px rgba(0,0,0,0.25);
+  font-family: 'Microsoft YaHei';
+  font-size: 14px;
 }
