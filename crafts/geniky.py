@@ -11,14 +11,17 @@ import re
 import yaml
 from jinja2 import Template
 
+LOG = True
 TPL_ROOT = './Tmplates/'
-BASE = ''#http://sniky.github.com'
+BASE = '/'#http://sniky.github.com'
 
+
+def updateIndex():
+	pass
 
 def proArticle(conf):
 	dateline = datetime.today()
 	art = article.Article(conf['title'], dateline, dateline, 0, conf['cate'], conf['author'], permalink = conf['permalink'], tags = conf['tags'].split(', '))
-	#art.add_tags(conf['tags'].split(', '))
 	return art
 def main():
 	if len(sys.argv) != 3:
@@ -30,9 +33,15 @@ def main():
 		raw_craft = craftFile.read()
 	except:
 		sys.exit('\nFile open Error\n')
+
+	if LOG:
+		print "Creating Blog from %s into %s\n" % (sys.argv[1], sys.argv[2])
+
 	reConf = r'(<conf[\s\S]*?>([\s\S]*?)<\/conf>)'
 
 	res = re.match(reConf, raw_craft)
+	if LOG:
+		print "Parsing Config area..."
 	if res is None:
 		sys.exit('\nConfg area not found\n')
 	else:
@@ -41,11 +50,16 @@ def main():
 		raw_blog = unicode(raw_craft[len(res[0][0]):], 'utf-8')
 	
 
+	if LOG:
+		print "Create Article object..."
 	arti = proArticle(conf)
 
+	if LOG:
+		print "Parsing MarkDown from raw file %s" % sys.argv[1]
 	blogBody = mdtrans.md2html(raw_blog)
 
-
+	if LOG:
+		print "Insert sub info of this blog..."
 	subInfoPath = os.path.join(TPL_ROOT, 'sub-info.html')
 	subInfoFile = open(subInfoPath)
 	raw_subInfo = subInfoFile.read()
@@ -53,18 +67,33 @@ def main():
 	subInfoStr = subInfoTpl.render(tags = arti.tags, author = arti.author, date = arti.format_date())
 	subInfoFile.close()
 
+	if LOG:
+		print "Create Blog body..."
 	blogBodyTpl = Template(blogBody)
 	blogBodyStr = blogBodyTpl.render(subInfo = subInfoStr)
 
+	if LOG:
+		print "Rendering the blog page..."
 	indexPath = os.path.join(TPL_ROOT, 'index.html')
 	indexFile = open(indexPath)
 	raw_index = indexFile.read()
 	indexTpl = Template(raw_index)
 
 	indexStr = indexTpl.render(base = BASE, blog_body = blogBodyStr, title = arti.title, next_link = arti.get_next(), prev_link = arti.get_prev())
-	print indexStr
 
 
+	blogRoot = sys.argv[2]
+	subDir = arti.cate
+	blogDir = os.path.join(blogRoot, subDir)
+	if LOG:
+		print "Create blog in %s..." % blogDir
+
+	blogHTML = open(os.path.join(blogRoot+'/'+subDir, arti.permalink.split('/')[-1]), 'w')
+	blogHTML.write(indexStr)
+	blogHTML.close()
+
+	if LOG:
+		print "Update page info, including Article lists & Tag lists..."
+	updateIndex()
 if __name__ == '__main__':
 	main()
-

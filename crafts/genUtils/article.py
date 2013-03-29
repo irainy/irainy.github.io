@@ -1,3 +1,4 @@
+#-*- coding: utf8 -*-
 from datetime import datetime
 import sqlite3 as sql
 import sys
