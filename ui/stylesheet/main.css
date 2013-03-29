@@ -115,13 +115,36 @@ div.wrapper {
   background-color: #c8e8e9;
   box-shadow: 0px 0px 5px #58bbbd;
 }
-div.blog_body{
+div.blog-body {
   font-size: 15px;
   font-family: 'Microsoft YaHei';
   padding: 25px;
   text-shadow: 0px 1px 0px white;
   line-height: 25px;
   color: #3b5973;
+}
+div.sub-info {
+  color: gray;
+  font-size: 13px;
+  font-family: 'Averia Gruesa Libre', cursive, 'Microsoft YaHei';
+}
+div.article-nav {
+  border-top: 1px dashed #43a8aa;
+  padding: 10px;
+  width: 700px;
+  margin: 0 auto;
+}
+div.article-nav>span>a {
+  font-size: 15px;
+  font-family: 'Averia Gruesa Libre', cursive;
+  color: #3b5973;
+  text-shadow: 0px 1px 0px white;
+}
+div.article-nav>span.prev {
+  float: left;
+}
+div.article-nav>span.next {
+  float: right;
 }
 div.clear {
   clear: both;

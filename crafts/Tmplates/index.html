@@ -1,0 +1,60 @@
+<!doctype html>
+<head>
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ base }}ui/stylesheet/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ base }}ui/stylesheet/main.css"/>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<script type='text/javascript' src='{{ base }}ui/javascript/jquery-1.9.1.min.js'></script>
+	<script type='text/javascript' src='{{ base }}ui/javascript/main.js'></script>
+</head>
+<body>
+<div class='header' >
+	<ul class='nav'>
+		<li class='now'><a href='http://sniky.github.com'> Home</a></li>
+		<li><a href='http://sniky.github.com/magic/index.html'>Magic</a></li>
+		<li><a href='http://sniky.github.com/psych/index.html'>Psych</a></li>
+		<li><a href='http://sniky.github.com/lifee/index.html'>Lifee</a></li>
+	</ul>
+</div>
+<div class='main'>
+	<div class='side-nav' >
+		<div class='avatar-wrapper' >
+			<img class='avatar' src='ui/image/avatar-100x100.png' alt='avatar' title="It's Me" />
+		</div>
+		<ul class='nav-menu' >
+			<li><a href='{{ base }}ext/about.html'>About me</a></li>
+			<li><a href='{{ base }}ext/logs.html'>Commit logs</a></li>
+			<li><a href='{{ base }}ext/fun'>Have fun</a></li>
+		</ul>
+		<div class='clear'></div>
+		<div class='tags' >
+			<span class='tag' ><i class='icon-tags' ></i> Tags</span>
+			<ul class='taglst'>
+				{% for tag in tags %}
+				<li>
+				<a class='tagn' href=''>{{ tag.name }}({{ tag.count }})</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class='wrapper' >
+		<div class='blog-body' >
+			{{ blog_body }}
+		</div>
+		<div class='article-nav'>
+			<span class='prev' ><a href='{{ prev_link }}' >&lt; prev</a></span>
+			<span class='next' ><a href='{{ next_link }}' >next &gt;</a></span>
+			<div class='clear' ></div>
+		</div>
+	</div>
+	<div class='clear' ></div>
+</div>
+<div class='footer' >
+	<div class='footer-content' >
+		<i class='icon-user' style='color:#9d261d'></i><a href='http://weibo.com/myaplysia?from=profile&wvr=5&loc=infdomain'> @i小雨生</a>
+	</div>
+</div>
+</body>
+</html>
