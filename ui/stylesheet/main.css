@@ -93,11 +93,10 @@ span.tag {
   color: #3b5973;
   font-family: 'Averia Gruesa Libre', cursive;
   font-size: 20px;
-
   text-shadow: 0px 0px 1px #358485;
 }
 ul.taglst {
-  padding: 0px;
+  padding: 3px;
   list-style: none;
 }
 ul.taglst>li {
@@ -113,9 +112,16 @@ div.wrapper {
   margin-left: 20px;
   float: left;
   width: 740px;
-  height: 200px;
   background-color: #c8e8e9;
   box-shadow: 0px 0px 5px #58bbbd;
+}
+div.blog_body{
+  font-size: 15px;
+  font-family: 'Microsoft YaHei';
+  padding: 25px;
+  text-shadow: 0px 1px 0px white;
+  line-height: 25px;
+  color: #3b5973;
 }
 div.clear {
   clear: both;
