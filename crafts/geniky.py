@@ -3,6 +3,7 @@
 
 from genUtils import article
 from genUtils import mdtrans
+#from genUtils import updates
 
 from datetime import datetime
 import sys
@@ -15,10 +16,8 @@ LOG = True
 TPL_ROOT = './Tmplates/'
 BASE = '/'#http://sniky.github.com'
 
-
-def updateIndex():
+def updatePages():
 	pass
-
 def proArticle(conf):
 	dateline = datetime.today()
 	art = article.Article(conf['title'], dateline, dateline, 0, conf['cate'], conf['author'], permalink = conf['permalink'], tags = conf['tags'].split(', '))
@@ -74,7 +73,7 @@ def main():
 
 	if LOG:
 		print "Rendering the blog page..."
-	indexPath = os.path.join(TPL_ROOT, 'index.html')
+	indexPath = os.path.join(TPL_ROOT, 'detail_index.html')
 	indexFile = open(indexPath)
 	raw_index = indexFile.read()
 	indexTpl = Template(raw_index)
@@ -94,6 +93,6 @@ def main():
 
 	if LOG:
 		print "Update page info, including Article lists & Tag lists..."
-	updateIndex()
+	updatePages()
 if __name__ == '__main__':
 	main()
