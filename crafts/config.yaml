@@ -1,0 +1,4 @@
+version: 1.0
+blogRoot: '/Users/rainy/Projects/sniky.github.com'
+db: '/Users/rainy/Projects/sniky.github.com/crafts/db/sniky.blog.sqlite'
+TemplateRoot: '/Users/rainy/Projects/sniky.github.com/crafts/Templates'

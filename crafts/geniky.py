@@ -1,98 +1,106 @@
 #!/usr/bin/python
 #-*- coding: utf8 -*-
-
-from genUtils import article
-from genUtils import mdtrans
-#from genUtils import updates
-
-from datetime import datetime
-import sys
+import sys, re
 import os.path
-import re
 import yaml
+from datetime import datetime
 from jinja2 import Template
+from genUtils import *
+class Gen:
+	BASE = '/'#http://sniky.github.com'
+	LOG = True
+	def __init__(self, blog = ''):
+		self.proConf()
 
-LOG = True
-TPL_ROOT = './Tmplates/'
-BASE = '/'#http://sniky.github.com'
+		self.v = self.env['version']
+		self.blog = self.env['blogRoot']
+		self.Tmpl = self.env['TemplateRoot']
 
-def updatePages():
-	pass
-def proArticle(conf):
-	dateline = datetime.today()
-	art = article.Article(conf['title'], dateline, dateline, 0, conf['cate'], conf['author'], permalink = conf['permalink'], tags = conf['tags'].split(', '))
-	return art
+		self.craft = open(blog)
+		self.rawCraft = self.craft.read()
+	def write(self):
+		self._parseBlogConfigArea()
+		#manage article object
+		self.article = Article(
+				self.blogInfo['title'],
+				self.blogInfo['cate'],
+				self.blogInfo['author'],
+				self.blogInfo['permalink'],
+				datetime.today())
+		self.tags = self.blogInfo['tags'].split(', ')
+		if self.article.isnew():
+			self._log("Article < %s > updated in datebase" % self.article.title)
+			self.article.update()
+		else:
+			self.article.save()
+			for tag in self.tags:
+				self._log("Article add tag #%s#" % tag)
+				self.article.tag(tag)
+		tmpStream = ''
+
+		#load and render subInfo
+		self._log("Load and render subInfo")
+		subInfo = {'date': self.article.format_date(), 'tags': self.tags, 'author': self.article.author}
+		tmpStream = self._loadRender(os.path.join(self.Tmpl, 'sub_info.html'), subInfo)
+
+		#parse craft Markdown 
+		self._log("Parse craft Markdown")
+		tmpStream = Template(Md2HTML(self.rawBlogBody)).render(subInfo = tmpStream)
+
+		#load and render blogBody
+		self._log("Load and render blog body")
+		blogBody = {
+				'title': self.article.title,
+				'base': self.BASE,
+				'now': self.article.cate,
+				'blogBody': tmpStream,
+				'prev_link': self.article.get_prev(),
+				'next_link': self.article.get_next()}
+		tmpStream = self._loadRender(os.path.join(self.Tmpl, 'blog_body.html'), blogBody)
+
+		#create blog page
+		blogDir = os.path.join(self.blog, self.article.cate)
+		blogFileName = self.article.permalink.split('/')[-1]
+
+		self._log("Create blog page <%s>" %  os.path.join(blogDir, blogFileName))
+
+		blogFile = open(os.path.join(blogDir, blogFileName), 'w')
+		blogFile.write(tmpStream)
+		blogFile.close()
+	def _loadRender(self, tpl, var):
+		try:
+			tplFile = open(tpl)
+			tplStr = tplFile.read()
+			tplFile.close()
+		except:
+			self._err('Failed to load and render template <%s>' % tpl)
+		return Template(tplStr).render(Var = var)
+	def _parseBlogConfigArea(self):
+		reConf = r'(<conf[\s\S]*?>([\s\S]*?)<\/conf>)'
+		res = re.match(reConf, self.rawCraft)
+		self._log("Parsing Config area")
+		if res is None:
+			self._err('Confg area not found')
+		res = re.findall(reConf, self.rawCraft)
+		self.blogInfo = yaml.load(res[0][1])
+		self.rawBlogBody = unicode(self.rawCraft[len(res[0][0]):], 'utf-8')
+	def proConf(self):
+		try:
+			gconf = open('config.yaml').read()
+			self.env = yaml.load(gconf)
+		except:
+			self._err('Failed to fetch config file <./config.yaml>')
+	def _err(self, info):
+		sys.exit('\n%s\n' % info)
+	def _log(self, log):
+		if self.LOG:
+			print "\n%s\n" % log
+	def __del__(self):
+		self.craft.close()
 def main():
-	if len(sys.argv) != 3:
-		sys.exit('\nArguments Error\n')
-	try:
-		craftFilePath = sys.argv[1]
-
-		craftFile = open(craftFilePath)
-		raw_craft = craftFile.read()
-	except:
-		sys.exit('\nFile open Error\n')
-
-	if LOG:
-		print "Creating Blog from %s into %s\n" % (sys.argv[1], sys.argv[2])
-
-	reConf = r'(<conf[\s\S]*?>([\s\S]*?)<\/conf>)'
-
-	res = re.match(reConf, raw_craft)
-	if LOG:
-		print "Parsing Config area..."
-	if res is None:
-		sys.exit('\nConfg area not found\n')
-	else:
-		res = re.findall(reConf, raw_craft)
-		conf = yaml.load(res[0][1])
-		raw_blog = unicode(raw_craft[len(res[0][0]):], 'utf-8')
-	
-
-	if LOG:
-		print "Create Article object..."
-	arti = proArticle(conf)
-
-	if LOG:
-		print "Parsing MarkDown from raw file %s" % sys.argv[1]
-	blogBody = mdtrans.md2html(raw_blog)
-
-	if LOG:
-		print "Insert sub info of this blog..."
-	subInfoPath = os.path.join(TPL_ROOT, 'sub-info.html')
-	subInfoFile = open(subInfoPath)
-	raw_subInfo = subInfoFile.read()
-	subInfoTpl = Template(raw_subInfo)
-	subInfoStr = subInfoTpl.render(tags = arti.tags, author = arti.author, date = arti.format_date())
-	subInfoFile.close()
-
-	if LOG:
-		print "Create Blog body..."
-	blogBodyTpl = Template(blogBody)
-	blogBodyStr = blogBodyTpl.render(subInfo = subInfoStr)
-
-	if LOG:
-		print "Rendering the blog page..."
-	indexPath = os.path.join(TPL_ROOT, 'detail_index.html')
-	indexFile = open(indexPath)
-	raw_index = indexFile.read()
-	indexTpl = Template(raw_index)
-
-	indexStr = indexTpl.render(base = BASE, blog_body = blogBodyStr, title = arti.title, next_link = arti.get_next(), prev_link = arti.get_prev())
-
-
-	blogRoot = sys.argv[2]
-	subDir = arti.cate
-	blogDir = os.path.join(blogRoot, subDir)
-	if LOG:
-		print "Create blog in %s..." % blogDir
-
-	blogHTML = open(os.path.join(blogRoot+'/'+subDir, arti.permalink.split('/')[-1]), 'w')
-	blogHTML.write(indexStr)
-	blogHTML.close()
-
-	if LOG:
-		print "Update page info, including Article lists & Tag lists..."
-	updatePages()
+	if len(sys.argv) != 2 or not os.path.isfile(sys.argv[1]):
+		sys.exit("\nArgument Error\n")
+	g = Gen(sys.argv[1])
+	g.write()
 if __name__ == '__main__':
 	main()
