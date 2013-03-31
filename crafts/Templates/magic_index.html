@@ -22,7 +22,7 @@
 <div class='main'>
 	<div class='side-nav' >
 		<div class='avatar-wrapper' >
-			<img class='avatar' src='ui/image/avatar-100x100.png' alt='avatar' title="It's Me" />
+			<img class='avatar' src='{{ Bar.base }}ui/image/avatar-100x100.png' alt='avatar' title="It's Me" />
 		</div>
 		<ul class='nav-menu' >
 			<li><a href='{{ Var.base }}ext/about.html'>About me</a></li>
@@ -33,18 +33,15 @@
 		<div class='tags' >
 			<span class='tag' ><i class='icon-tags' ></i> Tags</span>
 			<ul class='taglst'>
-				{{ tag_nav }}
 			</ul>
 		</div>
 	</div>
 	<div class='wrapper' >
 		<div class='blog-body' >
-			{{ Var.blogBody }}
-		</div>
-		<div class='article-nav'>
-			<span class='prev' ><a id='pervLink' href='{{ Var.prev_link }}' >&lt; prev</a></span>
-			<span class='next' ><a id='nextLink' href='{{ Var.next_link }}' >next &gt;</a></span>
-			<div class='clear' ></div>
+			<div class='articles-label' >ARTICLES &gt; MAGIC</div>
+			<ul class='article-list'>
+				{{ Var.articleList }}
+			</ul>
 		</div>
 	</div>
 	<div class='clear' ></div>

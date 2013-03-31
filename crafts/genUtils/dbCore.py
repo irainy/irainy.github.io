@@ -1,9 +1,10 @@
 import sqlite3 as sql
 import sys
 
+DBFILE = '/Users/rainy/Projects/sniky.github.com/crafts/db/sniky.blog.sqlite'
 
 class DB:
-	def __init__(self, dbFile = ''):
+	def __init__(self, dbFile = DBFILE):
 		self.db = dbFile
 		try:
 			self.con = sql.connect(self.db)

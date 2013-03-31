@@ -1,15 +1,12 @@
 #-*- coding: utf8 -*-
 from datetime import datetime
 from genUtils.dbCore import DB
-import sqlite3 as sql
 import sys
 import os.path
 
-dbFile='/Users/rainy/Projects/sniky.github.com/crafts/db/sniky.blog.sqlite'
-
 class Article(DB):
 	def __init__(self, title, cate = 'magic', author = 'me', permalink = '', dateline = ''):
-		DB.__init__(self, dbFile)
+		DB.__init__(self)
 
 		self.title = title
 		self.cate = cate
