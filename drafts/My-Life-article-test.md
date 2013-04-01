@@ -8,3 +8,5 @@ author: me
 
 测试 lifee 文章一
 ====
+{{ subInfo }}
+
