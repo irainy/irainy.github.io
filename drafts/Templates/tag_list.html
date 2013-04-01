@@ -2,14 +2,14 @@
 <!doctype html>
 <head>
 	<title>{{ title }}</title>
-	<link rel="stylesheet" href="{{ base }}ui/stylesheet/font-awesome.min.css"/>
-	<link rel="stylesheet" type="text/css" href="{{ base }}ui/stylesheet/main.css"/>
+	<link rel="stylesheet" href="{{ Var.base }}ui/stylesheet/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ Var.base }}ui/stylesheet/main.css"/>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<script type='text/javascript' src='{{ base }}ui/javascript/jquery-1.9.1.min.js'></script>
-	<script type='text/javascript' src='{{ base }}ui/javascript/main.js'></script>
-	<link href="{{ base }}ui/stylesheet/sunbrust.css" type="text/css" rel="stylesheet" />
-	<script type='text/javascript' src='{{ base }}ui/javascript/prettify.js'></script>
+	<script type='text/javascript' src='{{ Var.base }}ui/javascript/jquery-1.9.1.min.js'></script>
+	<script type='text/javascript' src='{{ Var.base }}ui/javascript/main.js'></script>
+	<link href="{{ Var.base }}ui/stylesheet/sunbrust.css" type="text/css" rel="stylesheet" />
+	<script type='text/javascript' src='{{ Var.base }}ui/javascript/prettify.js'></script>
 </head>
 <body onload="prettyPrint()">
 <div class='header' >
@@ -23,12 +23,12 @@
 <div class='main'>
 	<div class='side-nav' >
 		<div class='avatar-wrapper' >
-			<img class='avatar' src='ui/image/avatar-100x100.png' alt='avatar' title="It's Me" />
+			<img class='avatar' src='{{ Var.base }}ui/image/avatar-100x100.png' alt='avatar' title="It's Me" />
 		</div>
 		<ul class='nav-menu' >
-			<li><a href='{{ base }}ext/about.html'>About me</a></li>
-			<li><a href='{{ base }}ext/logs.html'>Commit logs</a></li>
-			<li><a href='{{ base }}ext/fun'>Have fun</a></li>
+			<li><a href='{{ Var.base }}ext/about.html'>About me</a></li>
+			<li><a href='{{ Var.base }}ext/logs.html'>Commit logs</a></li>
+			<li><a href='{{ Var.base }}ext/fun'>Have fun</a></li>
 		</ul>
 		<div class='clear'></div>
 	</div>
