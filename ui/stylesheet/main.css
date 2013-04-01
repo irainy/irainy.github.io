@@ -13,7 +13,9 @@ a {
 body {
   min-width: 960px;
   background-color: #e3f3f4;
+  /*
   background: url('../image/sniky-bg-5.png') repeat scroll 0 0 #fff;
+  */
   width: 100%;
   margin: 0px;
 }
