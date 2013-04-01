@@ -120,6 +120,12 @@ div.blog-body {
   line-height: 25px;
   color: #3b5973;
 }
+div.blog-body>p>a{
+  color: blue;
+}
+*>p>a {
+  color: blue;
+}
 div.articles-label {
   width: 700px;
   margin: 10px auto;
