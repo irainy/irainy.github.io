@@ -1,7 +1,7 @@
 import sqlite3 as sql
 import sys
 
-DBFILE = '/Users/rainy/Projects/sniky.github.com/crafts/db/sniky.blog.sqlite'
+DBFILE = '/Users/rainy/Projects/Github/sniky.github.com/drafts/db/sniky.blog.sqlite'
 
 class DB:
 	def __init__(self, dbFile = DBFILE):

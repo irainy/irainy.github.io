@@ -1,12 +1,12 @@
 <conf style='display:none'>
-title: 在Github Pages上搭建静态博客站点
+title: 在Github Pages上搭建静态博客站点(2)
 cate: magic
-permalink: http://sniky.github.com/magic/How-blog-on-github-pages.html
+permalink: http://sniky.github.com/magic/How-blog-on-github-pages-2.html
 tags: git, python
 author: me
 </conf>
 
-在Github Pages上搭建静态博客站点
+在Github Pages上搭建静态博客站点(2)
 ====
 {{ subInfo }}
 

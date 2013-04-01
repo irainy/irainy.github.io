@@ -127,7 +127,6 @@ class Gen:
 		blogFile.write(tmpStream)
 		blogFile.close()
 	def _loadRender(self, tpl, var):
-		print tpl
 		try:
 			tplFile = open(os.path.join(self.Tmpl, tpl))
 			tplStr = tplFile.read()
