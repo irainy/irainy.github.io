@@ -123,9 +123,6 @@ div.blog-body {
 div.blog-body>p>a{
   color: blue;
 }
-*>p>a {
-  color: blue;
-}
 div.articles-label {
   width: 700px;
   margin: 10px auto;
