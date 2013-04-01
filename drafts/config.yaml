@@ -5,6 +5,6 @@ TemplateRoot: '/Users/rainy/Projects/Github/sniky.github.com/drafts/Templates'
 
 weibo:
     post:
-        "我在GitHub Pages的第{{n}}篇'{{ title }}'，{{permalink}}"
+        "我在#GitHub Pages# 的第{{n}}篇《{{ title }}》{{permalink}}"
     fun:
         "Have fun:) {{url}}"
