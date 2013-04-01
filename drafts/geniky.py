@@ -22,6 +22,10 @@ class Gen:
 			self.rawCraft = self.craft.read()
 		elif action == 'update':
 			self.update()
+		elif action == 'post':
+			self.post()
+	def post(self):
+		print 'http://open.weibo.com/tools/console?uri=statuses/update&httpmethod=POST&key1=status&value1=%E5%BE%AE%E5%8D%9A%E6%9D%A5%E8%87%AAAPI%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7'
 	def update(self):
 		#dump database article
 		for cate in self.CATE:
@@ -158,6 +162,9 @@ def main():
 	if len(sys.argv) == 2 and sys.argv[1] == 'update':
 		g = Gen(action = 'update')
 		sys.exit("\nUpdated\n")
+	if len(sys.argv) == 2 and sys.argv[1] == 'post':
+		g = Gen(action = 'post')
+		sys.exit("\nPosted\n")
 	if len(sys.argv) < 2 or not os.path.isfile(sys.argv[1]):
 		sys.exit("\nArgument Error\n")
 	g = Gen(blog = sys.argv[1])
