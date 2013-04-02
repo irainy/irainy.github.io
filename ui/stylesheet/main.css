@@ -113,6 +113,11 @@ div.wrapper {
   background-color: #c8e8e9;
   box-shadow: 0px 0px 5px #58bbbd;
 }
+div.add-comments {
+  width: 690px;
+  margin: 0px auto;
+  margin-top: 20px;
+}
 div.blog-body {
   font-size: 15px;
   padding: 25px;
