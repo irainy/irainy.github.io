@@ -1,6 +1,9 @@
 <!doctype html>
 <head>
 	<title>{{ Var.title }}</title>
+	<meta name="author" content="Sniky"/>
+	<meta name="keywords" content="{%for tag in Var.tags%}{{ tag }},{% endfor %}"/>
+	<meta name="description" content="{{ Var.title }}"/>
 	<link rel="stylesheet" href="{{ Var.base }}ui/stylesheet/font-awesome.min.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ Var.base }}ui/stylesheet/main.css"/>
 	<link rel="shortcut icon" href="/ui/image/about-rain.ico">
