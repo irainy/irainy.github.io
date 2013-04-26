@@ -29,6 +29,7 @@ class Gen:
 	def update(self):
 		#dump database article
 		for cate in self.CATE:
+			print cate
 			self.up = Updates(self.blog, self.Tmpl)
 			allArticles = self.up.dump(cate)
 			if len(allArticles) != 0:
@@ -41,6 +42,7 @@ class Gen:
 							author = 'me',
 							permalink = art[4],
 							dateline = datetime.strptime(str(art[2]), "%Y%m%d%H%M"))
+					tmpArt.isnew()
 					articleContainer.append(tmpArt)
 					articleVars.append({
 						'date': tmpArt.format_date()[:-6],
@@ -71,13 +73,17 @@ class Gen:
 					tmpStream = detailFile.read()
 					detailFile.close()
 
+					print art.title
+					print art.article_id
+					print 'prev_link: %s' % art.get_prev()
+					print 'next_link: %s' % art.get_next()
 					detailFile = open(os.path.join(detailFilePath, art.permalink.split('/')[-1]), 'w')
 
 					rePrev = re.compile(r"id='pervLink' href='([\s\S]*?)'")
-					rePrev.sub("id='pervLink' href='%s'" % art.get_prev(),tmpStream)
+					tmpStream = rePrev.sub("id='pervLink' href='%s'" % art.get_prev(),tmpStream)
 
 					reNext = re.compile(r"id='nextLink' href='([\s\S]*?)'")
-					reNext.sub("id='nextLink' href='%s'" % art.get_next(),tmpStream)
+					tmpStream = reNext.sub("id='nextLink' href='%s'" % art.get_next(),tmpStream)
 
 					detailFile.write(tmpStream)
 					detailFile.close()
@@ -159,6 +165,11 @@ class Gen:
 		if self.LOG:
 			print "\n%s\n" % log
 def main():
+	'''
+	debug update
+	Gen(action='update')
+	return
+	'''
 	if len(sys.argv) == 2 and sys.argv[1] == 'update':
 		g = Gen(action = 'update')
 		sys.exit("\nUpdated\n")

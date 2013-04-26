@@ -58,13 +58,14 @@ class Article(DB):
 
 		self.isnew()
 	def get_next(self):
-		query = 'SELECT permalink FROM article WHERE id > %s AND cate_name = "%s" LIMIT 1' % (self.article_id, self.cate)
+		query = 'SELECT permalink FROM article WHERE id > %s AND cate_name = "%s" ORDER BY id LIMIT 1' % (self.article_id, self.cate)
 		self.cur.execute(query)
 		link = self.cur.fetchone() 
 		link = (link is None) and  'javascript:alert("已经是最后一篇！")' or link[0]
 		return link
 	def get_prev(self):
-		query = 'SELECT permalink FROM article WHERE id < %s AND cate_name = "%s" LIMIT 1' % (self.article_id, self.cate)
+		query = 'SELECT permalink FROM article WHERE id < %s AND cate_name = "%s"  ORDER BY id DESC LIMIT 1' % (self.article_id, self.cate)
+		print query
 		self.cur.execute(query)
 		link = self.cur.fetchone() 
 		link = (link is None) and 'javascript:alert("已经是第一篇！")' or link[0]
