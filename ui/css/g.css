@@ -25,7 +25,7 @@ header{
 #logo{
 	color: #2c3e50;
 	font-size: 45px;
-	font-weight: 900;
+	font-weight: 600;
 	font-family: "Times New Roman", "Courier New";
 	//text-shadow: 0px 1px 2px rgba(44, 62, 80, 1);
 	width: 960px;
@@ -36,6 +36,7 @@ header{
 }
 #s{
 	float: left;
+	font-weight: 900;
 }
 #niky{
 	-webkit-transform-origin: left;
@@ -49,10 +50,77 @@ header{
 }
 #main{
 	width: 960px;
+	height: 100%;
 	min-height: 600px;
 	margin: 20px auto;
 	margin-bottom: 120px;
 }
+#main article, #info{
+	width: 900px;
+	margin: 0 auto;
+	color: #2c3e50;
+	font-family: Georgia;
+}
+#info{
+	font-size: 14px;
+	color: #7f8c8d;
+	margin-bottom: 20px;
+}
+#info span{
+	margin-right: 8px;
+}
+#info i{
+	margin-right: 3px;
+}
+#main article h2{
+	border-bottom: 1px solid #3498db;
+	font-weight: 400;
+	font-size: 28px;
+	padding: 10px;
+}
+#main article p{
+	font-weight: 1.5em;
+	font-size: 17px;
+	line-height: 25px;
+}
+#main article blockquote{
+	border-left: 4px solid #7f8c8d;
+	padding: 4px 15px;
+	color: #7f8c8d;
+}
+#main article p.img{
+	margin: 0 auto;
+	text-align: center;
+}
+#main article img{
+	margin-top: 5px auto;
+	max-width: 500px;
+	border: 4px solid white;
+	border-radius: 4px;
+	box-shadow: 0px 0px 10px #3498db;
+}
+#main .article-nav{
+	border-top: 1px solid #3498db;
+}
+#main .add-comments, .article-nav{
+	width: 900px;
+	margin: 40px auto;
+	padding-top: 20px;
+}
+.icon-arrow-right, .icon-arrow-left{
+	font-size: 30px;
+}
+.prev{float: left;}
+.next{float: right;}
+.scroll-up{
+	font-size: 30px;
+	position: fixed;
+	display: none;
+	right: 10%;
+	bottom: 20%;
+}
+
+
 #articles{
 }
 #articles>li{
@@ -78,7 +146,7 @@ header{
 	font-weight: 1.5em;
 	border-bottom: 1px solid rgba(255,255,255,0.5);
 }
-.article-table article{
+.article-table div.brief{
 	color: #fff;
 	width: 750px;
 	margin: 0px auto;
@@ -129,55 +197,6 @@ footer div a, footer div.sns{
 	font-family: Georgia;
 	font-size: 90%;
 	float: left;
-}
-
-/*icons*/
-.icon-twitter, .icon-google-plus, .icon-facebook, .icon-github, .icon-quill, .icon-tags, .icon-calendar, .icon-bubble, .icon-qrcode {
-	font-family: 'icomoon';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-}
-.icon-twitter:before {
-	content: "\e000";
-}
-.icon-google-plus:before {
-	content: "\e001";
-}
-.icon-facebook:before {
-	content: "\e002";
-}
-.icon-github:before {
-	content: "\e003";
-}
-.icon-quill:before {
-	content: "\e004";
-}
-.icon-tags:before {
-	content: "\e005";
-}
-.icon-calendar:before {
-	content: "\e006";
-}
-.icon-bubble:before {
-	content: "\e007";
-}
-.icon-qrcode:before {
-	content: "\e008";
-}
-@font-face {
-	font-family: 'icomoon';
-	src:url('/ui/fonts/icomoon.eot');
-	src:url('/ui/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-		url('/ui/fonts/icomoon.woff') format('woff'),
-		url('/ui/fonts/icomoon.ttf') format('truetype'),
-		url('/ui/fonts/icomoon.svg#icomoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
 }
 /*
 背景-深 #2c3e50
