@@ -1,0 +1,53 @@
+<!doctype html>
+<!doctype html>
+<head>
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ Var.base }}ui/stylesheet/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ Var.base }}ui/stylesheet/main.css"/>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<script type='text/javascript' src='{{ Var.base }}ui/javascript/jquery-1.9.1.min.js'></script>
+	<script type='text/javascript' src='{{ Var.base }}ui/javascript/main.js'></script>
+	<link href="{{ Var.base }}ui/stylesheet/sunbrust.css" type="text/css" rel="stylesheet" />
+	<script type='text/javascript' src='{{ Var.base }}ui/javascript/prettify.js'></script>
+</head>
+<body onload="prettyPrint()">
+<div class='header' >
+	<ul class='nav'>
+		<li class='now'><a href='http://sniky.github.com'> Home</a></li>
+		<li><a href='http://sniky.github.com/magic/index.html'>Magic</a></li>
+		<li><a href='http://sniky.github.com/psych/index.html'>Psych</a></li>
+		<li><a href='http://sniky.github.com/lifee/index.html'>Lifee</a></li>
+	</ul>
+</div>
+<div class='main'>
+	<div class='side-nav' >
+		<div class='avatar-wrapper' >
+			<img class='avatar' src='{{ Var.base }}ui/image/avatar-100x100.png' alt='avatar' title="It's Me" />
+		</div>
+		<ul class='nav-menu' >
+			<li><a href='{{ Var.base }}ext/about.html'>About me</a></li>
+			<li><a href='{{ Var.base }}ext/logs.html'>Commit logs</a></li>
+			<li><a href='{{ Var.base }}ext/fun'>Have fun</a></li>
+		</ul>
+		<div class='clear'></div>
+	</div>
+	<div class='wrapper' >
+		<div class='blog-body' >
+			<div class='articles-label' >TAGS</div>
+			<ul class='article-list'>
+				{% for article in articles%}
+				<li><span>{{ article.dateline }}</span><a href='{{ article.permalink }}'>{{ article.title }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class='clear' ></div>
+</div>
+<div class='footer' >
+	<div class='footer-content' >
+		<i class='icon-user' style='color:#9d261d'></i><a href='http://weibo.com/myaplysia?from=profile&wvr=5&loc=infdomain'> @i小雨生</a>
+	</div>
+</div>
+</body>
+</html>

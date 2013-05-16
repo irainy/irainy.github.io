@@ -1,0 +1,10 @@
+version: 1.0
+blogRoot: '/Users/rainy/Projects/Github/sniky.github.com'
+db: '/Users/rainy/Projects/Github/sniky.github.com/drafts/db/sniky.blog.sqlite'
+TemplateRoot: '/Users/rainy/Projects/Github/sniky.github.com/drafts/Templates'
+
+weibo:
+    post:
+        "我在#GitHub Pages# 的第{{n}}篇《{{ title }}》{{permalink}}"
+    fun:
+        "Have fun:) {{url}}"
