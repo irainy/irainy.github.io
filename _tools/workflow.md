@@ -16,4 +16,4 @@
     * span
 完成后到/_tools/目录下执行<pre>python ssnp.py ../_draft/blog.md</pre>
 
-3. 具体api接口或模板约定格式见/_tools/ssnp.py注释
+3. 具体api接口或模板约定格式见[/_tools/ssnp.py](https://github.com/sniky/sniky.github.com/blob/master/_tools/ssnp.py)注释。
