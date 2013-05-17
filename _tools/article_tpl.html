@@ -1,6 +1,7 @@
 <!doctype html>
 <head>
 	<meta charset="UTF-8" />
+
 	<title>it's rainy</title>
 	<link rel="stylesheet" href="/ui/css/g.css" media="all" />
 	<link rel="stylesheet" href="/ui/css/desert.css" media="all" />
@@ -26,7 +27,7 @@
 			<div id="info">
 			<i class="icon-calendar"></i><span>May 17, 2013</span>
 			<i class="icon-tags"></i><span>测试 模板</span>
-			<i class="icon-quill"></i><span>rainy</span>
+			<i class="icon-feather"></i><span>rainy</span>
 			</div>
 
 			<p>《干戈十载，三国题材手机游戏历代记》作为一个对三国有着狂热爱好的80后屌丝，从小就一直都是各类三国题材游戏的忠粉。在自己接近二十年的游戏生涯，只要是带有“三国”字样的游戏必会寻觅下载安装并体验一番...每个人心中都有自己的一个三国梦，也希望手机上能够出现更好的三国类游戏来帮我们圆梦！
@@ -74,14 +75,31 @@ $(document).ready(function(){
 	console.log("Testing...");
 })
 </pre>
-		<p>
 
-		</p>
+<hr>
+<p>
+	列表如下：
+<ol>
+	<li>one：一个；</li>
+	<li>one：两个；</li>
+	<li>one：三个；</li>
+	<li>one：零；</li>
+</ol>
+</p>
+<p>
+	无序列表：
+	<ul>
+		<li>阿道夫</li>
+		<li>肺癌的</li>
+		<li>共轭</li>
+	</ul>
+</p>
+<hr>
 		</article>
 <!--Article template done-->
 <div class='article-nav'>
-	<span class='prev' ><a id='pervLink' href="#" ><i class="icon-arrow-left"></i></a></span>
-	<span class='next' ><a id='nextLink' href="#" ><i class="icon-arrow-right"></i></a></span>
+	<span class='prev' ><a id='pervLink' href="#" ><i class="icon-undo"></i></a></span>
+	<span class='next' ><a id='nextLink' href="#" ><i class="icon-redo"></i></a></span>
 	<div class='clr' ></div>
 </div>
 <div class='add-comments' >
@@ -102,21 +120,11 @@ $(document).ready(function(){
 </div>
 </div>
 	</div>
-	<footer>
-		<div class="sns" id="weibo"><i class="icon-qrcode"></i> <a href="http://weibo.com/myaplysia">围脖</a></div>
-		<div class="sns" id="github"><i class="icon-github"></i> <a href="https://github.com/sniky">给它</a></div>
-	<!--
-		<div class="sns" id="google"><i class="icon-google-plus"></i> <a href="javascript:alert('wow, wall...');">狗狗家</a></div>
-		<div class="sns" id="fb"><i class="icon-facebook"></i> <a href="javascript:alert('wow, wall...');">非死不渴</a></div>
-		<div class="sns" id="twitter"><i class="icon-twitter"></i> <a href="javascript:alert('wow, wall...');">推她</a></div>
-	-->
-		<div class="sns"><br /></div>
-		<div class="sns" id="about"><i class="icon-evil"></i> <a href="">关于我</a></div>
-		<div class="sns" id="havefun"><i class="icon-gift"></i> <a href="">有惊喜</a></div>
-		<div class="sns" id="backhome"><i class="icon-home"></i> <a href="/">回首页</a></div>
-	</footer>
+
+	{% include 'footer.html' %}
+
 	<a href="#">
-	<i class="icon-arrow-up scroll-up"></i>
+	<i class="icon-arrow-up-3 scroll-up"></i>
 	</a>
 <script src="/ui/js/jquery-1.9.1.min.js"></script>
 <script src="/ui/js/g.js"></script>

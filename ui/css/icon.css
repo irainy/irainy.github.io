@@ -27,7 +27,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="icon-"] {
 */
-.icon-twitter, .icon-google-plus, .icon-facebook, .icon-github, .icon-quill, .icon-tags, .icon-calendar, .icon-bubble, .icon-qrcode, .icon-home, .icon-gift, .icon-bug, .icon-evil, .icon-evil-2, .icon-arrow-up, .icon-arrow-right, .icon-arrow-left {
+.icon-twitter, .icon-google-plus, .icon-facebook, .icon-github, .icon-tags, .icon-bubble, .icon-qrcode, .icon-home, .icon-gift, .icon-bug, .icon-evil, .icon-evil-2, .icon-arrow-up, .icon-arrow-right, .icon-arrow-left, .icon-calendar, .icon-radio-checked, .icon-arrow-left-2, .icon-arrow-down, .icon-arrow-up-2, .icon-untitled, .icon-feather, .icon-sina-weibo, .icon-renren, .icon-facebook-2, .icon-googleplus, .icon-github-2, .icon-undo, .icon-redo, .icon-brightness-medium, .icon-brightness-contrast, .icon-contrast, .icon-arrow-up-3 {
 	font-family: 'icomoon';
 	speak: none;
 	font-style: normal;
@@ -49,14 +49,8 @@ you can use the generic selector below, but it's slower:
 .icon-github:before {
 	content: "\e003";
 }
-.icon-quill:before {
-	content: "\e004";
-}
 .icon-tags:before {
 	content: "\e005";
-}
-.icon-calendar:before {
-	content: "\e006";
 }
 .icon-bubble:before {
 	content: "\e007";
@@ -87,4 +81,58 @@ you can use the generic selector below, but it's slower:
 }
 .icon-arrow-left:before {
 	content: "\e010";
+}
+.icon-calendar:before {
+	content: "\e011";
+}
+.icon-radio-checked:before {
+	content: "\e012";
+}
+.icon-arrow-left-2:before {
+	content: "\e013";
+}
+.icon-arrow-down:before {
+	content: "\e014";
+}
+.icon-arrow-up-2:before {
+	content: "\e015";
+}
+.icon-untitled:before {
+	content: "\e016";
+}
+.icon-feather:before {
+	content: "\e017";
+}
+.icon-sina-weibo:before {
+	content: "\e004";
+}
+.icon-renren:before {
+	content: "\e018";
+}
+.icon-facebook-2:before {
+	content: "\e019";
+}
+.icon-googleplus:before {
+	content: "\e01a";
+}
+.icon-github-2:before {
+	content: "\e01b";
+}
+.icon-undo:before {
+	content: "\e01c";
+}
+.icon-redo:before {
+	content: "\e01d";
+}
+.icon-brightness-medium:before {
+	content: "\e01e";
+}
+.icon-brightness-contrast:before {
+	content: "\e01f";
+}
+.icon-contrast:before {
+	content: "\e020";
+}
+.icon-arrow-up-3:before {
+	content: "\e021";
 }

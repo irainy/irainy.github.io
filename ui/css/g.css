@@ -99,6 +99,19 @@ header{
 	border-radius: 4px;
 	box-shadow: 0px 0px 10px #3498db;
 }
+#main article hr {
+	height: 1px;
+	border-top: 1px dashed #3498db;
+	border-left: none;
+}
+#main article ol{
+	color: #2c3e50;
+	list-style: lower-greek;
+}
+#main article ul{
+	color: #2c3e50;
+	list-style-type: square;
+}
 #main .article-nav{
 	border-top: 1px solid #3498db;
 }
@@ -107,7 +120,7 @@ header{
 	margin: 40px auto;
 	padding-top: 20px;
 }
-.icon-arrow-right, .icon-arrow-left{
+.icon-undo, .icon-redo{
 	font-size: 30px;
 }
 .prev{float: left;}
@@ -142,9 +155,12 @@ header{
 	margin: 5px auto;
 	padding-left: 5px;
 	padding-top: 20px;
+	border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+.article-table h2 a{
+	color: #ecf0f1;
 	font-family: Georgia;
 	font-weight: 1.5em;
-	border-bottom: 1px solid rgba(255,255,255,0.5);
 }
 .article-table div.brief{
 	color: #fff;
@@ -186,18 +202,31 @@ header{
 footer{
 	color: #ecf0f1;
 	min-width: 960px;
-	height: 80px;
 	background: #3498db;
-	padding-top: 60px;
 	padding-left: 25%;
+	padding-top: 40px;
+	padding-bottom: 10px;
 }
+footer div div{
+	margin-top: 3px;
+}
+footer #contact {
+	float: left;
+	margin-right: 80px;
+}
+footer div a{
+	color: #ecf0f1;
+	font-family: Georgia;
+	font-size: 14px;
+}
+/*
 footer div a, footer div.sns{
 	margin-bottom: 14px;
 	color: #ecf0f1;
 	font-family: Georgia;
 	font-size: 90%;
-	float: left;
 }
+*/
 /*
 背景-深 #2c3e50
 背景-浅 #34495e
