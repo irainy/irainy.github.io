@@ -4,7 +4,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
-
 """
 Ssnp is a Script Not a Project
 
@@ -213,31 +212,3 @@ f.write(output)
 f.close()
 
 log("Done!")
-		
-"""
-Var = {
-#		articles = {
-#			datetime: "yyyy-mm-dd hh:mm",#datetimeStr['index']
-#			date: "dd Mmm yyyy",#datetimeStr['indexD']
-#			time: "hh:mm",#datetimeStr['indexT']
-#			title: "TITLE",
-#			brief: "BRIEF"
-#		}
-#	}
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
