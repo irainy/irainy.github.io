@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="/ui/css/g.css" media="all" />
 	<link rel="stylesheet" href="/ui/css/desert.css" media="all" />
 	<link rel="stylesheet" href="/ui/css/icon.css" media="all" />
+	<link rel="shortcut icon" href="/ui/imgs/rainy.ico"/>
 	<!--[if lte IE 7]><script src="lte-ie7.js"></script><![endif]-->
 </head>
 <body>

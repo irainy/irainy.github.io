@@ -5,6 +5,7 @@
 	<title>it's rainy</title>
 	<link rel="stylesheet" href="/ui/css/g.css" media="all" />
 	<link rel="stylesheet" href="/ui/css/icon.css" media="all" />
+	<link rel="shortcut icon" href="/ui/imgs/rainy.ico"/>
 	<script src="/ui/js/jquery-1.9.1.min.js"></script>
 	<script src="/ui/js/g.js"></script>
 	<!--[if lte IE 7]><script src="lte-ie7.js"></script><![endif]-->
