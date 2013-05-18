@@ -45,6 +45,7 @@ import sys
 import os.path
 from jinja2 import Template, FileSystemLoader, Environment
 import misaka
+import markdown
 import re, yaml
 from datetime import datetime
 import sqlite3 as sql
@@ -54,7 +55,8 @@ def log(logstr):
 	print "\n%s\n" % logstr
 def Md2HTML(blog):
 	log("Translate Md file 2 HTML...")
-	return misaka.html(blog)
+	#return misaka.html(blog)
+	return markdown.markdown(blog)
 def Tpl(path = "./", tfile = ""):
 	log("Creating Template from file: <%s>" % tfile)
 	return Environment(loader = FileSystemLoader("./")).get_template(tfile)
