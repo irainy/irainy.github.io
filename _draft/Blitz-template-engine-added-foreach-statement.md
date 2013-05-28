@@ -52,7 +52,7 @@ echo "Smarty used: ".(($t3-$t2)*1000)."ms\n";
 
 选取几次比较结果如下：
 
-<pre>
+<pre class="prettyprint">
 Blitz used: 1.6891956329346ms
 Smarty used: 13.232946395874ms
 
@@ -64,7 +64,7 @@ Smarty used: 18.430948257446ms
 
 将数组长度降为10再比较：
 
-<pre>
+<pre class="prettyprint">
 Blitz used: 0.27894973754883ms
 Smarty used: 11.041879653931ms
 
