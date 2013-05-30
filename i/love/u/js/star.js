@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	_G = {
 		pc: 1,
-		pn: 1000,
+		pn: 500,
 		fr: 1
 	}
 	var w = $('body').width();
