@@ -74,7 +74,7 @@ span.star{
 	font-family:"Microsoft YaHei";
 	padding-top:20px;
 	padding-bottom:20px;
-	color:teal;
+	color:#2980b9;
 	font-size:30px;
 }
 .skyfall{
@@ -115,7 +115,7 @@ a:hover{text-decoration:none;}
 .msgBox{
 	float:left;
 	text-shadow:0px 0px 0px white;
-	color:teal;
+	color:#2980b9;
 	padding:5px 0px;
 	left:500px;
 	top:300px;
