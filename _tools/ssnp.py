@@ -44,7 +44,7 @@ Article use tag:
 import sys
 import os.path
 from jinja2 import Template, FileSystemLoader, Environment
-import misaka
+#import misaka
 import markdown
 import re, yaml
 from datetime import datetime
