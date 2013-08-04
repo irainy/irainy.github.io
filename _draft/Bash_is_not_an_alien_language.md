@@ -55,10 +55,10 @@ bash中对(字符串)变量的截取是非常常见的操作，常见操作如�
 	echo ${var:3} #d-z
 	echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.
 	var=fofoofooobar
-	echo ${var#*fo} # foofooobar 返回从左侧开始匹配'*fo'最小位置之后的字符串；
-	echo ${var##*fo} # oobar 返回从左侧开始匹配'*fo'最大位置之后的字符串；
-	echo ${var%foo*} # fofoo 返回从右侧开始匹配'fo*'最小位置之前的字符串；
-	echo ${var%%foo*} # fo 返回从右侧开始匹配'foo*'最大位置之前的字符串；
+	echo ${var#\*fo} # foofooobar 返回从左侧开始匹配'\*fo'最小位置之后的字符串；
+	echo ${var##\*fo} # oobar 返回从左侧开始匹配'\*fo'最大位置之后的字符串；
+	echo ${var%foo\*} # fofoo 返回从右侧开始匹配'fo\*'最小位置之前的字符串；
+	echo ${var%%foo\*} # fo 返回从右侧开始匹配'foo\*'最大位置之前的字符串；
 </pre>
 
 

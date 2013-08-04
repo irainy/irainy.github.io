@@ -78,10 +78,10 @@ bash中另外一类变量是当执行脚本时从命令行中读取的参数(c�
     echo ${var:3} #d-z
     echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.
     var=fofoofooobar
-    echo ${var#<em>fo} # foofooobar 返回从左侧开始匹配'</em>fo'最小位置之后的字符串；
-    echo ${var##<em>fo} # oobar 返回从左侧开始匹配'</em>fo'最大位置之后的字符串；
-    echo ${var%foo<em>} # fofoo 返回从右侧开始匹配'fo</em>'最小位置之前的字符串；
-    echo ${var%%foo<em>} # fo 返回从右侧开始匹配'foo</em>'最大位置之前的字符串；
+    echo ${var#*fo} # foofooobar 返回从左侧开始匹配'*fo'最小位置之后的字符串；
+    echo ${var##*fo} # oobar 返回从左侧开始匹配'*fo'最大位置之后的字符串；
+    echo ${var%foo*} # fofoo 返回从右侧开始匹配'fo*'最小位置之前的字符串；
+    echo ${var%%foo*} # fo 返回从右侧开始匹配'foo*'最大位置之前的字符串；
 </pre></p>
 <ul>
 <li><strong>流程控制</strong></li>
