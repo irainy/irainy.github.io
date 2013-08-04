@@ -65,46 +65,48 @@ bash script容易令人疑惑的地方除了与操作系统之间千丝万缕的
 </pre>
 bash中另外一类变量是当执行脚本时从命令行中读取的参数(c语言中的<code>int argc, char* argv[]</code>)，<code>$0, $1, $2, …, $#, $@</code>，其中类比关系如下：
 <pre class="prettyprint">
-    $# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]
+    \$# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]
 </pre></p>
 <ul>
 <li><strong>字符串截取</strong></li>
 </ul>
 <p>bash中对(字符串)变量的截取是非常常见的操作，常见操作如下：
 <pre class="prettyprint">
-var=abcdefghijklmnopqrstuvwxyz
-echo ${var:0:3} #abc
-echo ${var:0} #a-z
-echo ${var:3} #d-z
-echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.</p>
-<p>var=fofoofooobar
-echo ${var#<em>fo} # foofooobar 返回从左侧开始匹配'</em>fo'最小位置之后的字符串；
-echo ${var##<em>fo} # oobar 返回从左侧开始匹配'</em>fo'最大位置之后的字符串；
-echo ${var%foo<em>} # fofoo 返回从右侧开始匹配'fo</em>'最小位置之前的字符串；
-echo ${var%%foo<em>} # fo 返回从右侧开始匹配'foo</em>'最大位置之前的字符串；
-</pre></p>
+    var=abcdefghijklmnopqrstuvwxyz
+    echo ${var:0:3} #abc
+    echo ${var:0} #a-z
+    echo ${var:3} #d-z
+    echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.</p>
+<pre><code>var=fofoofooobar
+echo ${var#*fo} # foofooobar 返回从左侧开始匹配'*fo'最小位置之后的字符串；
+echo ${var##*fo} # oobar 返回从左侧开始匹配'*fo'最大位置之后的字符串；
+echo ${var%foo*} # fofoo 返回从右侧开始匹配'fo*'最小位置之前的字符串；
+echo ${var%%foo*} # fo 返回从右侧开始匹配'foo*'最大位置之前的字符串；
+</code></pre>
+</pre>
+
 <ul>
 <li><strong>流程控制</strong></li>
 </ul>
-<p>IF: 
+<p>IF:
 <pre class="prettyprint">
-if [ condition ]# whitespace不能省；
-then 
-    action
-elif [ conditin2 ]
-then
-    action2
-.
-.
-.
-else actionx
-fi
+    if [ condition ]# whitespace不能省；
+    then 
+        action
+    elif [ conditin2 ]
+    then
+        action2
+    .
+    .
+    .
+    else actionx
+    fi
 </pre></p>
 <p>FOR:
 <pre class="prettyprint">
-for arg in $@;do
-    echo $arg
-done
+    for arg in $@;do
+        echo $arg
+    done
 </pre></p>
 <ul>
 <li>

@@ -42,50 +42,49 @@ bash中的变量，既可以被bash本身所应用，而更常见的是作为环
 </pre>
 bash中另外一类变量是当执行脚本时从命令行中读取的参数(c语言中的`int argc, char* argv[]`)，`$0, $1, $2, …, $#, $@`，其中类比关系如下：
 <pre class="prettyprint">
-	$# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]
+	\$# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]
 </pre>
 	
 * **字符串截取**
 
 bash中对(字符串)变量的截取是非常常见的操作，常见操作如下：
 <pre class="prettyprint">
-var=abcdefghijklmnopqrstuvwxyz
-echo ${var:0:3} #abc
-echo ${var:0} #a-z
-echo ${var:3} #d-z
-echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.
+	var=abcdefghijklmnopqrstuvwxyz
+	echo ${var:0:3} #abc
+	echo ${var:0} #a-z
+	echo ${var:3} #d-z
+	echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.
 
-
-var=fofoofooobar
-echo ${var#*fo} # foofooobar 返回从左侧开始匹配'*fo'最小位置之后的字符串；
-echo ${var##*fo} # oobar 返回从左侧开始匹配'*fo'最大位置之后的字符串；
-echo ${var%foo*} # fofoo 返回从右侧开始匹配'fo*'最小位置之前的字符串；
-echo ${var%%foo*} # fo 返回从右侧开始匹配'foo*'最大位置之前的字符串；
+	var=fofoofooobar
+	echo ${var#*fo} # foofooobar 返回从左侧开始匹配'*fo'最小位置之后的字符串；
+	echo ${var##*fo} # oobar 返回从左侧开始匹配'*fo'最大位置之后的字符串；
+	echo ${var%foo*} # fofoo 返回从右侧开始匹配'fo*'最小位置之前的字符串；
+	echo ${var%%foo*} # fo 返回从右侧开始匹配'foo*'最大位置之前的字符串；
 </pre>
 
 
 * **流程控制**
 
-IF: 
+IF:
 <pre class="prettyprint">
-if [ condition ]# whitespace不能省；
-then 
-	action
-elif [ conditin2 ]
-then
-	action2
-.
-.
-.
-else actionx
-fi
+	if [ condition ]# whitespace不能省；
+	then 
+		action
+	elif [ conditin2 ]
+	then
+		action2
+	.
+	.
+	.
+	else actionx
+	fi
 </pre>
 
 FOR:
 <pre class="prettyprint">
-for arg in $@;do
-	echo $arg
-done
+	for arg in $@;do
+		echo $arg
+	done
 </pre>
 
 * **More**
