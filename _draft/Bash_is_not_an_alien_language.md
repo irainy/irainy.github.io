@@ -42,7 +42,7 @@ bash中的变量，既可以被bash本身所应用，而更常见的是作为环
 </pre>
 bash中另外一类变量是当执行脚本时从命令行中读取的参数(c语言中的`int argc, char* argv[]`)，`$0, $1, $2, …, $#, $@`，其中类比关系如下：
 <pre class="prettyprint">
-	\$# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]
+	$# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]
 </pre>
 	
 * **字符串截取**
@@ -54,7 +54,6 @@ bash中对(字符串)变量的截取是非常常见的操作，常见操作如�
 	echo ${var:0} #a-z
 	echo ${var:3} #d-z
 	echo ${var:${#var}-3} #xyz - ${#var} is the len of $var.
-
 	var=fofoofooobar
 	echo ${var#*fo} # foofooobar 返回从左侧开始匹配'*fo'最小位置之后的字符串；
 	echo ${var##*fo} # oobar 返回从左侧开始匹配'*fo'最大位置之后的字符串；
