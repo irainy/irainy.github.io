@@ -14,9 +14,11 @@ function B2D(){
     }, {
         duration: 400,
         complete: function(){
-            $(".cursor").attr('title', 'You got '+perc+'% left !').css("left", perc+"%");
+            $(".cursor").css("left", perc+"%");
             setTimeout(function(){
-                $(".cursor").tooltip('show');
+                $(".cursor").tooltip({
+			title: 'You got '+perc+'% left !'
+		}).tooltip('show');
             },500);
         }
     })
@@ -89,7 +91,9 @@ function B2D(){
         }, 1000);
     }
     function clear(){
+	$('.cursor').tooltip('destroy');
         $('.results').hide();
+	$('.countdown').hide();
         $('.words').html('');
 
         $('.year-face').text(' Year ');
@@ -194,6 +198,7 @@ function checkCookie(){
         _G.c = 10;
         B2D();
     }else{
+	_G.c = 100;
         init();
     }
 }
