@@ -9,4 +9,4 @@ datetime: 201308161520
 倒计时开始！
 ====
 
-[>>> Just for fun](sniky.github.com/extra/fun/lets-count-down-your-life-together.html)
+[>>> Just for fun](http://sniky.github.com/extra/fun/lets-count-down-your-life-together.html)
