@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="zh-cn" >
+  <![endif]-->
+  <!--[if gt IE 8]>
+  <!-->
+  <html class="no-js" lang="zh-cn" >
+    <!--<![endif]-->
+<head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    // Simple JavaScript Templating
+    // John Resig - http://ejohn.org/ - MIT Licensed
+(function(){
+  var cache = {};
+  this.tmpl = function tmpl(str, data){
+    var fn = !/\W/.test(str) ?
+      cache[str] = cache[str] ||
+        tmpl(document.getElementById(str).innerHTML) :
+      new Function("obj",
+        "var p=[],print=function(){p.push.apply(p,arguments);};" +
+        "with(obj){p.push('" +
+        str
+          .replace(/[\r\t\n]/g, " ")
+          .split("<%").join("\t")
+          .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+          .replace(/\t=(.*?)%>/g, "',$1,'")
+          .split("\t").join("');")
+          .split("%>").join("p.push('")
+          .split("\r").join("\\'")
+      + "');}return p.join('');");
+    return data ? fn( data ) : fn;
+  };
+})();
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Eagle+Lake' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css" media="all" />
+    <!--
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-glyphicons.css" type="text/css" media="all" />
+  -->
+    <link rel="stylesheet" href="b2d.css" type="text/css" media="all" />
+    <script type="text/javascript" src="b2d.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function(){
+             _G = {
+                year: 1990,
+                month: 7,
+                birthDate: {yy:0,mm:0,dd:0,sex:0},
+                raw: '',
+                c: 100
+              }
+              checkCookie();
+            });
+    </script>
+</head>
+<body>
+
+    <div class="modal fade in" data-backdrop="static" id="entrance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Select your birth date pls.</h4>
+          </div>
+          <div class="modal-body">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary year-face" data-toggle="dropdown">Year</button>
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu year_select" style="height: 400px; overflow: hidden;overflow-y: auto;"></ul>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary month-face" data-toggle="dropdown">Month</button>
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu month_select" ></ul>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary day-face" data-toggle="dropdown">Day</button>
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu day_select" style="height: 400px; overflow: hidden;overflow-y: auto;"></ul>
+            </div>
+
+            <div class="btn-group" data-toggle="buttons">
+              <label class="sexm btn btn-primary active">
+                <input type="radio" name="options" id="male" ><span class="icon-male"></span></label>
+              <label class="sexf btn btn-primary ">
+                <input type="radio" name="options" id="female"><i class="icon-female"></i></label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success done">Done</button>
+            <button type="button" class="btn btn-danger clear">Clear</button>
+          </div>
+        </div>
+        <!-- /.modal-content --> </div>
+      <!-- /.modal-dialog --> </div>
+    <!-- /.modal -->
+
+    <div class="results">
+      <span class="icon-heart over"></span>
+      <span class="hp over">HP</span>
+      <div class="progress progress-striped active">
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemax="100" style="width: 100%"></div>
+        <a href="#" class='cursor' data-toggle="tooltip" data-placement="top" title></a>
+      </div>
+      <div class="words">
+      </div>
+      <div class="countdown">
+        <span class="cd-seconds secs"></span><span class="sep"> Seconds</span>
+        <button type="button" class="btn btn-warning btn-sm" style="display:none">Reset?</button>
+      </div>
+    </div>
+
+    <!-- templates -->
+    <script type="text/html" id="years">
+      <% for ( var i = 2013; i >= 1970; i-- ) { %>
+        <li><a href="#" tabindex="year-<%=i%>" class="year_items"> <%=i%></a></li>
+      <% } %></script>
+    <script type="text/html" id="months">
+      <% for ( var i = 1; i <= 12; i++ ) { %>
+        <li><a href="#" tabindex="month-<%=i%>" class="month_items"> <%=i%></a></li>
+      <% } %></script>
+    <script type="text/html" id="days">
+      <% for ( var i = 1; i <= days; i++ ) { %>
+        <li><a href="#" tabindex="month-<%=i%>" class="day_items"> <%=i%></a></li>
+      <% } %></script>
+</body>
+  </html>
