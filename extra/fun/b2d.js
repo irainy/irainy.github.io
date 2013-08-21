@@ -163,7 +163,7 @@ function init(){
                 _G.birthDate.sex = 1;
             }
             _G.raw = [_G.birthDate.yy, _G.birthDate.mm, _G.birthDate.dd, _G.birthDate.sex].join('-');
-            setCookie('birthDate', _G.raw);
+            setCookie('birthDate', _G.raw, 80);
             B2D();
         }
         event.stopPropagation();
