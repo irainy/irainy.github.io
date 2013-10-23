@@ -1,0 +1,133 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('/fonts/icomoon.eot?mp1jqy');
+	src:url('/fonts/icomoon.eot?#iefixmp1jqy') format('embedded-opentype'),
+		url('/fonts/icomoon.ttf?mp1jqy') format('truetype'),
+		url('/fonts/icomoon.woff?mp1jqy') format('woff'),
+		url('/fonts/icomoon.svg?mp1jqy#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class*="icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-feather:before {
+	content: "\e600";
+}
+.icon-google-plus:before {
+	content: "\e601";
+}
+.icon-github:before {
+	content: "\e602";
+}
+.icon-arrow-up:before {
+	content: "\e603";
+}
+.icon-happy:before {
+	content: "\e604";
+}
+.icon-happy2:before {
+	content: "\e605";
+}
+.icon-smiley:before {
+	content: "\e606";
+}
+.icon-smiley2:before {
+	content: "\e607";
+}
+.icon-tongue:before {
+	content: "\e608";
+}
+.icon-tongue2:before {
+	content: "\e609";
+}
+.icon-sad:before {
+	content: "\e60a";
+}
+.icon-sad2:before {
+	content: "\e60b";
+}
+.icon-wink:before {
+	content: "\e60c";
+}
+.icon-wink2:before {
+	content: "\e60d";
+}
+.icon-neutral:before {
+	content: "\e60e";
+}
+.icon-neutral2:before {
+	content: "\e60f";
+}
+.icon-confused:before {
+	content: "\e610";
+}
+.icon-shocked:before {
+	content: "\e611";
+}
+.icon-shocked2:before {
+	content: "\e612";
+}
+.icon-evil:before {
+	content: "\e613";
+}
+.icon-evil2:before {
+	content: "\e614";
+}
+.icon-angry:before {
+	content: "\e615";
+}
+.icon-angry2:before {
+	content: "\e616";
+}
+.icon-cool:before {
+	content: "\e617";
+}
+.icon-cool2:before {
+	content: "\e618";
+}
+.icon-grin:before {
+	content: "\e619";
+}
+.icon-grin2:before {
+	content: "\e61a";
+}
+.icon-wondering:before {
+	content: "\e61b";
+}
+.icon-wondering2:before {
+	content: "\e61c";
+}
+.icon-profile:before {
+	content: "\e61d";
+}
+.icon-envelop:before {
+	content: "\e61e";
+}
+.icon-pen:before {
+	content: "\e61f";
+}
+.icon-home:before {
+	content: "\e620";
+}
+.icon-tags:before {
+	content: "\e621";
+}
+.icon-bookmarks:before {
+	content: "\e622";
+}
+.icon-cabinet:before {
+	content: "\e623";
+}
