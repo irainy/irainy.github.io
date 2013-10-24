@@ -176,12 +176,12 @@ ul.posts a{
 
 .post pre code {
   border: none;
-  overflow-x: scroll;
+  overflow: auto;
   font-size: 14px;
   line-height: 20px;
 }
 .highlight pre {
-  overflow: scroll;
+  overflow: auto;
   font-size: 14px;
   line-height: 20px;
 }
