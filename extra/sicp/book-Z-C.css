@@ -86,3 +86,6 @@ color: gray;
 p em {
   color: #c0392b;
 }
+p span.note-red {
+  color: #d35400;
+}
