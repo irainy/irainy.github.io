@@ -11,6 +11,10 @@ body {
   margin-left: 8%;
   margin-right: 8%;
 }
+body::selection {
+  background: #2c3e50;
+  color: #FFF;
+}
 
 h1,h2,h3,h4,h5,h6 {
    margin-top: .5em;
