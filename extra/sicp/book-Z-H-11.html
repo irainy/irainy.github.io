@@ -205,9 +205,9 @@ described is, in principle, iterative.  As a consequence, these
 languages can describe iterative processes only by resorting to
 special-purpose <a name="%_idx_690"></a>``looping constructs'' such as <tt>do</tt>, <tt>repeat</tt>,
 <tt>until</tt>, <tt>for</tt>, and <tt>while</tt>.  The implementation of Scheme
-we shall consider in chapter&nbsp;5 does not share this defect.  It will
+we shall consider in chapter&nbsp;5 does not share this defect.  <span class="note-red">It will
 execute an iterative process in constant space, even if the iterative
-process is described by a recursive procedure.  An implementation with
+process is described by a recursive procedure.</span>  An implementation with
 this property is called <a name="%_idx_692"></a><em>tail-recursive</em>.  With a tail-recursive
 implementation, <a name="%_idx_694"></a>iteration can be expressed using the ordinary
 procedure call mechanism, so that special iteration constructs are
