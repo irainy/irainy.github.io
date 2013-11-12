@@ -219,6 +219,10 @@ ul.posts a{
 .post p a:hover, .post ol li a:hover{
   text-shadow: 0px 0px 1px #c0392b;
 }
+.post p span.emp {
+  color: #c0392b;
+  font-weight: 1.1em;
+}
 
 /*****************************************************************************/
 /*
