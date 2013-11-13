@@ -277,10 +277,10 @@ hr.above-comments {
 /*****************************************************************************/
 
 .scroll-up{ 
-        font-size: 30px; 
+        font-size: 38px; 
         position: fixed;
         display: none;
-        right: 10%;
+        right: 15%;
         bottom: 20%;
 }
 .footer {
