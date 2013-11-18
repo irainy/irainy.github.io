@@ -171,12 +171,13 @@ ul.posts a{
   margin-left: 1.35em;
 }
 
-.post code {
-  border: 1px solid #ddd;
-  background-color: #ecf0f1;
-  padding: 0 .2em;
+.post p code {
+  padding: 2px 4px;
+  background-color: #f9f2f4;
   font-size: 14px;
   line-height: 20px;
+  white-space: nowrap;
+  color: #c7254e;
 }
 
 .post pre code {
@@ -185,7 +186,11 @@ ul.posts a{
   font-size: 14px;
   line-height: 20px;
 }
-.highlight pre {
+.highlight{
+  padding: 4px;
+}
+.highlight pre{
+  border: none;
   overflow: auto;
   font-size: 14px;
   line-height: 20px;
@@ -201,11 +206,11 @@ ul.posts a{
   background-color: #333;
 }
 .post blockquote p {
-  border-left: 4px solid #2C3E50;
-  padding: 4px 4px 4px 8px;
-  background: #ecf0f1;
+  border-left: 5px solid #eee;
+  background:#ffe;
+  padding: 10px 20px;
 }
-.post p::selection{
+.post p::selection, .post blockquote p::selection{
   background: #2C3E50;
   color: #FFF;
 }
