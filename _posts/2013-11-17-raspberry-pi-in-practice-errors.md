@@ -22,7 +22,7 @@ iface eth0 inet static
  
 > <span style='color:red'>W: GPG error: </span>http://mirrors.zju.edu.cn wheezy Release: 
 > The following signatures couldn't be verified because the public key is not available: 
-> NO_PUBKEY 8B48AD6246925553 NO_PUBKEY 6FB2A1C265FFB764
+> NO\_PUBKEY 8B48AD6246925553 NO\_PUBKEY 6FB2A1C265FFB764
 
 可能是因为开始的时候修改了`/etc/apt/source.list`：
 
