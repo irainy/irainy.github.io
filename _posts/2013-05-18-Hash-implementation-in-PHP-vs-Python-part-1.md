@@ -2,7 +2,7 @@
 layout: post
 title: "PHP与Python实现Hash比较（一）"
 description: ""
-tags: [PHP, Python]
+tags: [PHP; Python]
 ---
 
 PHP中的array，python中的dict都是通过hash表(哈希表或散列表)实现的，或者说array与dict本身就是hash结构，本文及后续文章将分别比较PHP与python源代码中对哈希表的实现算法，一来学习其设计思想，另外可用于避免开发过程中一些可能会降低效率或易引发bug的操作。

@@ -2,7 +2,7 @@
 layout: post
 title: "BP神经网络实践 - 代码识别器"
 description: ""
-tags: [ANN, BP, python]
+tags: [ANN; BP; Python]
 ---
 
 [神经网络介绍](http://www.ibm.com/developerworks/cn/linux/other/l-neural/index.html)一文介绍了用神经网络算法进行代码识别的方法，即:

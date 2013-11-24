@@ -3,7 +3,7 @@ layout: post
 title: "Lisp初学之暗礁（二）: 线性递归 与 线性迭代"
 description: ""
 category: ""
-tags: [SICP, Lisp]
+tags: [SICP; Lisp]
 ---
 
 {% highlight cl %}
