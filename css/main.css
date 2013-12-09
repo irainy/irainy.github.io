@@ -234,7 +234,7 @@ ul.posts a{
 /* Comments
 /*
 /*****************************************************************************/
-div.add-comments {
+div.add-comments, div.share-it{
   padding: 20px;
 }
 hr.above-comments {
