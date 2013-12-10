@@ -11,9 +11,13 @@ tags: [OpenCV; Python; Vision]
 
 常用的图像特征有颜色特征、纹理特征、形状特征、空间关系特征等([Ref-1](http://blog.sina.com.cn/s/blog_4e6680090100d2s9.html))。但是如何从这些特征中去选取最合适当前任务的特征呢？我们知道有一种“机器”在图像处理任务中做得非常出色，那就是人的视觉系统，David Marr 的经典著作 《*[Vision](http://book.douban.com/subject/5273663/)*》中也有提到，在最初人们想要用计算机去处理图像信息时并没有多少人想到这会有多难，毕竟对我们人类来说这些都是非常直觉、简单的加工过程，甚至在我们都还没有意识到的情况下视觉、认知系统已经完成了对图像的深度加工。而当人们真正着手去做的时候才发现，即使是最简单的 feature detector 要实现也是困难重重，在毫无头绪与经验的情况下所能采取的一种方法就是厚着脸皮不停尝试，正如 David Marr 所描述的 `unashamedly empirical approach :P`。
 
-还是以文字定位为例，基于连通域的方法关键在于让文字区域的颜色或灰度值能够与不同图像的背景分离开来，因此采用什么样的颜色空间、取多大的阈值分离背景、通过怎样的形态学变化填充、联通文字所在的区域就成了算法需要调整的关键参数（这只是我基于多次尝试、对比得出的结论，因而未必最优，也没有理论的基础，但是既然好多计算机的文献仅凭“通过观察”四字即可立意撰文，下这样的结论也未尝不可`^_^`）。首先是颜色空间的选择，在尝试了[HSV](http://zh.wikipedia.org/wiki/HSV%E8%89%B2%E5%BD%A9%E5%B1%9E%E6%80%A7%E6%A8%A1%E5%BC%8F)、[CMYK](http://zh.wikipedia.org/wiki/CMYK)等之后，最后转向了[Lab色彩空间](http://zh.wikipedia.org/wiki/Lab%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4)([Ref-2](http://www.cnblogs.com/skyseraph/archive/2011/08/11/2135291.html)):
+还是以文字定位为例，基于连通域的方法关键在于让文字区域的颜色或灰度值能够与不同图像的背景分离开来，因此采用什么样的颜色空间、取多大的阈值分离背景、通过怎样的形态学变化填充、联通文字所在的区域就成了算法需要调整的关键参数（这只是我基于多次尝试、对比得出的结论，因而未必最优，也没有理论的基础）。首先是颜色空间的选择，在尝试了[HSV](http://zh.wikipedia.org/wiki/HSV%E8%89%B2%E5%BD%A9%E5%B1%9E%E6%80%A7%E6%A8%A1%E5%BC%8F)、[CMYK](http://zh.wikipedia.org/wiki/CMYK)等之后，最后转向了[Lab色彩空间](http://zh.wikipedia.org/wiki/Lab%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4)([Ref-2](http://www.cnblogs.com/skyseraph/archive/2011/08/11/2135291.html)):
 
 {% highlight py linenos%}
+'''
+OpenCV-python codes
+'''
+
 from cv2 import *
 import numpy as np
 
