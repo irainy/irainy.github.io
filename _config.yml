@@ -1,4 +1,5 @@
 name: It's rainy here.
+baseurl: /
 markdown: redcarpet
 pygments: true
 permalink: /art/:year/:month/:day/:title
