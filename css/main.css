@@ -66,6 +66,27 @@ span.me-logo a{
 span.me-logo a:hover {
   cursor: pointer;
 }
+ul.nav-list {
+  list-style: none;
+  line-height: 50px;
+  font-size: 25px;
+  position: absolute;
+  top: 120px;
+  left: 0px;
+}
+ul.nav-list li a{
+  color: #000;
+  float: left;
+  width: 100px;
+  padding-left: 25px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.4);
+}
+ul.nav-list li a.nav-list-cur ,ul.nav-list li a:hover{
+  border-right: 4px #c0392b solid;
+  padding-left: 45px;
+}
+
 
 /*****************************************************************************/
 /*
@@ -75,6 +96,7 @@ span.me-logo a:hover {
 
 div.me-home-btn{
   line-height: 80px;
+  float: left;
 }
 span.me-icon-home{
   margin-left: 15px;
@@ -229,7 +251,7 @@ ul.posts a{
   font-weight: 1.1em;
 }
 .post p img {
-  width: 600px;
+  max-width: 600px;
   padding: 4px;
   box-shadow: 0px 0px 4px #2C3E50;
 }
