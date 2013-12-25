@@ -15,6 +15,7 @@ layout: default
 {{ content }}
 </div>
 
+<a href="{{page.next.url}}">Next</a>
 
 <hr class="above-comments">
 <div class='share-it'>
@@ -39,7 +40,7 @@ layout: default
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
   <ul class="nav-list"> 
-                  <li><a href="/" >Main</a></li>
-                  <li><a href="/app">App</a></li>
+                  <li><a {% if page.category == "main" %} class='nav-list-cur' {% endif %}href="/" >Main</a></li>
+                  <li><a {% if page.category == "app" %} class='nav-list-cur' {% endif %}href="/app" >App</a></li>
   </ul>
 
