@@ -3,6 +3,7 @@ layout: post
 title: "C语言PHP扩展模板引擎Blitz加入FOREACH特性"
 description: ""
 tags: [PHP, C]
+category: main
 ---
 
 常用的PHP模板引擎（如[Smarty](http://www.smarty.net/)）大多为PHP写成，而PHP的执行效率较低；C语言开发的PHP扩展用作模板引擎效率可以得到显著提升，[Blitz](http://alexeyrybak.com/blitz/blitz_en.html)就是一个C语言开发的PHP模板引擎扩展，废话不多，先做一个简单的测试（测试代码在[这里](https://github.com/sniky/Blitz-featured/blob/master/benchmark/index.php)）:

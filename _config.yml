@@ -2,4 +2,5 @@ name: It's rainy here.
 baseurl: /
 markdown: redcarpet
 pygments: true
+category_dir: /
 permalink: /art/:year/:month/:day/:title

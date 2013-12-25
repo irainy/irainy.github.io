@@ -3,6 +3,7 @@ layout: post
 title: "图像处理的第一步：选择并抽取正确的特征"
 description: ""
 tags: [OpenCV; Python; Vision]
+category: main
 ---
 
 > **特征提取**是计算机视觉和图像处理中的一个概念...特征提取的结果是把图像上的点分为不同的子集，这些子集往往属于孤立的点、连续的曲线或者连续的区域([Wiki](http://zh.wikipedia.org/wiki/%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96))。
