@@ -14,8 +14,20 @@ layout: default
 <div class="post">
 {{ content }}
 </div>
+<hr class="above-comments">
 
-<a href="{{page.next.url}}">Next</a>
+<div class="post-nav">
+    {% if page.previous %} 
+        <a rel="prev" class="prev" href="{{ page.previous.url }}">&larr; {{ page.previous.title }}</a>
+    {% else %}
+        <a rel="prev" class="prev" href="javascript:alert('第一篇');">第一篇 &larr;</a>
+    {% endif %}
+    {% if page.next %} 
+        <a rel="next" class="next" href="{{ page.next.url }}">{{ page.next.title }}&rarr;</a>
+    {% else %}
+        <a rel="next" class="next" href="javascript:alert('已经是最后一篇');">最后一篇 &rarr;</a>
+    {% endif %}
+</div>
 
 <hr class="above-comments">
 <div class='share-it'>
