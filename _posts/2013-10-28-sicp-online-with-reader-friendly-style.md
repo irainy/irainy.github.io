@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SICP 英文第二版"
-description: "SICP(计算机程序的构造和解释)在线"
+description: "SICP(计算机程序的构造和解释)重新排版"
 tags: [SICP]
 category: app
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Bash不是外星语"
-description: ""
+description: "Bash语言入门语法介绍"
 tags: [Bash]
 category: main
 ---

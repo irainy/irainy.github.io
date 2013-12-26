@@ -2,9 +2,10 @@
 
 layout: post
 title: "Lisp初学之（一）: APPLY 与 MAPCAR"
-description: ""
+description: "Lisp 学习，apply 与 mapcar 实现转置矩阵的功能"
 tags: [Lisp]
 category: main
+keywords: Lisp, apply, mapcar, lisp koans
 
 ---
 

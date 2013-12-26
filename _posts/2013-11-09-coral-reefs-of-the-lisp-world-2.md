@@ -1,9 +1,10 @@
 ---
 layout: post
 title: "Lisp初学之（二）: 线性递归 与 线性迭代"
-description: ""
+description: "Lisp学习，迭代与递归"
 tags: [SICP; Lisp]
 category: main
+keywords: 迭代, 递归
 ---
 
 {% highlight cl %}
