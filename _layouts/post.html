@@ -1,6 +1,14 @@
----
-layout: default
----
+{% include post_header.html %}
+    <body>
+        <div class="me-nav">
+        </div>
+          <div class="site">
+            <div class="me-home-nav">
+              <div class="me-home-btn">
+                <a class="me-icon-home" href="/"><span class="icon-home me-icon-home"></span></a>
+                <span class="me-logo"><a href="/">it's rainy</a></span>&nbsp;&nbsp;&lambda;&sdot;&psi;
+              </div>
+          </div>
 <h2 class="posts-title">{{ page.title }}</h2>
 <p class="meta">
 	<span class="icon-pen"></span> <span class="meta-words">rainy</span>&nbsp;
@@ -55,4 +63,7 @@ layout: default
                   <li><a {% if page.category == "main" %} class='nav-list-cur' {% endif %}href="/" >Main</a></li>
                   <li><a {% if page.category == "app" %} class='nav-list-cur' {% endif %}href="/app" >App</a></li>
   </ul>
+<a href="http://github.com/sniky"><img class="me-avatar" src="/assets/imgs/sniky.jpeg"/></a>
+</div>
 
+{% include index_footer.html %}
