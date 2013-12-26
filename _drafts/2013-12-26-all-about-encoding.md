@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "All About Encoding"
+title: "关于编码的一切"
 description: ""
 category: "main"
 tags: []
