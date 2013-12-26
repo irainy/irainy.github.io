@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Lisp初学之暗礁（二）: 线性递归 与 线性迭代"
+title: "Lisp初学之（二）: 线性递归 与 线性迭代"
 description: ""
 tags: [SICP; Lisp]
 category: main

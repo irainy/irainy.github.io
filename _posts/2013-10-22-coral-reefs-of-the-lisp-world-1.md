@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title: "Lisp初学之暗礁（一）: APPLY 与 MAPCAR"
+title: "Lisp初学之（一）: APPLY 与 MAPCAR"
 description: ""
 tags: [Lisp]
 category: main
