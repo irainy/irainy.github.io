@@ -70,7 +70,7 @@ ul.nav-list {
   list-style: none;
   line-height: 50px;
   font-size: 25px;
-  position: absolute;
+  position: fixed;
   top: 120px;
   left: 0px;
 }
@@ -82,9 +82,16 @@ ul.nav-list li a{
   margin-bottom: 4px;
   background: rgba(255,255,255,0.4);
 }
-ul.nav-list li a.nav-list-cur ,ul.nav-list li a:hover{
+ul.nav-list li a.nav-list-cur{
   border-right: 4px #c0392b solid;
-  padding-left: 45px;
+}
+ul.nav-list li a:hover{
+  border-right: 4px #c0392b solid;
+  width: 120px;
+  -webkit-transition: width .25s ease-in-out;
+  -moz-transition: width .25s ease-in-out;
+  -ms-transition: width .25s ease-in-out;
+  -o-transition: width .25s ease-in-out;
 }
 
 
