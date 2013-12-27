@@ -1,4 +1,5 @@
-name: It's rainy here.
+name: Its rainy here.
+url: "http://defsniky.com"
 baseurl: /
 markdown: redcarpet
 pygments: true

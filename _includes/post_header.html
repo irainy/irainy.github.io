@@ -15,6 +15,10 @@
         <meta name="description" content="{{ page.description }}"/>
         <meta name="keywords" content="{{ page.tags | array_to_sentence_string }}"/>
         <meta name="keywords" content="{{ page.keywords | join: ',' }}"/>
+
+        <!-- SEO -->
+        <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+
         <!-- syntax highlighting CSS -->
         <link rel="stylesheet" href="/css/syntax.css">
 
