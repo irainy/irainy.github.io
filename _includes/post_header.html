@@ -8,31 +8,8 @@
              * Create Date:    {{ page.date | date_to_string }}      
             **                                               
         -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
         <title>{{ page.title }}</title>
-	<meta name="baidu_union_verify" content="ae1443bc1f469a09aa15c07deb89942d">
-        <meta name="generator" content="Jekyll" />
-        <meta name="author" content="rainy" />
         <meta name="description" content="{{ page.description }}"/>
         <meta name="keywords" content="{{ page.tags | array_to_sentence_string }}"/>
         <meta name="keywords" content="{{ page.keywords | join: ',' }}"/>
-
-        <!-- SEO -->
-        <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
-
-        <!-- syntax highlighting CSS -->
-        <link rel="stylesheet" href="/css/syntax.css">
-
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="/css/main.css">
-
-        <!-- Custom icon -->
-        <link rel="stylesheet" href="/css/icons.css">
-
-        <!-- Google fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Titan+One' rel='stylesheet' type='text/css'>
-
-	<link rel="shortcut icon" href="/assets/imgs/fav.ico" />
-    </head>
+{% include meta_header.html %}
