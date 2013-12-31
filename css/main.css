@@ -33,9 +33,7 @@ h1.posts-title:hover, h2.posts-title:hover{
 }
 p { margin: 1em 0; }
 
-a         { color: #2C3E50; text-decoration: none}
-a:hover   { color: #34495e; text-shadow: 0px 0px 1px #34495e;}
-
+a { color: #2C3E50; text-decoration: none}
 /*****************************************************************************/
 /*
 /* Nav
@@ -60,12 +58,6 @@ span.me-logo a{
   line-height: 25px;
   font-family: 'Titan One', cursive, Kai;
 }
-span.me-logo a:hover {
-  cursor: pointer;
-}
-
-
-
 
 /*****************************************************************************/
 /*
@@ -84,9 +76,10 @@ span.me-icon-home{
 span.me-icon-home{
   color: #95a5a6;
 }
-span.me-icon-home:hover{
+span.me-icon-home:hover, span.me-logo a:hover{
   color: #ecf0f1;
   text-shadow: 1px 1px 4px #3498db;
+  cursor: pointer;
 }
 span.me-icon-home:visited{
   color: #95a5a6;
@@ -98,6 +91,11 @@ ul.posts li{
   font-size: 18px;
   line-height: 12px;
   color: #7f8c8d;
+}
+ul.posts li a:hover{
+  background-color: #2C3E50;
+  color: #fff;
+  padding: 2px;
 }
 .meta .meta-words::selection, ul.posts span::selection {
   background-color: #2C3E50;
@@ -148,51 +146,8 @@ ul.posts li{
   line-height: 30px;
   color: #2C3E50;
 }
-
-/* standard */
-.post pre {
-  border: 1px solid #ddd;
-  background-color: #ecf0f1;
-  padding: 0.4em;
-}
-
 .post ul, .post ol {
   margin-left: 1.35em;
-}
-
-.post p code {
-  padding: 2px 4px;
-  background-color: #f9f2f4;
-  font-size: 14px;
-  line-height: 20px;
-  white-space: nowrap;
-  color: #c7254e;
-}
-
-.post pre code {
-  border: none;
-  overflow: auto;
-  font-size: 14px;
-  line-height: 20px;
-}
-.highlight{
-  padding: 4px;
-}
-.highlight pre{
-  border: none;
-  overflow: auto;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-/* terminal */
-.post pre.terminal {
-  border: 1px solid #000;
-  background-color: #333;
-}
-
-.post pre.terminal code {
-  background-color: #333;
 }
 .post blockquote p {
   border-left: 5px solid #eee;
@@ -211,7 +166,8 @@ ul.posts li{
   color: #c0392b;
 }
 .post p a:hover, .post ol li a:hover{
-  text-shadow: 0px 0px 1px #c0392b;
+  background-color: #c0392b;
+  color: #fff;
 }
 .post p span.emp {
   color: #c0392b;
@@ -358,8 +314,9 @@ and (max-width : 1023px){
 .footer a {
   color: #c0392b;
 }
-.footer a:hover {
-  text-shadow: 0px 0px 1px #c0392b;
+.footer a:hover{
+  background-color: #c0392b;
+  color: #fff;
 }
 @media only screen
 and (max-width: 768px){
