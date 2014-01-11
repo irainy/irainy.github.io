@@ -31,7 +31,7 @@ body {
   font: 14px/25px "Oxygen", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
   font-family: Georgia, "Times New Roman", Times, "Kai", "Kaiti SC", "KaiTi", "BiauKai", "楷体", "楷体_GB2312", serif;
-  color: #4c4c4c;
+  color: #2c3e50;
 }
 li {
   list-style: none;
@@ -73,7 +73,7 @@ li {
   background-color: #ffffff !important;
 }
 #page-menu-wrapper ul li:hover a.top-menu {
-  color: #4c4c4c;
+  color: #2c3e50;
 }
 #page-menu-wrapper ul li:hover ul.dropdown-menu {
   display: block;
@@ -245,6 +245,19 @@ div.entry-content {
   font-size: 17px;
   line-height: 28px;
   margin-top: 20px;
+}
+div.entry-content code {
+  background-color: #f6f8f8;
+  color: #db5e63;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  -ms-border-radius: 1px;
+  -o-border-radius: 1px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 2px;
 }
 div.entry-content h3 {
   padding: 16px 0px;
