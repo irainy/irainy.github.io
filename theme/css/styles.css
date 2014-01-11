@@ -392,3 +392,20 @@ ul.neighbors li a:hover {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+@media all and (max-width: 900px) {
+  ul.right {
+    display: none;
+  }
+  div.article-container {
+    width: 100%;
+    border: none;
+  }
+  code {
+    overflow: auto;
+  }
+}
+@media all and (max-width: 400px) {
+  li.about-me {
+    display: none;
+  }
+}
