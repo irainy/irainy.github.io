@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--
+            **                                                          
+             * Author:         rainy                                   
+             * Contact:        sniky.hack@gmail.com                   
+            **                                               
+    -->
+    <meta charset="utf-8" />
+    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/theme/css/styles.css">
+    <link rel="shortcut icon" href="/theme/images/fav.ico" />
+    <meta name="description" contents="选取正确的、适合任务的图像特征对于图像处理至关重要，本文以OpenCV定位图像文本位置为例，对比不同的颜色空间对定位任务的影响。" />
+    <meta name="tags" contents="OpenCV" />
+    <meta name="tags" contents="Python" />
+    <meta name="tags" contents="Vision" />
+    <title>图像处理的第一步：选择并抽取正确的特征</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+</head>
+
+<body id="index" class="home">
+    <div id="upper-menu-container">
+        <div id="page-menu-wrapper">
+            <ul class="main left">
+                <li>
+                    <a href="/" class="top-menu"><span class="glyphicon glyphicon-home"></span></a>
+                </li>
+                <li>
+                    <a href="#" rel="all-category" title="categories" class="top-menu">文章分类</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a title="趣味" alt="趣味" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
+                        <li role="presentation"><a title="算法" alt="算法" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="学习" alt="学习" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">1</span>]</a></li>
+                        <li role="presentation"><a title="语言" alt="语言" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">5</span>]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/archives.html" class="top-menu">归档</a>
+                </li>
+                <li>
+                    <a href="" class="top-menu" alt="about me" title="about me">关于</a>
+                </li>
+            </ul>
+            
+            <ul class="main right">
+                <li>
+                    <a href="/atom.xml" title="rss" class="top-menu"><i class="fa fa-rss"></i></a>
+                <li>
+                    <a href="/" title="find-me" class="top-menu">找到我</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="https://github.com/sniky" alt="github" title="github"><i class="fa fa-github"></i> Github</a></li>
+                        <li><a href="http://weibo.com/myaplysia" alt="weibo" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454" alt="Google-plus" title="Google plus page"><i class="fa fa-google-plus"></i> Google+</a></li>
+                        <li><a href="#/pages/donate.html" alt="donate me" title="donate me"><i class="fa fa-btc"></i> Donate</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://github.com/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/avatar.jpeg" class="img-avatar" title="avatar" alt="avatar" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <div id="content-wrapper">
+            <div class="article-container">
+<section id="content" class="body">
+  <header>
+    <h3 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to 图像处理的第一步：选择并抽取正确的特征">图像处理的第一步：选择并抽取正确的特征</a></h3>
+ 
+  </header>
+  <footer class="post-info">
+                    <span class="glyphicon glyphicon-user"></span> rainy
+                    · <span class="glyphicon glyphicon-calendar"></span> 2013.12.09
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/suan-fa.html" rel="category" title="category:算法" > 算法</a>
+                    · <span class="glyphicon glyphicon-tags"></span> OpenCV,Python,Vision
+              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <blockquote>
+<p><strong>特征提取</strong>是计算机视觉和图像处理中的一个概念...特征提取的结果是把图像上的点分为不同的子集，这些子集往往属于孤立的点、连续的曲线或者连续的区域(<a href="http://zh.wikipedia.org/wiki/%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96">Wiki</a>)。</p>
+</blockquote>
+<p>基本上来说，图像处理任务首先都是要选取与任务相关的特征（如人脸识别中人脸的特征、边缘检测中边缘的特征等），然后将这些特征从复杂多变的背景信息中分离出来，再进行更进一步的处理。因而选择一个好的特征至关重要，后续的精细加工都是基于前面定位、过滤、抽取出来的较为单纯的特征信息，以图像中文字定位为例来说，常用的方法大致可以分为两种类型：基于连通域的方法和基于纹理的方法（脚注没修好，这里就不引用参考文献了），实际上就是针对于图像中的文字通常具有“在相对连续区域内颜色相同”以及“笔画之间夹杂细小缝隙的纹理或空间频率特征”。</p>
+<p>常用的图像特征有颜色特征、纹理特征、形状特征、空间关系特征等(<a href="http://blog.sina.com.cn/s/blog_4e6680090100d2s9.html">Ref-1</a>)。但是如何从这些特征中去选取最合适当前任务的特征呢？我们知道有一种“机器”在图像处理任务中做得非常出色，那就是人的视觉系统，David Marr 的经典著作 《<em><a href="http://book.douban.com/subject/5273663/">Vision</a></em>》中也有提到，在最初人们想要用计算机去处理图像信息时并没有多少人想到这会有多难，毕竟对我们人类来说这些都是非常直觉、简单的加工过程，甚至在我们都还没有意识到的情况下视觉、认知系统已经完成了对图像的深度加工。而当人们真正着手去做的时候才发现，即使是最简单的 feature detector 要实现也是困难重重，在毫无头绪与经验的情况下所能采取的一种方法就是厚着脸皮不停尝试，正如 David Marr 所描述的 <code>unashamedly empirical approach :P</code>。</p>
+<p>还是以文字定位为例，基于连通域的方法关键在于让文字区域的颜色或灰度值能够与不同图像的背景分离开来，因此采用什么样的颜色空间、取多大的阈值分离背景、通过怎样的形态学变化填充、联通文字所在的区域就成了算法需要调整的关键参数（这只是我基于多次尝试、对比得出的结论，因而未必最优，也没有理论的基础）。首先是颜色空间的选择，在尝试了<a href="http://zh.wikipedia.org/wiki/HSV%E8%89%B2%E5%BD%A9%E5%B1%9E%E6%80%A7%E6%A8%A1%E5%BC%8F">HSV</a>、<a href="http://zh.wikipedia.org/wiki/CMYK">CMYK</a>等之后，最后转向了<a href="http://zh.wikipedia.org/wiki/Lab%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4">Lab色彩空间</a>(<a href="http://www.cnblogs.com/skyseraph/archive/2011/08/11/2135291.html">Ref-2</a>):</p>
+<div class="highlight"><pre><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">OpenCV-python codes</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">cv2</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">org</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">cvtColor</span><span class="p">(</span><span class="n">org</span><span class="p">,</span> <span class="n">COLOR_BGR2LAB</span><span class="p">)</span>
+
+<span class="n">imshow</span><span class="p">(</span><span class="s">&#39;org&#39;</span><span class="p">,</span> <span class="n">org</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+<span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+
+
+<p>结果如下：</p>
+<p><img alt="处理结果" src="/theme/images/blog/sicp.png" title="处理结果" /></p>
+<p>Wiki 中提到：</p>
+<blockquote>
+<p>不像RGB和CMYK色彩空间，Lab颜色被设计来接近人类视觉。</p>
+</blockquote>
+<p>不知道这是不是巧合，但可以肯定的是即便如此 Lab颜色也不会适合所有的处理任务。接下来通过阈值化、形态学变化等进一步分离特征：</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="n">threshold</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">157</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">THRESH_BINARY</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">morphologyEx</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">getStructuringElement</span><span class="p">(</span><span class="n">MORPH_RECT</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)))</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">morphologyEx</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">MORPH_CLOSE</span><span class="p">,</span> <span class="n">getStructuringElement</span><span class="p">(</span><span class="n">MORPH_RECT</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+
+<span class="n">fc</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span> <span class="o">=</span> <span class="n">findContours</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+    <span class="n">cnt</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">boundingRect</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">w</span> <span class="o">&lt;</span> <span class="mi">15</span> <span class="ow">or</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mi">50</span> <span class="ow">or</span> <span class="n">w</span> <span class="o">/</span> <span class="n">h</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="n">rectangle</span><span class="p">(</span><span class="n">org</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),(</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">255</span><span class="p">)),</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+
+<p>结果如下：</p>
+<p><img alt="最终结果" src="/theme/images/blog/sicp_res.png" title="最终结果" /></p>
+<p>后面的阈值化等操作的分离效果很大程度上来说并不取决于参数的选取，尤其是考虑到不同的图像中文字颜色、尺寸及其与背景噪音的对比，能否将特征分离出来更多还是取决于颜色空间的选取。</p>
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2013-11-17-raspberry-pi-in-practice-errors.html">
+            <i class="fa fa-arrow-circle-o-left"></i> Raspberry Pi 实作记录
+        </a>
+    </li>
+    <li class="next">
+      <a href="http://defsniky.com/posts/2013-12-26-password-static.html">
+        你的密码是什么？ <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
+      </a>
+    </li>
+</ul>
+<div style="clear: both"></div>
+</div>
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<div style="clear: both"></div>
+  </section>
+
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <footer id="contentinfo" class="body">
+        <ul>
+            <li>Author & Theme designer <span class="me">雨生</span></li>
+            <li>Generated by <a title="pelican" alt="pelican" href="http://blog.getpelican.com/">Pelican</a></li>
+            <li>Sponsored by <a title="薛老板" alt="薛老板" href="javascript:alert('This is for you, dear Xue :)')">颖惠</a></li>
+        </ul>
+    </footer><!-- /#contentinfo -->
+</body>
+</html>
