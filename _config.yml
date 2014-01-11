@@ -1,7 +1,0 @@
-name: "It's rainy here"
-url: "http://defsniky.com"
-baseurl: /
-markdown: redcarpet
-pygments: true
-category_dir: /
-permalink: /art/:year/:month/:day/:title
