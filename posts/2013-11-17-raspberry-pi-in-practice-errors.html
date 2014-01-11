@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--
+            **                                                          
+             * Author:         rainy                                   
+             * Contact:        sniky.hack@gmail.com                   
+            **                                               
+    -->
+    <meta charset="utf-8" />
+    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/theme/css/styles.css">
+    <link rel="shortcut icon" href="/theme/images/fav.ico" />
+    <meta name="description" contents="整理、记录折腾 Raspberry Pi 过程中遇到的问题、错误，及其解决方案。" />
+    <meta name="tags" contents="Pi" />
+    <title>Raspberry Pi 实作记录</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+</head>
+
+<body id="index" class="home">
+    <div id="upper-menu-container">
+        <div id="page-menu-wrapper">
+            <ul class="main left">
+                <li>
+                    <a href="/" class="top-menu"><span class="glyphicon glyphicon-home"></span></a>
+                </li>
+                <li>
+                    <a href="#" rel="all-category" title="categories" class="top-menu">文章分类</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a title="趣味" alt="趣味" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
+                        <li role="presentation"><a title="算法" alt="算法" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="学习" alt="学习" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">1</span>]</a></li>
+                        <li role="presentation"><a title="语言" alt="语言" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">5</span>]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/archives.html" class="top-menu">归档</a>
+                </li>
+                <li>
+                    <a href="" class="top-menu" alt="about me" title="about me">关于</a>
+                </li>
+            </ul>
+            
+            <ul class="main right">
+                <li>
+                    <a href="/atom.xml" title="rss" class="top-menu"><i class="fa fa-rss"></i></a>
+                <li>
+                    <a href="/" title="find-me" class="top-menu">找到我</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="https://github.com/sniky" alt="github" title="github"><i class="fa fa-github"></i> Github</a></li>
+                        <li><a href="http://weibo.com/myaplysia" alt="weibo" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454" alt="Google-plus" title="Google plus page"><i class="fa fa-google-plus"></i> Google+</a></li>
+                        <li><a href="#/pages/donate.html" alt="donate me" title="donate me"><i class="fa fa-btc"></i> Donate</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://github.com/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/avatar.jpeg" class="img-avatar" title="avatar" alt="avatar" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <div id="content-wrapper">
+            <div class="article-container">
+<section id="content" class="body">
+  <header>
+    <h3 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to Raspberry Pi 实作记录">Raspberry Pi 实作记录</a></h3>
+ 
+  </header>
+  <footer class="post-info">
+                    <span class="glyphicon glyphicon-user"></span> rainy
+                    · <span class="glyphicon glyphicon-calendar"></span> 2013.11.17
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/qu-wei.html" rel="category" title="category:趣味" > 趣味</a>
+                    · <span class="glyphicon glyphicon-tags"></span> Pi
+              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <h3>1. Rasbian network interface</h3>
+<div class="highlight"><pre>sudo leafpad /etc/network/interface <span class="c"># vim &amp; vi are dead...</span>
+
+auto eth0
+iface eth0 inet static
+    address 10.*.*.* <span class="c">#lab ip</span>
+    netmask 255.255.255.0
+    gateway 10.*.*.*
+</pre></div>
+
+
+<h3>2. apt-get update error</h3>
+<div class="highlight"><pre><span class="n">W</span><span class="o">:</span> <span class="n">GPG</span> <span class="n">error</span><span class="o">:</span> <span class="n">http</span><span class="o">://</span><span class="n">mirrors</span><span class="o">.</span><span class="na">zju</span><span class="o">.</span><span class="na">edu</span><span class="o">.</span><span class="na">cn</span> <span class="n">wheezy</span> <span class="n">Release</span><span class="o">:</span> 
+<span class="n">The</span> <span class="n">following</span> <span class="n">signatures</span> <span class="n">couldn</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">be</span> <span class="n">verified</span> <span class="n">because</span> <span class="n">the</span> <span class="kd">public</span> <span class="n">key</span> <span class="k">is</span> <span class="n">not</span> <span class="n">available</span><span class="o">:</span> 
+<span class="n">NO_PUBKEY</span> <span class="mi">8</span><span class="n">B48AD6246925553</span> <span class="n">NO_PUBKEY</span> <span class="mi">6</span><span class="n">FB2A1C265FFB764</span>
+</pre></div>
+
+
+<p>可能是因为开始的时候修改了<code>/etc/apt/source.list</code>：</p>
+<div class="highlight"><pre><span class="c">#deb http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free</span>
+deb http://mirrors.zju.edu.cn/debian/ wheezy main contrib non-free
+</pre></div>
+
+
+<p>同时移除了<code>/etc/apt/sources.list.d</code>。解决方案：
+<code>su -c 'apt-get --reinstall install debian-archive-keyring'</code></p>
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html">
+            <i class="fa fa-arrow-circle-o-left"></i> Lisp初学之（二）: 线性递归 与 线性迭代
+        </a>
+    </li>
+    <li class="next">
+      <a href="http://defsniky.com/posts/2013-12-09-choose-and-extract-the-right-features.html">
+        图像处理的第一步：选择并抽取正确的特征 <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
+      </a>
+    </li>
+</ul>
+<div style="clear: both"></div>
+</div>
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<div style="clear: both"></div>
+  </section>
+
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <footer id="contentinfo" class="body">
+        <ul>
+            <li>Author & Theme designer <span class="me">雨生</span></li>
+            <li>Generated by <a title="pelican" alt="pelican" href="http://blog.getpelican.com/">Pelican</a></li>
+            <li>Sponsored by <a title="薛老板" alt="薛老板" href="javascript:alert('This is for you, dear Xue :)')">颖惠</a></li>
+        </ul>
+    </footer><!-- /#contentinfo -->
+    <!-- BAIDU STATISTIC -->
+    <script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5ec19c137dfa6ccc2e4f9c6d6fba3f4a' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/yu-yan.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2013-11-09T00:00:00+08:00</updated><entry><title>Lisp初学之（二）: 线性递归 与 线性迭代</title><link href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html" rel="alternate"></link><updated>2013-11-09T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-11-09:posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP &lt;a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1"&gt;1.2.1  Linear Recursion and Iteration&lt;/a&gt;），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、&lt;code&gt;for/while/do&lt;/code&gt;的是循环迭代，结果就触礁了。&lt;/p&gt;
+&lt;p&gt;仍然从考虑阶乘函数开始：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="公式" src="http://latex.codecogs.com/svg.latex?n%21%20%3D%20n%20%5Ccdot%20%28n%20-%201%29%20%5Ccdot%20%28n%20-%202%29%20%5Ccdot%20%5Ccdot%20%5Ccdot%203%20%5Ccdot%202%5Ccdot%201" title="公式" /&gt;&lt;/p&gt;
+&lt;p&gt;用语言描述阶乘的定义为：当&lt;code&gt;n=1&lt;/code&gt;时，&lt;code&gt;n!=1&lt;/code&gt;；否则&lt;code&gt;n!=n*(n-1)!&lt;/code&gt;。很自然地，将定义转换成 Lisp 代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;fac&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="mi"&gt;1&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;*&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;fac&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;单从语法形式上(syntactic)看上面的代码，&lt;code&gt;(fac n)&lt;/code&gt;在定义时调用了它自身，这一语法形式上的事实我们称之为“递归过程(recursive procedure)”；而从实际的计算过程来看，也就是说看&lt;code&gt;(fac n)&lt;/code&gt;在实际执行的过程中做了那些计算，结果是只有当调用到&lt;code&gt;(fac 1)&lt;/code&gt;时才返回了明确的结果 1，在此之前，&lt;code&gt;(fac (- n 1))&lt;/code&gt;只是作为展开过程中的助记符，推进程序的前进，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="递归" src="http://sniky.github.io/extra/sicp/ch1-Z-G-7.gif" title="递归" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(fac n)&lt;/code&gt;产生了一个递归的计算过程(recursive process)，为了完成这一计算过程，它在形式上调用了自身，在计算过程中将自身作为推进（展开）计算的标识符，作为计算代价，我们不得不记住展开过程中所有&lt;code&gt;(fac (- n 1))&lt;/code&gt;经过的地方，直到&lt;code&gt;(fac 1)&lt;/code&gt;给出明确的返回值，再沿原路返回回去，得到&lt;code&gt;(fac n)&lt;/code&gt;的值；又因为阶乘计算过程中，我们所要记住的&lt;code&gt;(fac (- n 1))&lt;/code&gt;经过的路径与 n 的大小存在线性相关，因而称这样的计算过程为“&lt;span class='emp'&gt;线性递归过程(Linear Recursive Process)&lt;/span&gt;”。&lt;/p&gt;
+&lt;p&gt;再考虑迭代的算法，所谓迭代，在计算阶乘的过程中可以看做是对 &lt;code&gt;n&lt;/code&gt; 与 &lt;code&gt;(n - 1)&lt;/code&gt; 的乘积在 &lt;code&gt;n = 1, 2, ..., n&lt;/code&gt; 的范围内重复、累积：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;fac-iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;i&lt;/span&gt; &lt;span class="nv"&gt;product&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="nv"&gt;product&lt;/span&gt;
+            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;*&lt;/span&gt; &lt;span class="nv"&gt;product&lt;/span&gt; &lt;span class="nv"&gt;i&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;iter&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上面的程序从语法形式上来看，仍然是一个递归的过程：&lt;code&gt;(iter i product)&lt;/code&gt; 内部调用了 &lt;code&gt;(iter (+ i 1) (* product i))&lt;/code&gt;，但是从实际的计算过程来看，我们不需要像递归计算那样记住整个递归过程的推进路线，而是通过迭代更新每次调用时所用的参数，这样计算过程中我们需要记住的只有迭代计数变量 &lt;code&gt;i&lt;/code&gt;、迭代乘积 &lt;code&gt;product&lt;/code&gt;、以及 &lt;code&gt;n&lt;/code&gt;；又因为阶乘计算过程中，所用的计算步骤或者所要记住的迭代变量的迭代次数与 n 的大小线性相关，因而称这样的计算过程为“&lt;span class="emp"&gt;线性迭代过程(Linear Iterative Process)&lt;/span&gt;”。这种用递归的过程实现的迭代的计算过程也称为&lt;span class="emp"&gt;尾递归&lt;/span&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。&lt;/p&gt;</summary><category term="SICP"></category><category term="Lisp"></category></entry><entry><title>Lisp初学之（一）: APPLY 与 MAPCAR</title><link href="http://defsniky.com/posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html" rel="alternate"></link><updated>2013-10-22T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-10-22:posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT ((COMP LIST CONS) (COMP APPLY MAPCAR)))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;关于lisp的争论太多了，有人对其赞美到了无以复加的地步，也有人觉得不以为然，但是作为一个没有深入学习过的人来说，就只能做一个不明真相的围观群众。而对于那些跃跃欲试想要参与进来的初学者来说，想要入门却并非易事，一方面面对高手们扑面而来的那些玄之又玄的大道，另一方面还要面对lisp本身“奇异”的表达形式以及最致命的环环相扣的括号。因而选择一个合适的入门材料就显得更为重要&lt;a href="http://www.zhihu.com/question/19621539"&gt;&lt;strong&gt;&amp;rarr;&lt;/strong&gt;&lt;/a&gt;，有人推荐&lt;a href="http://mitpress.mit.edu/sicp/full-text/book/book.html"&gt;SICP&lt;/a&gt;等一些大部头著作，但是这些作为深入学习研究来说比较适合，如果作为熟悉语法特性等，还是直接动手开始coding比较合适，&lt;a href="https://github.com/google/lisp-koans"&gt;Common Lisp Koans&lt;/a&gt;就是一个很好的选择，这个项目模仿Ruby Koans通过填补代码来熟悉Lisp的语法及特性。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;mapcar-and-reduce.lsp&lt;/code&gt;一节，用 apply 与 mapcar 实现转置矩阵的功能，在Lisp中函数也可以当做参数传递给其它函数使用，其中内置可以以函数作为参数的函数有：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;funcall&lt;/span&gt; &lt;span class="err"&gt;#&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt; &lt;span class="err"&gt;#&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mapcar&lt;/span&gt; &lt;span class="err"&gt;#&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;nil&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;nil&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;;(&lt;/span&gt;&lt;span class="n"&gt;NIL&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="n"&gt;NIL&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="n"&gt;NIL&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://www.n-a-n-o.com/lisp/cmucl-tutorials/LISP-tutorial-20.html"&gt;Funcall, Apply, and Mapcar&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;funcall&lt;/code&gt; 的第一个参数为执行函数（将第一个参数称为“执行函数”），剩余参数作为该函数的参数；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;apply&lt;/code&gt; 与 &lt;code&gt;funcall&lt;/code&gt; 的作用一样，只是其最后一个参数必须为list；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mapcar&lt;/code&gt; 接受第一个参数作为执行函数，然后将第二个list中的每一个参数依次传递给执行函数，并将执行结果依次合并为一个list输出。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;奇怪的是 &lt;code&gt;apply&lt;/code&gt; 与 &lt;code&gt;funcall&lt;/code&gt; 之间的区别仅仅是 &lt;code&gt;apply&lt;/code&gt; 的参数必须是 &lt;code&gt;list&lt;/code&gt;，那么 &lt;code&gt;apply&lt;/code&gt; 的功能是&lt;a href="http://blog.csdn.net/ryuali2010/article/details/7816559"&gt;如何实现&lt;/a&gt;的？&lt;/p&gt;
+&lt;p&gt;原来 &lt;code&gt;apply&lt;/code&gt; 先对执行函数以外参数调用 &lt;code&gt;list*&lt;/code&gt; 方法，然后再对生成的列表调用 &lt;code&gt;values-list&lt;/code&gt; 方法，最终再将 &lt;code&gt;values-list&lt;/code&gt; 输出的结果依次传入执行函数中。这里 (&lt;code&gt;list* args&lt;/code&gt;) 的执行过程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果 args 是 list 类型，则返回 args;&lt;/li&gt;
+&lt;li&gt;如果 args 是单个数字，则返回 args;&lt;/li&gt;
+&lt;li&gt;如果 args 是多个元素（非 list 形式），则将倒数第二个元素与最后一个元素以 dot-list 的形式结合并返回整个列表。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这里又涉及到&lt;a href="https://acl.readthedocs.org/en/latest/zhCN/ch3-cn.html"&gt;点状列表&lt;/a&gt;（Dotted Lists）的概念：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;调用 list 所构造的列表，这种列表精确地说称之为正规列表(properlist )。
+一个正规列表可以是 NIL 或是 cdr 是正规列表的 Cons 对象…一个非正规列表的 Cons 对象称之为点状列表 (dotted list)。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可以看到，&lt;code&gt;list*&lt;/code&gt; 的作用主要在最后一个参数上，它将最后一个元素以 &lt;code&gt;append&lt;/code&gt; 的方式连接到前面的元素所组成的列表中（这样做的意义待考？），而 &lt;code&gt;values-list&lt;/code&gt;执行的操作则是将参数列表中的每一个元素依次返回，但传入参数不能是dot-list，这就导致了 &lt;code&gt;apply&lt;/code&gt; 的最后一个参数必须是 &lt;code&gt;list&lt;/code&gt; 类型的特性（这样做的意义也待考？）。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;apply&lt;/code&gt; 与 &lt;code&gt;mapcar&lt;/code&gt; 的组合如何完成转置矩阵的功能呢？还要依赖于 Lisp 函数参数的参数列表（Parameter Lists）机制，&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;rest&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;;((&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;rest&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;形参中的 &amp;amp;rest 关键词收集所有剩余参数，并存放到一个列表里&lt;code&gt;(list r)&lt;/code&gt;。将 mapcar 与上面的匿名函数相结合会得到什么样的结果呢？&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mapcar&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;rest&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;;((&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mapcar&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;rest&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;;((&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上面的方法已经得到了转置的效果，mapcar 将后续列表中的元素逐一传入匿名函数，而匿名函数通过 &amp;amp;rest 接收多余的参数，这样就可以无限制地添加参数，而通过 mapcar 遍历每个参数列表的元素，经由匿名函数&lt;code&gt;(list r)&lt;/code&gt;组装后返回，从而实现转置的效果。而 apply 的作用则是利用 list* 与 values-list 将矩阵的每一行作为输入列表依次传递给上面的过程：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt; &lt;span class="err"&gt;#&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;mapcar&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;rest&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;span class="p"&gt;;((&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Lisp Koans 很适合学习，实际上有人整理了一个 Koans 系列：&lt;a href="http://www.lauradhamilton.com/learn-a-new-programming-language-today-with-koans"&gt;Learn a New Programming Language Today with Koans&lt;/a&gt;，涵盖了许多编程语言。另外，关于 Lisp，有一篇&lt;a href="http://www.defmacro.org/ramblings/lisp.html"&gt;The Nature of Lisp&lt;/a&gt;（翻译版：&lt;a href="http://www.csdn.net/article/2012-11-22/2812113-The-Nature-Of-Lisp"&gt;Lisp的本质&lt;/a&gt;）很值得初学者拜读。&lt;/p&gt;</summary><category term="Lisp"></category></entry><entry><title>Bash不是外星语</title><link href="http://defsniky.com/posts/2013-08-01-Bash-is-not-an-alien-language.html" rel="alternate"></link><updated>2013-08-01T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-08-01:posts/2013-08-01-Bash-is-not-an-alien-language.html</id><summary type="html">&lt;p&gt;bash 看起来一直都像一门外星语，因为从一开始接触到它的时候，它看起来更像是操作系统的化身而不是一门编程语言，而且事实上这样凭直觉的理解并没有什么错，因为大部分情况下用到bash的目的都是为了与操作系统进行交流。&lt;/p&gt;
+&lt;!--
+bash script容易令人疑惑的地方除了与操作系统之间千丝万缕的关系（包括环境变量等），像`if...fi`这样拗口的语法看起来也很像外星语，还有一点比较重要的是用户容易觉得bash script其实就是一堆command line的堆砌（虽然这样认为也没错），所以只要掌握特定用途的command就ok了。这里的`用户`指的就是我自己，正因为这些原因，平日里拿到别人写好的script就直接执行，作批量测试的时候大多数情况用python，“成功”地避开一行一行研究外星语一样的bash script也照样侥幸活到现在~
+
+当然随着时间的推移，会慢慢发现一门语言的语法虽然是其可见的最鲜明的特征，但从某种（学习的）角度来说，它却是最不要紧的因素。
+--&gt;
+
+&lt;p&gt;比较经常会用到bash script的场景除了把简单堆砌的command写进一个脚本然后丢进可执行的目录下方便使用外，大多数情况下是进行一些批量执行或测试，或者是一些自动化执行过程。以前都是用python来代替，甚至觉得&lt;code&gt;os.system(cmd)&lt;/code&gt;这样的调用也能满足绝大部分需求，最近以来一是由于很多configure过程报错被逼着不得不去找出错误的原因，另一方面也是由于实在受够了python的&lt;code&gt;os.walk()&lt;/code&gt;了，所以从头开始再学习一次bash这门不是外星语的外星语。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Intro&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Shell本身是一种用C语言编写的程序，常见的Shell种类众多，从本质上说bash并没有什么特别，但它是大多数linux系统默认的shell，即使用户不用也会有许多os后台程序在让它不停地奔跑，所以不用也是浪费。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;环境变量&lt;/strong&gt;
+bash中的变量，既可以被bash本身所应用，而更常见的是作为环境变量存在。常见遵循如下几种规则：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;123 &lt;span class="c"&gt;# &amp;#39;=&amp;#39; 左右两侧均不可有空格，变量值为单个字串(不含空白字符)则可省略引号；&lt;/span&gt;
+&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;hello world!&amp;#39;&lt;/span&gt; NOT &lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;hello world!&amp;quot;&lt;/span&gt; &lt;span class="c"&gt;# 双引号与单引号不同；&lt;/span&gt;
+&lt;span class="nb"&gt;echo &lt;/span&gt;hello &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;world! &lt;span class="c"&gt;# &amp;#39;${VAR_NAME}&amp;#39;中&amp;#39;{}&amp;#39;用于消除变量名的边界歧义；&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;PATH; &lt;span class="nb"&gt;unset &lt;/span&gt;PATH &lt;span class="c"&gt;# export &amp;amp; unset 将变量输出(销毁)至环境变量；&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中，第2条，bash引用变量所储存的内容用到特殊符号$，$var被称为变量扩展(variable expansion)，有点像C语言中指针的含义，而在bash中双引号会保留扩展的特性，而单引号则会将特殊字符当做普通字符来看待，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;rainy
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;hello $var.&amp;#39;&lt;/span&gt; &lt;span class="c"&gt;# 输出 hello $var.&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello $var.&amp;quot;&lt;/span&gt; &lt;span class="c"&gt;# 输出 hello rainy.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;bash中另外一类变量是当执行脚本时从命令行中读取的参数(c语言中的&lt;code&gt;int argc, char* argv[]&lt;/code&gt;)，&lt;code&gt;$0, $1, $2, …, $#, $@&lt;/code&gt;，其中类比关系如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$# ~= int argc; $@ ~= argv[]; $i ~= argv[i]; $* ~= argv[1:]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;字符串截取&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;bash中对(字符串)变量的截取是非常常见的操作，常见操作如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;abcdefghijklmnopqrstuvwxyz
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;3&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;#abc&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;#a-z&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;3&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;#d-z&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="k"&gt;${#&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="p"&gt;-3&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;#xyz - ${#var} is the len of $var.&lt;/span&gt;
+&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;fofoofooobar
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;#\*fo&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;# foofooobar 返回从左侧开始匹配&amp;#39;\*fo&amp;#39;最小位置之后的字符串；&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;##\*fo&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;# oobar 返回从左侧开始匹配&amp;#39;\*fo&amp;#39;最大位置之后的字符串；&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;%foo\*&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;# fofoo 返回从右侧开始匹配&amp;#39;fo\*&amp;#39;最小位置之前的字符串；&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;%%foo\*&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="c"&gt;# fo 返回从右侧开始匹配&amp;#39;foo\*&amp;#39;最大位置之前的字符串；&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;流程控制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;IF:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; condition &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c"&gt;# whitespace不能省；&lt;/span&gt;
+&lt;span class="k"&gt;then &lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;action
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; conditin2 &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;action2
+    .
+&lt;span class="k"&gt;else &lt;/span&gt;actionx
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;% endhighlight %&lt;span class="o"&gt;}&lt;/span&gt;
+* FOR:
+&lt;span class="o"&gt;{&lt;/span&gt;% highlight bash linenos%&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;for &lt;/span&gt;arg in &lt;span class="nv"&gt;$@&lt;/span&gt;;&lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$arg&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Bash"></category></entry><entry><title>C语言PHP扩展模板引擎Blitz加入FOREACH特性</title><link href="http://defsniky.com/posts/2013-05-28-Blitz-template-engine-added-foreach-statement.html" rel="alternate"></link><updated>2013-05-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-05-28:posts/2013-05-28-Blitz-template-engine-added-foreach-statement.html</id><summary type="html">&lt;p&gt;常用的PHP模板引擎（如&lt;a href="http://www.smarty.net/"&gt;Smarty&lt;/a&gt;）大多为PHP写成，而PHP的执行效率较低；C语言开发的PHP扩展用作模板引擎效率可以得到显著提升，&lt;a href="http://alexeyrybak.com/blitz/blitz_en.html"&gt;Blitz&lt;/a&gt;就是一个C语言开发的PHP模板引擎扩展，废话不多，先做一个简单的测试（测试代码在&lt;a href="https://github.com/sniky/Blitz-featured/blob/master/benchmark/index.php"&gt;这里&lt;/a&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="nv"&gt;$list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="nv"&gt;$alpha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;z&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="nv"&gt;$nameStr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nx"&gt;lt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)));&lt;/span&gt; &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+        &lt;span class="nv"&gt;$nameStr&lt;/span&gt; &lt;span class="o"&gt;.=&lt;/span&gt; &lt;span class="nv"&gt;$alpha&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;)];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="nb"&gt;array_push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;$nameStr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;构建一个长为1000的简单字符串数组&lt;code&gt;$list&lt;/code&gt;，字符串长5~7，然后将数组assign到模板引擎里，比较运行时间：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;blitz_render&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="k"&gt;Global&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nv"&gt;$View&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Blitz&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;index.blz&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nv"&gt;$View&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;display&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Blitz&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;list&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;smarty_render&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="k"&gt;Global&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/lib/php/Smarty/Smarty.class.php&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nv"&gt;$smarty&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Smarty&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="nv"&gt;$smarty&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Smarty&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;list&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+    &lt;span class="nv"&gt;$smarty&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;display&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;index.tpl&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;$t1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;microtime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;blitz_render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nv"&gt;$t2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;microtime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;smarty_render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nv"&gt;$t3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;microtime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Blitz used: &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nv"&gt;$t2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;$t1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ms&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Smarty used: &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nv"&gt;$t3&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;$t2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ms&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;选取几次比较结果如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Blitz used: 1.6891956329346ms
+Smarty used: 13.232946395874ms
+
+Blitz used: 3.6599636077881ms
+Smarty used: 18.430948257446ms
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;误差应该主要来源于虚构的数组&lt;code&gt;$list&lt;/code&gt;字符串长度随机，将数组长度降为10再比较：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Blitz used: 0.27894973754883ms
+Smarty used: 11.041879653931ms
+
+Blitz used: 0.52690505981445ms
+Smarty used: 11.965036392212ms
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;结果如此，大概就不需要进行显著性检验了。&lt;/p&gt;
+&lt;p&gt;另，原本的Blitz中不支持for或者foreach循环，取而代之的是block进行遍历、迭代数组，但传入模板引擎的变量必须在PHP代码中格式化成嵌套数组的形式，这对于对于简单的数组（如上例中的一维数组）是很不方便的，将其稍加改动，在Blitz中加入foreach的属性(&lt;a href="https://github.com/sniky/Blitz-featured"&gt;这里&lt;/a&gt;)。实际上Blitz(v0.8.6)设计已经相当完善，改动内容一共也只有十几行，并没有对原本结构有所改动，但是阅读6000+行C源码，理清其错综复杂的数据结构、函数调用以及神出鬼没的指针传递的确不是件容易的事。&lt;/p&gt;
+&lt;p&gt;最后，Blitz或者说C扩展确实快，其速度相当于C vs PHP，其缺点也恰恰相当于PHP vs C，无论PHP设计好与坏，开发PHP程序显然要比开发C更快速，因为它基于（集成于）C但更灵活，所以Smarty等PHP程序相较于C扩展也是类似的道理，速度'稍慢'，但灵活度更高，只在取舍。&lt;/p&gt;</summary><category term="PHP"></category><category term="C"></category></entry><entry><title>PHP与Python实现Hash比较（一）</title><link href="http://defsniky.com/posts/2013-05-18-Hash-implementation-in-PHP-vs-Python-part-1.html" rel="alternate"></link><updated>2013-05-18T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-05-18:posts/2013-05-18-Hash-implementation-in-PHP-vs-Python-part-1.html</id><summary type="html">&lt;p&gt;PHP中的array，python中的dict都是通过hash表(哈希表或散列表)实现的，或者说array与dict本身就是hash结构，本文及后续文章将分别比较PHP与python源代码中对哈希表的实现算法，一来学习其设计思想，另外可用于避免开发过程中一些可能会降低效率或易引发bug的操作。&lt;/p&gt;
+&lt;p&gt;先来PHP。一切源于PHP的内置数据类型zval(见&lt;a href="http://lxr.php.net/xref/PHP_5_4/Zend/zend.h"&gt;PHP_X_X/Zend/zend.h&lt;/a&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;union&lt;/span&gt; &lt;span class="n"&gt;_zvalue_value&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="n"&gt;lval&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;                  &lt;span class="c1"&gt;//long value&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;dval&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;                &lt;span class="c1"&gt;//double value&lt;/span&gt;
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;len&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;HashTable&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;              &lt;span class="c1"&gt;//hash table value&lt;/span&gt;
+    &lt;span class="n"&gt;zend_object_value&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;zvalue_value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;_zval_struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//Variable information&lt;/span&gt;
+    &lt;span class="n"&gt;zvalue_value&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;     &lt;span class="c1"&gt;//value&lt;/span&gt;
+    &lt;span class="n"&gt;zend_uint&lt;/span&gt; &lt;span class="n"&gt;refcount_gc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;zend_uchar&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;    &lt;span class="c1"&gt;//active type&lt;/span&gt;
+    &lt;span class="n"&gt;zend_uchar&lt;/span&gt; &lt;span class="n"&gt;is_ref_gc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中HashTable *ht即是PHP中用于表示Array类型的结构，在深究HashTable结构之前先了解哈希表的原理，在C语言中数组是通过自然数作为数组索引来存储数据的，而在PHP或python等这些语言中，哈希表是以key - value的方式存取的，要实现这一存储方式，则需要将任意可能的key对应或映射到数组或者内存的自然数序列索引上，即实现&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;index = hash(key)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;hash()即为哈希函数。理想状态下的hash()可以将任意的key映射到均匀分布且不重叠的自然数集合中，但由于key的不确定性，这显然是不可能的，因而一个好的哈希函数应该可以尽可能地避免重叠或碰撞(collisions)，而在PHP中实现这一功能的哈希函数采纳的是DJBX33A算法。源码中实现代码如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="n"&gt;ulong&lt;/span&gt; &lt;span class="nf"&gt;zend_inline_hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;register&lt;/span&gt; &lt;span class="n"&gt;ulong&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5381&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* variant with the hash unrolled eight times */&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(;&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* fallthrough... */&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* fallthrough... */&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* fallthrough... */&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* fallthrough... */&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* fallthrough... */&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* fallthrough... */&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;: &lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;hash&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;: &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;EMPTY_SWITCH_DEFAULT_CASE&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;hash&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;据其注释中所解释的来看，DJBX33A (Daniel J. Bernstein, Times 33 with Addition)算法可简单描述为&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;hash(i) = hash(i-1) * 33 + str[i]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;至于为何取33而不是其它数，解释说是对1 ~ 256进行分别进行测试后择优选择的结果，并没有理论上的支撑，而且初始的hash值为5381应该也没有什么特别特别的特别之处吧？到这里为止，首先可以确定的一条规则就是，&lt;span style="color: #3498db"&gt;在PHP中定义使用数组时key的长度以最好不要超过7为妙&lt;/span&gt;，便可省掉第一步的for循环，因而在考虑效率的前提下，道长当年所说的为了增加代码的可读性将变量名定为几十个字符甚至一句话显然是不可取的咯:P&lt;/p&gt;
+&lt;p&gt;通过巧妙的算法，hash碰撞得以减少，但是并没有完全避免(例如：&lt;a href="http://blog.codinglabs.org/articles/hash-collisions-attack-on-php.html"&gt;PHP哈希表碰撞攻击原理&lt;/a&gt;），既然冲突是不可避免的，那就只能想办法解决冲突，算法书里面对冲突的处理方案有很多，PHP采用的是&lt;a href="http://www.nowamagic.net/academy/detail/3008060g"&gt;拉链法&lt;/a&gt;，具体实现方法还是要先追寻其定义(见&lt;a href="http://lxr.php.net/xref/PHP_5_4/Zend/zend_hash.h"&gt;PHP_X_X/Zend/zend_hash.h&lt;/a&gt;)：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;bucket&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;ulong&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;                        &lt;span class="c1"&gt;//Used for numeric indexing&lt;/span&gt;
+    &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pData&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pDataPtr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pListNext&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pListLast&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pNext&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pLast&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;Bucket&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;_hashtable&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nTableSize&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nTableMask&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nNumOfElements&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ulong&lt;/span&gt; &lt;span class="n"&gt;nNextFreeElement&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;Bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pInternalPointer&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   &lt;span class="c1"&gt;//Used for element traversal&lt;/span&gt;
+    &lt;span class="n"&gt;Bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pListHead&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;Bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pListTail&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;Bucket&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;arBuckets&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;dtor_func_t&lt;/span&gt; &lt;span class="n"&gt;pDestructor&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;zend_bool&lt;/span&gt; &lt;span class="n"&gt;persistent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;unsigned&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;nApplyCount&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;zend_bool&lt;/span&gt; &lt;span class="n"&gt;bApplyProtection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="cp"&gt;#if ZEND_DEBUG&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;inconsistent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;HashTable&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最终hash表的key保存在Bucket.arKey，key长为Bucket.nKeyLength，哈希函数计算得到的哈希值存为Bucket.h，当冲突时通过引出一条静态链表来解决，其实现如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ZEND_API&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;zend_hash_exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;HashTable&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;ulong&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;uint&lt;/span&gt; &lt;span class="n"&gt;nIndex&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;Bucket&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;IS_CONSISTENT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;zend_inline_hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;nIndex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;nTableMask&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;arBuckets&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nIndex&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;arKey&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt;
+            &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;nKeyLength&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+            &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;memcmp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nKeyLength&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;pNext&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;p = p-&amp;gt;pNext即在已有元素之上开辟出新的位置存储冲突的下一个元素。至此，PHP中HashTable实现的基本思想就介绍完了，有空再把python的部分补上。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;构建动态结构体的小trick&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Bucket结构体的最后一个元素arKey被定义为char *arKey;也有看到char arKey[1]，有人解释说利用变长结构体，加上有看到注释&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;char arKey[1]; /* Must be last element */&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;更是如坠云里雾里，还以为说 arKey 必须存放 HashTable 里面 key 字符串的最后一个字符…经过一番挣扎，发现原来不是这个意思，shit！(见&lt;a href="http://stackoverflow.com/questions/599365/what-is-your-favorite-c-programming-trick"&gt;what-is-your-favorite-c-programming-trick&lt;/a&gt;)，所谓的变长结构体只是说在考虑到内存连续性条件下，为了实现结构体内部元素的动态分配，利用struct的性质，将需要动态分配的变量放在结构体最后，如此以来通过malloc动态分配给struct的内存超出结构体本身所需的部分&lt;code&gt;sizeof(struct)&lt;/code&gt;可以顺其自然地被最后一个元素所访问，从而实现了可变长的结构体，所以说，注释中的&lt;em&gt;Must be last element&lt;/em&gt;不是说存放的是key的最后一个字符，而是必须放在结构体的最后一个元素！shit again(but a good trick:P)!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://www.nowamagic.net/academy/detail/1201011"&gt;PHP哈希表结构的深入剖析&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="PHP; Python"></category></entry></feed>

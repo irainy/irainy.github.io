@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--
+            **                                                          
+             * Author:         rainy                                   
+             * Contact:        sniky.hack@gmail.com                   
+            **                                               
+    -->
+    <meta charset="utf-8" />
+    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/theme/css/styles.css">
+    <link rel="shortcut icon" href="/theme/images/fav.ico" />
+    <meta name="description" contents="Lisp学习，迭代与递归" />
+    <meta name="tags" contents="SICP" />
+    <meta name="tags" contents="Lisp" />
+    <title>Lisp初学之（二）: 线性递归 与 线性迭代</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+</head>
+
+<body id="index" class="home">
+    <div id="upper-menu-container">
+        <div id="page-menu-wrapper">
+            <ul class="main left">
+                <li>
+                    <a href="/" class="top-menu"><span class="glyphicon glyphicon-home"></span></a>
+                </li>
+                <li>
+                    <a href="#" rel="all-category" title="categories" class="top-menu">文章分类</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a title="趣味" alt="趣味" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
+                        <li role="presentation"><a title="算法" alt="算法" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="学习" alt="学习" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">1</span>]</a></li>
+                        <li role="presentation"><a title="语言" alt="语言" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">5</span>]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/archives.html" class="top-menu">归档</a>
+                </li>
+                <li>
+                    <a href="" class="top-menu" alt="about me" title="about me">关于</a>
+                </li>
+            </ul>
+            
+            <ul class="main right">
+                <li>
+                    <a href="/atom.xml" title="rss" class="top-menu"><i class="fa fa-rss"></i></a>
+                <li>
+                    <a href="/" title="find-me" class="top-menu">找到我</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="https://github.com/sniky" alt="github" title="github"><i class="fa fa-github"></i> Github</a></li>
+                        <li><a href="http://weibo.com/myaplysia" alt="weibo" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454" alt="Google-plus" title="Google plus page"><i class="fa fa-google-plus"></i> Google+</a></li>
+                        <li><a href="#/pages/donate.html" alt="donate me" title="donate me"><i class="fa fa-btc"></i> Donate</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://github.com/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/avatar.jpeg" class="img-avatar" title="avatar" alt="avatar" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <div id="content-wrapper">
+            <div class="article-container">
+<section id="content" class="body">
+  <header>
+    <h3 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to Lisp初学之（二）: 线性递归 与 线性迭代">Lisp初学之（二）: 线性递归 与 线性迭代</a></h3>
+ 
+  </header>
+  <footer class="post-info">
+                    <span class="glyphicon glyphicon-user"></span> rainy
+                    · <span class="glyphicon glyphicon-calendar"></span> 2013.11.09
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
+                    · <span class="glyphicon glyphicon-tags"></span> SICP,Lisp
+              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p><code>(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))</code></p>
+<p>在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP <a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1">1.2.1  Linear Recursion and Iteration</a>），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、<code>for/while/do</code>的是循环迭代，结果就触礁了。</p>
+<p>仍然从考虑阶乘函数开始：</p>
+<p><img alt="公式" src="http://latex.codecogs.com/svg.latex?n%21%20%3D%20n%20%5Ccdot%20%28n%20-%201%29%20%5Ccdot%20%28n%20-%202%29%20%5Ccdot%20%5Ccdot%20%5Ccdot%203%20%5Ccdot%202%5Ccdot%201" title="公式" /></p>
+<p>用语言描述阶乘的定义为：当<code>n=1</code>时，<code>n!=1</code>；否则<code>n!=n*(n-1)!</code>。很自然地，将定义转换成 Lisp 代码：</p>
+<div class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">fac</span> <span class="p">(</span><span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="mi">1</span>
+        <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nv">fac</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>单从语法形式上(syntactic)看上面的代码，<code>(fac n)</code>在定义时调用了它自身，这一语法形式上的事实我们称之为“递归过程(recursive procedure)”；而从实际的计算过程来看，也就是说看<code>(fac n)</code>在实际执行的过程中做了那些计算，结果是只有当调用到<code>(fac 1)</code>时才返回了明确的结果 1，在此之前，<code>(fac (- n 1))</code>只是作为展开过程中的助记符，推进程序的前进，如下图：</p>
+<p><img alt="递归" src="http://sniky.github.io/extra/sicp/ch1-Z-G-7.gif" title="递归" /></p>
+<p><code>(fac n)</code>产生了一个递归的计算过程(recursive process)，为了完成这一计算过程，它在形式上调用了自身，在计算过程中将自身作为推进（展开）计算的标识符，作为计算代价，我们不得不记住展开过程中所有<code>(fac (- n 1))</code>经过的地方，直到<code>(fac 1)</code>给出明确的返回值，再沿原路返回回去，得到<code>(fac n)</code>的值；又因为阶乘计算过程中，我们所要记住的<code>(fac (- n 1))</code>经过的路径与 n 的大小存在线性相关，因而称这样的计算过程为“<span class='emp'>线性递归过程(Linear Recursive Process)</span>”。</p>
+<p>再考虑迭代的算法，所谓迭代，在计算阶乘的过程中可以看做是对 <code>n</code> 与 <code>(n - 1)</code> 的乘积在 <code>n = 1, 2, ..., n</code> 的范围内重复、累积：</p>
+<div class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">fac-iter</span> <span class="p">(</span><span class="nv">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">defun</span> <span class="nv">iter</span> <span class="p">(</span><span class="nv">i</span> <span class="nv">product</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">i</span> <span class="nv">n</span><span class="p">)</span>
+            <span class="nv">product</span>
+            <span class="p">(</span><span class="nv">iter</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">product</span> <span class="nv">i</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="p">(</span><span class="nv">iter</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>上面的程序从语法形式上来看，仍然是一个递归的过程：<code>(iter i product)</code> 内部调用了 <code>(iter (+ i 1) (* product i))</code>，但是从实际的计算过程来看，我们不需要像递归计算那样记住整个递归过程的推进路线，而是通过迭代更新每次调用时所用的参数，这样计算过程中我们需要记住的只有迭代计数变量 <code>i</code>、迭代乘积 <code>product</code>、以及 <code>n</code>；又因为阶乘计算过程中，所用的计算步骤或者所要记住的迭代变量的迭代次数与 n 的大小线性相关，因而称这样的计算过程为“<span class="emp">线性迭代过程(Linear Iterative Process)</span>”。这种用递归的过程实现的迭代的计算过程也称为<span class="emp">尾递归</span>。</p>
+<p><strong>总结</strong></p>
+<p>总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。</p>
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html">
+            <i class="fa fa-arrow-circle-o-left"></i> SICP 英文第二版
+        </a>
+    </li>
+    <li class="next">
+      <a href="http://defsniky.com/posts/2013-11-17-raspberry-pi-in-practice-errors.html">
+        Raspberry Pi 实作记录 <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
+      </a>
+    </li>
+</ul>
+<div style="clear: both"></div>
+</div>
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<div style="clear: both"></div>
+  </section>
+
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <footer id="contentinfo" class="body">
+        <ul>
+            <li>Author & Theme designer <span class="me">雨生</span></li>
+            <li>Generated by <a title="pelican" alt="pelican" href="http://blog.getpelican.com/">Pelican</a></li>
+            <li>Sponsored by <a title="薛老板" alt="薛老板" href="javascript:alert('This is for you, dear Xue :)')">颖惠</a></li>
+        </ul>
+    </footer><!-- /#contentinfo -->
+    <!-- BAIDU STATISTIC -->
+    <script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5ec19c137dfa6ccc2e4f9c6d6fba3f4a' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</body>
+</html>
