@@ -392,3 +392,6 @@ ul.neighbors li a:hover {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+div.wumii-footer {
+  display: none;
+}
