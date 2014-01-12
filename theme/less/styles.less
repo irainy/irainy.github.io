@@ -43,6 +43,7 @@
 	-o-box-shadow:		@string;
 }
 .inline-link (@padding){
+	padding: @padding;
 	text-decoration: none;
 	&:hover {
 		padding: @padding;
@@ -192,7 +193,7 @@ section#content {
 		}
 	}
 }
-h3.entry-title {
+h2.entry-title {
 	margin-bottom: 25px;
 	a {
 		text-decoration: none;
@@ -237,6 +238,7 @@ div.entry-content {
 	}
 	h3 {
 		padding: 16px 0px;
+		font-size: 20px;
 	}
 	a {
 		.inline-link(1px);

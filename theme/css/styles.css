@@ -182,6 +182,7 @@ section#content {
   padding-bottom: 25px;
 }
 section#content footer a {
+  padding: 1px;
   text-decoration: none;
 }
 section#content footer a:hover {
@@ -197,10 +198,10 @@ section#content footer a:hover {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-h3.entry-title {
+h2.entry-title {
   margin-bottom: 25px;
 }
-h3.entry-title a {
+h2.entry-title a {
   text-decoration: none;
 }
 article.hentry {
@@ -211,6 +212,7 @@ article.hentry footer {
   margin-bottom: 8px;
 }
 article.hentry footer a {
+  padding: 1px;
   text-decoration: none;
 }
 article.hentry footer a:hover {
@@ -261,8 +263,10 @@ div.entry-content code {
 }
 div.entry-content h3 {
   padding: 16px 0px;
+  font-size: 20px;
 }
 div.entry-content a {
+  padding: 1px;
   text-decoration: none;
 }
 div.entry-content a:hover {
