@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/index.html</loc>
-<lastmod>2014-01-14T13:27:36-00:00</lastmod>
+<lastmod>2014-01-14T13:32:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://defsniky.com/archives.html</loc>
-<lastmod>2014-01-14T13:27:36-00:00</lastmod>
+<lastmod>2014-01-14T13:32:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://defsniky.com/tags.html</loc>
-<lastmod>2014-01-14T13:27:36-00:00</lastmod>
+<lastmod>2014-01-14T13:32:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://defsniky.com/categories.html</loc>
-<lastmod>2014-01-14T13:27:36-00:00</lastmod>
+<lastmod>2014-01-14T13:32:56-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://defsniky.com/posts/2013-12-26-password-statistic.html</loc>
+<lastmod>2013-12-26T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -85,6 +92,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2013-05-18T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
+</url>
+
+<url>
+<loc>http://defsniky.com/category/qu-wei.html</loc>
+<lastmod>2013-12-26T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
 </url>
 
 <url>
@@ -165,6 +179,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://defsniky.com/tag/fun.html</loc>
+<lastmod>2013-12-26T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://defsniky.com/tag/lisp.html</loc>
 <lastmod>2013-11-09T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -187,7 +208,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/author/rainy.html</loc>
-<lastmod>2013-12-09T00:00:00-00:00</lastmod>
+<lastmod>2013-12-26T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

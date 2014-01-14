@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var options = {
+          title: 'Original Password Statistic',
+          is3D: true,
+          pieSliceTextStyle: {color: 'black'},
+        };
+
+        var data_raw = google.visualization.arrayToDataTable([
+          ['Password', 'Count'],
+          ['123456', 2774],
+          ['jjjjjjjjj', 913],
+          ['dddddd', 858],
+          ['jjjjjjjj', 718],
+          ['jjjjjjjjjj', 708],
+          ['111111', 611],
+          ['ssssss', 441],
+          ['123456789', 407],
+          ['jjjjjjj', 358],
+          ['000000', 337],
+          ['jjjjjjjjjjj', 336],
+          ['123123', 178],
+          ['jjjjjjjjjjjj', 160],
+          ['5201314', 134],
+          ['jjjjjj', 131],
+          ['cccccc', 122],
+          ['666666', 110],
+          ['12345678', 104],
+          ['888888', 101]
+        ]);
+        var data_sum = google.visualization.arrayToDataTable([
+          ['Password', 'Count'],
+          ['j+', 3413],
+          ['123456', 2774],
+          ['dddddd', 858],
+          ['111111', 611],
+          ['ssssss', 441],
+          ['123456789', 407],
+          ['000000', 337],
+          ['123123', 178],
+          ['5201314', 134],
+          ['cccccc', 122],
+          ['666666', 110],
+          ['12345678', 104],
+          ['888888', 101]
+        ]);
+        var chart = new google.visualization.PieChart(document.getElementById('pwd_raw'));
+        chart.draw(data_raw, options);
+        options['title'] = 'Password Statistic';
+        var chart_sum = new google.visualization.PieChart(document.getElementById('pwd_sum'));
+        chart_sum.draw(data_sum, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="pwd_raw" style="width: 900px; height: 800px;"></div>
+    <div id="pwd_sum" style="width: 900px; height: 800px;"></div>
+  </body>
+</html>
