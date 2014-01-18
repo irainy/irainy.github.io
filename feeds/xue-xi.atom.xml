@@ -1,4 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/xue-xi.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2013-10-28T00:00:00+08:00</updated><entry><title>SICP 英文第二版</title><link href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html" rel="alternate"></link><updated>2013-10-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-10-28:posts/2013-10-28-sicp-online-with-reader-friendly-style.html</id><summary type="html">&lt;p&gt;&lt;a href="/projects/sicp/book-Z-H-4.html"&gt;SICP full-text&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/xue-xi.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-01-16T00:00:00+08:00</updated><entry><title>关于编码的一切</title><link href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="alternate"></link><updated>2014-01-16T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-16:posts/2014-01-16-All-about-encoding.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;乱码&lt;/strong&gt;与&lt;strong&gt;时间格式&lt;/strong&gt;错误如同矗立在所有程序员面前的太行王屋两座大山。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;编码错误或乱码几乎是每个人都会遇到的问题，比如用 Python 抓取网页进行正则分析之后发现在原来网页上正常的文字抓取下来之后变成乱码了，或者是存进 MySQL 之后变成乱码了，又或者本来在编辑器里面编辑得好好的输出之后又是乱码……要命的是每次遇到乱码问题，经过一番痛苦挣扎之后终于解决了，之后总是还会遇到新的乱码问题，这才是真正的“子子孙孙无穷尽也”，本文试图从头到尾将编码问题彻底阐述清楚，至少以后再次遇到&lt;code&gt;烫烫烫烫烫烫烫烫烫&lt;/code&gt;的问题能够有迹可循。&lt;/p&gt;
+&lt;h3&gt;1. 什么是编码&lt;/h3&gt;
+&lt;p&gt;中文 &lt;code&gt;雨&lt;/code&gt; 翻译成英文变为 &lt;code&gt;rain&lt;/code&gt; ，我们可以说是将中文这种以&lt;strong&gt;横竖撇捺&lt;/strong&gt;等简单笔画为基本元素的编码形式转换成了英文这种以 &lt;strong&gt;&lt;code&gt;a-z&lt;/code&gt;&lt;/strong&gt; 26个英文字母为基本元素的编码形式，同样在计算机的世界里面，一切事物都是由 0 和 1 这两个基本元素编码而成的，想象一下显示器上面所呈现出来的所有的精美绝伦的影像以及音响里传出的所有美妙乐章都源自于 0 和 1 这两个简单数字的复杂组合。&lt;/p&gt;
+&lt;p&gt;编码问题从理论上来说也许并不复杂，只是从一种符号系统到另外一种符号系统之间的映射，但是在实际操作或者实施编码的过程中往往会出现很多问题(见第4部分)，我们需要将人类的意图翻译成机器能够理解的二进制编码，在计算机内部经过一系列的加工处理之后，又将这些二进制的信息重新编码成人类可以理解的自然语言（中文或者是英文甚至是图像、影音），对于英文来说，由于其语言构成的规律特性，只需要将其每一个元素（字母或简单符号）与二进制数进行一一对应，然后按照顺序排列就可以得到相应的单词、语句，因而简单的&lt;a href="http://zh.wikipedia.org/wiki/ASCII"&gt;ASCII编码系统&lt;/a&gt;已经足够应付，然而为了表示更多的语系或符号，我们就不得不 ASCII编码系统进行扩充，以容纳或者表示更多的语言符号，而乱码的问题也大多产生与此，接下来继续看一下计算机是如何对更多的语言符号进行编码的。&lt;/p&gt;
+&lt;h3&gt;2. 如何编码&lt;/h3&gt;
+&lt;p&gt;很巧的是编码格式与时间格式等问题以及许多计算机相关的问题都避免不了与&lt;strong&gt;格式&lt;/strong&gt;相关，统一的格式源自于相同的规则或者说标准(Standard)。ASCII第一次以规范标准的型态发表是在1967年，最后一次更新则是在1986年，至今为止共定义了128个字符(&lt;a href="http://zh.wikipedia.org/wiki/Ascii" title="wikipedia"&gt;Wiki&lt;/a&gt;)，在ASCII编码中每一个字符需要8位来表示，而8位一共可以编码&lt;code&gt;2**8 = 256&lt;/code&gt;个字符，这显然不足以将全世界各种不同语系、各种不同的符号涵盖在内，因而就需要将其进行扩展，也就是我们现在最常用的Unicode，现在 Unicode 仍然在不断增加，每次增加都会有新的字符被编码进来，Unicode目前普遍采用的是UCS-2,它用两个字节来编码一个字符，每个字符占用2个字节，这样理论上一共最多可以表示&lt;code&gt;2**16 = 65536&lt;/code&gt;个字符，其中中文在Unicode表中所对应的二进制数字（转换成十六进制后）的范围是：&lt;code&gt;4E00 - 9FFF&lt;/code&gt;中日韩统一表意文字(CJK Unified Ideographs)。ASCII 与 Unicode 的编码方式就如同 C 语言中 &lt;code&gt;char&lt;/code&gt; 类型与 &lt;code&gt;int&lt;/code&gt; 类型的区别一样。&lt;/p&gt;
+&lt;h3&gt;3. Unicode 与 UTF-8&lt;/h3&gt;
+&lt;p&gt;Unicode是一种编码标准，比如说它规定汉字&lt;code&gt;雨&lt;/code&gt;对应的数字大小为&lt;code&gt;0x96e8&lt;/code&gt;（十进制38632），因而从本质上来说Unicode只是一张字符表(code table)，但是具体用什么方法来实现这种编码的转换，也有许多不同的选择，常见的UTF-8(8-bit Unicode Transformation Format)即是其中一种转换方法。(&lt;a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html#unicode"&gt;UTF-8 and Unicode FAQ&lt;/a&gt;)，其工作方式如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="UTF-8" src="/theme/images/blog/utf-8.png" title="UTF-8" /&gt;&lt;/p&gt;
+&lt;h3&gt;4. 实现过程中的各个环节&lt;/h3&gt;
+&lt;p&gt;字符从键盘输入到显示器显示出来，一般会经历下面几个过程：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="encoding-decoding-flow" src="/theme/images/blog/encoding-decoding-flow.png" title="Encoding-Decoding-FLow" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;首先是编码过程，这一过程与所用的&lt;strong&gt;编辑器&lt;/strong&gt;相关，以 vim 为例，当以 ASCII 的格式保存文件时，如果文件中含有 ASCII 字符之外的字符，则在保存的时候就会报错，因而需要将 vim 设置为 UTF-8 的编码格式（以UTF-8的方法保存、读取文件），方法如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#file ~/.vimrc&lt;/span&gt;
+&lt;span class="nb"&gt;set &lt;/span&gt;&lt;span class="nv"&gt;fileencoding&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;utf-8
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;大多数编辑器中出现乱码的问题多是由于保存格式的原因所导致，因此一般可以通过改变配置中的编码格式（如设为UTF-8）修复。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对程序员来来说更关心的是在特定编程环境下，字符的编码是如何被加工处理的，下面就以 Python 2.7.5 为例加以解释。Python 2.x 中默认的编码格式为 ASCII：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getdefaultencoding&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Output&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;UTF-8的编码方式规定，Unicode范围由U+0800至U+FFFF的字符（如&lt;code&gt;雨&lt;/code&gt;）使用三个字节进行编码，其编码方式如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;U+00000800 – U+0000FFFF &amp;lt;-&amp;gt; 1110xxxx 10xxxxxx 10xxxxxx
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此一来，我们便知道会出现'\xe9\x9b\xa8'这种奇怪的乱码的原因是什么了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;rain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;雨&amp;#39;&lt;/span&gt;
+rain
+//Output &amp;gt;&amp;gt;&amp;gt; &lt;span class="s1"&gt;&amp;#39;\xe9\x9b\xa8&amp;#39;&lt;/span&gt;
+
+rain.decode&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+//Output &amp;gt;&amp;gt;&amp;gt; u&lt;span class="s1"&gt;&amp;#39;\u96e8&amp;#39;&lt;/span&gt;
+
+rain.encode&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+//Raise error:
+&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;    Traceback (most recent call last):&lt;/span&gt;
+&lt;span class="s2"&gt;    File &amp;quot;&lt;/span&gt;&amp;lt;stdin&amp;gt;&lt;span class="s2"&gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;&lt;/span&gt;
+&lt;span class="s2"&gt;    UnicodeDecodeError: &amp;#39;ascii&amp;#39; codec can&amp;#39;t decode byte 0xe9 in position 0: ordinal not in range(128)&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;出现上面编码错误的原因还要从UTF-8的编码方法中找，UTF-8使用3个字节对&lt;code&gt;雨&lt;/code&gt;字进行编码，得到的Unicode码为应为'\u96e8'，而其对应的UTF-8数字却为'e99ba8'（见上面UTF-8的编码方式中的xxxx），而这三个字节在 ASCII 中则被表示为'\xe9\x9b\xa8'，因此这一编码重新以UTF-8进行解码&lt;code&gt;rain.decode('utf8')&lt;/code&gt;仍然可以得到正确的Unicode，但是在ASCII环境下进行UTF-8编码则会报错，因为已经超出了ASCII的编码范围。解决这一问题的方法就是设定默认的编码方式为UTF-8：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="nb"&gt;reload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&amp;#39;&amp;#39;Python 运行时会检查环境设置并删除setdefaultencoding方法，因而需要reload(sys)&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setdefaultencoding&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最后一步是关于解码的过程，即将计算机存储的二进制数转换成屏幕上显示出来的各式各样的字符，这一过程中产生的乱码一方面可能是由于系统不支持对某些字体的渲染甚至对于较旧的系统不支持某些特殊字符的显示，另一方面仍然可能是所配置的编码格式的问题，尝试将编码格式设置为UTF-8或许解决问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;总结&lt;/h3&gt;
+&lt;p&gt;本文试图理清计算机中关于编码的一系列概念，如 ASCII、Unicode、UTF-8等，并试图从编码及解码的各个层面找出可能出现乱码的原因，为以后能够更快地定位乱码错误原因提供参考。&lt;/p&gt;</summary><category term="Encoding"></category><category term="Python"></category></entry><entry><title>SICP 英文第二版</title><link href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html" rel="alternate"></link><updated>2013-10-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-10-28:posts/2013-10-28-sicp-online-with-reader-friendly-style.html</id><summary type="html">&lt;p&gt;&lt;a href="/projects/sicp/book-Z-H-4.html"&gt;SICP full-text&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;this is a copy from &lt;a href="http://mitpress.mit.edu/sicp/"&gt;here&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc/3.0/" title="licenses"&gt;&lt;img alt="licenses" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /&gt;&lt;/a&gt;&lt;/p&gt;</summary><category term="SICP"></category></entry></feed>

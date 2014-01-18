@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--
+            **                                                          
+             * Author:         rainy                                   
+             * Contact:        sniky.hack@gmail.com                   
+            **                                               
+    -->
+    <meta charset="utf-8" />
+    <meta name="description" content="Learning | Sharing"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta property="og:site_name" content="It's rainy"/>
+    <meta name="generator" content="Pelican" />
+    <meta name="author" content="rainy" />
+    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
+    <link rel="shortcut icon" href="/theme/images/fav.ico" />
+    <meta name="keywords" contents="编码，乱码" />
+    <meta name="description" contents="理清计算机编码的内部原理，找到编程过程中经常出现的乱码问题的根源所在，为解决乱码问题提供思路。" />
+    <meta name="tags" contents="Encoding" />
+    <meta name="tags" contents="Python" />
+    <title>关于编码的一切</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="canonical" href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" />
+</head>
+
+<body id="index" class="home">
+    <div id="upper-menu-container">
+        <div id="page-menu-wrapper">
+            <ul class="main left">
+                <li>
+                    <a href="/" class="top-menu"><span class="glyphicon glyphicon-home"></span></a>
+                </li>
+                <li>
+                    <a href="#" title="categories" class="top-menu">文章分类</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">1</span>]</a></li>
+                        <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">5</span>]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/archives.html" class="top-menu" rel="index" >归档</a>
+                </li>
+                <li class="about-me">
+                    <a href="" class="top-menu" rel="author" title="about me">关于</a>
+                </li>
+            </ul>
+            
+            <ul class="main right">
+                <li>
+                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss"></i></a>
+                <li>
+                    <a href="/" title="find-me" class="top-menu" rel="nofollow" >找到我</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="https://github.com/sniky" rel="nofollow" title="github"><i class="fa fa-github"></i> Github</a></li>
+                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="Google plus page"><i class="fa fa-google-plus"></i> Google+</a></li>
+                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://github.com/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/avatar.jpeg" class="img-avatar" title="avatar" alt="avatar" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="site-logo">
+        <span><a href="http://defsniky.com">It's rainy</a></span>
+    </div>
+    <div id="main-wrapper">
+        <div id="content-wrapper">
+            <div class="article-container">
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to 关于编码的一切">关于编码的一切</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+                    <span class="glyphicon glyphicon-user"></span> rainy
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.01.16
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/xue-xi.html" rel="category" title="category:学习" > 学习</a>
+                    · <span class="glyphicon glyphicon-tags"></span> Encoding,Python
+              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <blockquote>
+<p><strong>乱码</strong>与<strong>时间格式</strong>错误如同矗立在所有程序员面前的太行王屋两座大山。</p>
+</blockquote>
+<p>编码错误或乱码几乎是每个人都会遇到的问题，比如用 Python 抓取网页进行正则分析之后发现在原来网页上正常的文字抓取下来之后变成乱码了，或者是存进 MySQL 之后变成乱码了，又或者本来在编辑器里面编辑得好好的输出之后又是乱码……要命的是每次遇到乱码问题，经过一番痛苦挣扎之后终于解决了，之后总是还会遇到新的乱码问题，这才是真正的“子子孙孙无穷尽也”，本文试图从头到尾将编码问题彻底阐述清楚，至少以后再次遇到<code>烫烫烫烫烫烫烫烫烫</code>的问题能够有迹可循。</p>
+<h3>1. 什么是编码</h3>
+<p>中文 <code>雨</code> 翻译成英文变为 <code>rain</code> ，我们可以说是将中文这种以<strong>横竖撇捺</strong>等简单笔画为基本元素的编码形式转换成了英文这种以 <strong><code>a-z</code></strong> 26个英文字母为基本元素的编码形式，同样在计算机的世界里面，一切事物都是由 0 和 1 这两个基本元素编码而成的，想象一下显示器上面所呈现出来的所有的精美绝伦的影像以及音响里传出的所有美妙乐章都源自于 0 和 1 这两个简单数字的复杂组合。</p>
+<p>编码问题从理论上来说也许并不复杂，只是从一种符号系统到另外一种符号系统之间的映射，但是在实际操作或者实施编码的过程中往往会出现很多问题(见第4部分)，我们需要将人类的意图翻译成机器能够理解的二进制编码，在计算机内部经过一系列的加工处理之后，又将这些二进制的信息重新编码成人类可以理解的自然语言（中文或者是英文甚至是图像、影音），对于英文来说，由于其语言构成的规律特性，只需要将其每一个元素（字母或简单符号）与二进制数进行一一对应，然后按照顺序排列就可以得到相应的单词、语句，因而简单的<a href="http://zh.wikipedia.org/wiki/ASCII">ASCII编码系统</a>已经足够应付，然而为了表示更多的语系或符号，我们就不得不 ASCII编码系统进行扩充，以容纳或者表示更多的语言符号，而乱码的问题也大多产生与此，接下来继续看一下计算机是如何对更多的语言符号进行编码的。</p>
+<h3>2. 如何编码</h3>
+<p>很巧的是编码格式与时间格式等问题以及许多计算机相关的问题都避免不了与<strong>格式</strong>相关，统一的格式源自于相同的规则或者说标准(Standard)。ASCII第一次以规范标准的型态发表是在1967年，最后一次更新则是在1986年，至今为止共定义了128个字符(<a href="http://zh.wikipedia.org/wiki/Ascii" title="wikipedia">Wiki</a>)，在ASCII编码中每一个字符需要8位来表示，而8位一共可以编码<code>2**8 = 256</code>个字符，这显然不足以将全世界各种不同语系、各种不同的符号涵盖在内，因而就需要将其进行扩展，也就是我们现在最常用的Unicode，现在 Unicode 仍然在不断增加，每次增加都会有新的字符被编码进来，Unicode目前普遍采用的是UCS-2,它用两个字节来编码一个字符，每个字符占用2个字节，这样理论上一共最多可以表示<code>2**16 = 65536</code>个字符，其中中文在Unicode表中所对应的二进制数字（转换成十六进制后）的范围是：<code>4E00 - 9FFF</code>中日韩统一表意文字(CJK Unified Ideographs)。ASCII 与 Unicode 的编码方式就如同 C 语言中 <code>char</code> 类型与 <code>int</code> 类型的区别一样。</p>
+<h3>3. Unicode 与 UTF-8</h3>
+<p>Unicode是一种编码标准，比如说它规定汉字<code>雨</code>对应的数字大小为<code>0x96e8</code>（十进制38632），因而从本质上来说Unicode只是一张字符表(code table)，但是具体用什么方法来实现这种编码的转换，也有许多不同的选择，常见的UTF-8(8-bit Unicode Transformation Format)即是其中一种转换方法。(<a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html#unicode">UTF-8 and Unicode FAQ</a>)，其工作方式如下图所示：</p>
+<p><img alt="UTF-8" src="/theme/images/blog/utf-8.png" title="UTF-8" /></p>
+<h3>4. 实现过程中的各个环节</h3>
+<p>字符从键盘输入到显示器显示出来，一般会经历下面几个过程：</p>
+<p><img alt="encoding-decoding-flow" src="/theme/images/blog/encoding-decoding-flow.png" title="Encoding-Decoding-FLow" /></p>
+<ul>
+<li>
+<p>首先是编码过程，这一过程与所用的<strong>编辑器</strong>相关，以 vim 为例，当以 ASCII 的格式保存文件时，如果文件中含有 ASCII 字符之外的字符，则在保存的时候就会报错，因而需要将 vim 设置为 UTF-8 的编码格式（以UTF-8的方法保存、读取文件），方法如下：</p>
+<div class="highlight"><pre><span class="c">#file ~/.vimrc</span>
+<span class="nb">set </span><span class="nv">fileencoding</span><span class="o">=</span>utf-8
+</pre></div>
+
+
+<p>大多数编辑器中出现乱码的问题多是由于保存格式的原因所导致，因此一般可以通过改变配置中的编码格式（如设为UTF-8）修复。</p>
+</li>
+<li>
+<p>对程序员来来说更关心的是在特定编程环境下，字符的编码是如何被加工处理的，下面就以 Python 2.7.5 为例加以解释。Python 2.x 中默认的编码格式为 ASCII：</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">getdefaultencoding</span><span class="p">()</span>
+<span class="o">//</span><span class="n">Output</span> <span class="o">&gt;&gt;&gt;</span> <span class="s">&#39;ascii&#39;</span>
+</pre></div>
+
+
+<p>UTF-8的编码方式规定，Unicode范围由U+0800至U+FFFF的字符（如<code>雨</code>）使用三个字节进行编码，其编码方式如下：</p>
+<div class="highlight"><pre>U+00000800 – U+0000FFFF &lt;-&gt; 1110xxxx 10xxxxxx 10xxxxxx
+</pre></div>
+
+
+<p>如此一来，我们便知道会出现'\xe9\x9b\xa8'这种奇怪的乱码的原因是什么了：</p>
+<div class="highlight"><pre><span class="nv">rain</span> <span class="o">=</span> <span class="s1">&#39;雨&#39;</span>
+rain
+//Output &gt;&gt;&gt; <span class="s1">&#39;\xe9\x9b\xa8&#39;</span>
+
+rain.decode<span class="o">(</span><span class="s1">&#39;utf8&#39;</span><span class="o">)</span>
+//Output &gt;&gt;&gt; u<span class="s1">&#39;\u96e8&#39;</span>
+
+rain.encode<span class="o">(</span><span class="s1">&#39;utf8&#39;</span><span class="o">)</span>
+//Raise error:
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Traceback (most recent call last):</span>
+<span class="s2">    File &quot;</span>&lt;stdin&gt;<span class="s2">&quot;, line 1, in &lt;module&gt;</span>
+<span class="s2">    UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe9 in position 0: ordinal not in range(128)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+
+
+<p>出现上面编码错误的原因还要从UTF-8的编码方法中找，UTF-8使用3个字节对<code>雨</code>字进行编码，得到的Unicode码为应为'\u96e8'，而其对应的UTF-8数字却为'e99ba8'（见上面UTF-8的编码方式中的xxxx），而这三个字节在 ASCII 中则被表示为'\xe9\x9b\xa8'，因此这一编码重新以UTF-8进行解码<code>rain.decode('utf8')</code>仍然可以得到正确的Unicode，但是在ASCII环境下进行UTF-8编码则会报错，因为已经超出了ASCII的编码范围。解决这一问题的方法就是设定默认的编码方式为UTF-8：</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span><span class="s">&#39;&#39;&#39;Python 运行时会检查环境设置并删除setdefaultencoding方法，因而需要reload(sys)&#39;&#39;&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>最后一步是关于解码的过程，即将计算机存储的二进制数转换成屏幕上显示出来的各式各样的字符，这一过程中产生的乱码一方面可能是由于系统不支持对某些字体的渲染甚至对于较旧的系统不支持某些特殊字符的显示，另一方面仍然可能是所配置的编码格式的问题，尝试将编码格式设置为UTF-8或许解决问题。</p>
+</li>
+</ul>
+<h3>总结</h3>
+<p>本文试图理清计算机中关于编码的一系列概念，如 ASCII、Unicode、UTF-8等，并试图从编码及解码的各个层面找出可能出现乱码的原因，为以后能够更快地定位乱码错误原因提供参考。</p>
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2013-12-26-password-statistic.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> 你的密码是什么？
+        </a>
+    </li>
+    <li class="next">
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
+    </li>
+</ul>
+<div style="clear: both"></div>
+</div>
+<script type="text/javascript" id="wumiiRelatedItems"></script>
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script type="text/javascript">
+	var wumiiPermaLink = "http://defsniky.com/posts/2014-01-16-All-about-encoding.html"; 
+	var wumiiTitle = "关于编码的一切"; 
+	var wumiiTags = "Encoding,Python"; 
+	var wumiiCategories = ["学习"]; 
+	var wumiiSitePrefix = "http://defsniky.com/";
+	var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
+</script>
+<script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
+<a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
+<img src="http://static.wumii.cn/images/pixel.png" alt="无觅关联推荐，快速提升流量" style="border:0;padding:0;margin:0;" />
+</a>
+<div style="clear: both"></div>
+</section>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <footer id="contentinfo" class="body">
+        <ul>
+            <li>Author & Theme designer <span class="me">雨生</span></li>
+            <li>Generated by <a title="pelican" rel="nofollow" href="http://blog.getpelican.com/">Pelican</a></li>
+            <li>Sponsored by <a title="薛老板" rel="nofollow" href="javascript:alert('This is for you, dear Xue :)')">颖惠</a></li>
+        </ul>
+    </footer><!-- /#contentinfo -->
+    <!-- BAIDU STATISTIC -->
+    <script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5ec19c137dfa6ccc2e4f9c6d6fba3f4a' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</body>
+</html>
