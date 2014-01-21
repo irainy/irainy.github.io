@@ -408,6 +408,12 @@ ul.neighbors li a:hover {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+div.asset-footer {
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #f6f8f8;
+}
 @media all and (max-width: 900px) {
   ul.right {
     display: none;
