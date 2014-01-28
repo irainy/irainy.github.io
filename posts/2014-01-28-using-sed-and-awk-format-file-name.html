@@ -19,13 +19,14 @@
     <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
     <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
     <link rel="shortcut icon" href="/theme/images/fav.ico" />
-    <meta name="description" contents="Lisp学习，迭代与递归" />
-    <meta name="tags" contents="SICP" />
-    <meta name="tags" contents="Lisp" />
-    <title>Lisp初学之（二）: 线性递归 与 线性迭代</title>
+    <meta name="description" contents="根据文题及发表时间重命名后，不同的出处的文档标题格式各异，且各种符号不一而足，因而需要按照需求统一格式，下面引入 sed 与 awk 的解决方案，`一行代码`解决问题`" />
+    <meta name="tags" contents="Sed" />
+    <meta name="tags" contents="Awk" />
+    <meta name="tags" contents="FUN" />
+    <title>用sed与awk整理文件名</title>
     <link href="/theme/css/syntax.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-    <link rel="canonical" href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html" />
+    <link rel="canonical" href="http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html" />
 </head>
 
 <body id="index" class="home">
@@ -80,70 +81,82 @@
   <header>
     <h2 class="entry-title">
       <a href="#" rel="bookmark"
-         title="Permalink to Lisp初学之（二）: 线性递归 与 线性迭代">Lisp初学之（二）: 线性递归 与 线性迭代</a></h2>
+         title="Permalink to 用sed与awk整理文件名">用sed与awk整理文件名</a></h2>
  
   </header>
   <footer class="post-info">
                     <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2013.11.09
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
-                    · <span class="glyphicon glyphicon-tags"></span> SICP,Lisp
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.01.28
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/qu-wei.html" rel="category" title="category:趣味" > 趣味</a>
+                    · <span class="glyphicon glyphicon-tags"></span> Sed,Awk,FUN
               </footer><!-- /.post-info -->
   <div class="entry-content">
-    <p><code>(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))</code></p>
-<p>在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP <a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1">1.2.1  Linear Recursion and Iteration</a>），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、<code>for/while/do</code>的是循环迭代，结果就触礁了。</p>
-<p>仍然从考虑阶乘函数开始：</p>
-<p><img alt="公式" src="http://latex.codecogs.com/svg.latex?n%21%20%3D%20n%20%5Ccdot%20%28n%20-%201%29%20%5Ccdot%20%28n%20-%202%29%20%5Ccdot%20%5Ccdot%20%5Ccdot%203%20%5Ccdot%202%5Ccdot%201" title="公式" /></p>
-<p>用语言描述阶乘的定义为：当<code>n=1</code>时，<code>n!=1</code>；否则<code>n!=n*(n-1)!</code>。很自然地，将定义转换成 Lisp 代码：</p>
-<div class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">fac</span> <span class="p">(</span><span class="nv">n</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="mi">1</span>
-        <span class="p">(</span><span class="nb">*</span> <span class="nv">n</span> <span class="p">(</span><span class="nv">fac</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+    <h3>1. 需求</h3>
+<blockquote>
+<p>将文件名统一整理成如下格式：</p>
+<p>1)文件名中只允许出现英文字母、数字以及短划线；</p>
+<p>2)年份开头，并以短划线连接文件名，如：2014-Title of File.pdf；</p>
+<p>3)四个字母及以上或短划线引导的单词首字母大写，出现其它符号如冒号、顿号等以空格代替。</p>
+</blockquote>
+<p>搜集文献的时候为了尽快、更多地下载，往往不想费时间整理文件名，于是就会得到下面的结果：</p>
+<p><img alt="Raw file names" src="/theme/images/blog/raw_files.png" title="Raw files" /></p>
+<p>根据文题及发表时间重命名后，不同的出处的文档标题格式各异，且各种符号不一而足，因而需要按照需求统一格式，下面引入 sed 与 awk 的解决方案，<code>一行代码</code>解决问题<code>*_*</code></p>
+<p><img alt="Copy title" src="/theme/images/blog/copy_title.png" title="Copy original title" /></p>
+<h3>2. 解决方案</h3>
+<p>sed 与 awk 相关教程见此处：<a href="http://coolshell.cn/articles/9070.html" title="awk">CoolShell&gt;AWK 简明教程</a>、<a href="http://coolshell.cn/articles/9104.html" title="sed">CoolShell&gt;sed 简明教程</a>。由于文件名是单行文本，sed 只做单行文本的正则匹配与更改，即用到<code>'s/old/new/g;'</code>将<code>old</code>替换为<code>new</code>，用于修改一些多余的符号包括空格、冒号等；awk 则是对输入流进行格式化处理，得到我们需求中规定的格式。</p>
+<p>sed 部分正则替换代码如下：</p>
+<div class="highlight"><pre>sed <span class="s1">&#39;s/[ ]*:[ ]*/-/g;&#39;</span>          <span class="c">#冒号（包括两边空格）替换为短划线</span>
+sed <span class="s1">&#39;s/\./=/g;&#39;</span>                 <span class="c">#将点号临时替换为=</span>
+sed <span class="s1">&#39;s/\(.*\)=/\1./g;&#39;</span>          <span class="c">#将括号临时替换为=</span>
+sed <span class="s1">&#39;s/[ ]*[+|?|_|,|;][ ]*/ /g;&#39;</span>    <span class="c">#特殊符号替换为空格</span>
+sed <span class="s1">&#39;s/=/ /g;&#39;</span>                  <span class="c">#将临时=替换为空格</span>
+sed <span class="s1">&#39;s/ \([0-9]\)/-\1/g;s/\([0-9]\) /\1-/g&#39;</span>  <span class="c">#将数字间的空格替换为短划线</span>
 </pre></div>
 
 
-<p>单从语法形式上(syntactic)看上面的代码，<code>(fac n)</code>在定义时调用了它自身，这一语法形式上的事实我们称之为“递归过程(recursive procedure)”；而从实际的计算过程来看，也就是说看<code>(fac n)</code>在实际执行的过程中做了那些计算，结果是只有当调用到<code>(fac 1)</code>时才返回了明确的结果 1，在此之前，<code>(fac (- n 1))</code>只是作为展开过程中的助记符，推进程序的前进，如下图：</p>
-<p><img alt="递归" src="http://sniky.github.io/extra/sicp/ch1-Z-G-7.gif" title="递归" /></p>
-<p><code>(fac n)</code>产生了一个递归的计算过程(recursive process)，为了完成这一计算过程，它在形式上调用了自身，在计算过程中将自身作为推进（展开）计算的标识符，作为计算代价，我们不得不记住展开过程中所有<code>(fac (- n 1))</code>经过的地方，直到<code>(fac 1)</code>给出明确的返回值，再沿原路返回回去，得到<code>(fac n)</code>的值；又因为阶乘计算过程中，我们所要记住的<code>(fac (- n 1))</code>经过的路径与 n 的大小存在线性相关，因而称这样的计算过程为“<span class='emp'>线性递归过程(Linear Recursive Process)</span>”。</p>
-<p>再考虑迭代的算法，所谓迭代，在计算阶乘的过程中可以看做是对 <code>n</code> 与 <code>(n - 1)</code> 的乘积在 <code>n = 1, 2, ..., n</code> 的范围内重复、累积：</p>
-<div class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">fac-iter</span> <span class="p">(</span><span class="nv">n</span><span class="p">)</span>
-    <span class="p">(</span><span class="nb">defun</span> <span class="nv">iter</span> <span class="p">(</span><span class="nv">i</span> <span class="nv">product</span><span class="p">)</span>
-        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">i</span> <span class="nv">n</span><span class="p">)</span>
-            <span class="nv">product</span>
-            <span class="p">(</span><span class="nv">iter</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">i</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">product</span> <span class="nv">i</span><span class="p">))</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="p">(</span><span class="nv">iter</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">)</span>
+<p>awk 按照首字母大写规则进行格式化输出：</p>
+<div class="highlight"><pre><span class="c">#以短划线分割 对短划线引导的单词首字母大写</span>
+awk -F- <span class="s1">&#39;{for(i=1;i&lt;=NF;i++){$i=tolower($i);sub(&quot;.&quot;,toupper(substr($i,1,1)),$i)}}1&#39;</span> <span class="nv">OFS</span><span class="o">=</span>-
+
+<span class="c">#四个字母以上单词首字母大写</span>
+awk <span class="s1">&#39;{for(i=1;i&lt;=NF;i++){if(length($i)&gt;3||i==1){sub(&quot;.&quot;,toupper(substr($i,1,1)),$i)}}}1&#39;</span>
 </pre></div>
 
 
-<p>上面的程序从语法形式上来看，仍然是一个递归的过程：<code>(iter i product)</code> 内部调用了 <code>(iter (+ i 1) (* product i))</code>，但是从实际的计算过程来看，我们不需要像递归计算那样记住整个递归过程的推进路线，而是通过迭代更新每次调用时所用的参数，这样计算过程中我们需要记住的只有迭代计数变量 <code>i</code>、迭代乘积 <code>product</code>、以及 <code>n</code>；又因为阶乘计算过程中，所用的计算步骤或者所要记住的迭代变量的迭代次数与 n 的大小线性相关，因而称这样的计算过程为“<span class="emp">线性迭代过程(Linear Iterative Process)</span>”。这种用递归的过程实现的迭代的计算过程也称为<span class="emp">尾递归</span>。</p>
-<p><strong>总结</strong></p>
-<p>总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。</p>
+<p>以<code>pipe</code>连接所有处理过程(<a href="https://gist.github.com/sniky/6150585" title="Gist">gist</a>)：</p>
+<div class="highlight"><pre><span class="c">#!/bin/bash</span>
+<span class="c">#Script name: Renamee.sh</span>
+
+mv <span class="s2">&quot;$1&quot;</span> <span class="s2">&quot;`basename &quot;</span><span class="nv">$1</span><span class="s2">&quot;|sed &#39;s/[ ]*:[ ]*/-/g;s/\./=/g;s/\(.*\)=/\1./g;s/[ ]*[+|?|_|,|;][ ]*/ /g;s/=/ /g;s/ \([0-9]\)/-\1/g;s/\([0-9]\) /\1-/g&#39;|awk -F- &#39;{for(i=1;i&lt;=NF;i++){$i=tolower($i);sub(&quot;</span>.<span class="s2">&quot;,toupper(substr($i,1,1)),$i)}}1&#39; OFS=-|awk &#39;{for(i=1;i&lt;=NF;i++){if(length($i)&gt;3||i==1){sub(&quot;</span>.<span class="s2">&quot;,toupper(substr($i,1,1)),$i)}}}1&#39;`&quot;</span>
+</pre></div>
+
+
+<p>如需批量操作可用<a href="https://gist.github.com/sniky/8215756" title="Mapwalk.py">Mapwalk</a>。</p>
+<h3>3. 待改进</h3>
+<ul>
+<li>以单词长度作为首字母大小写的判断仍不够智能，一些较长的介词仍会被误判而一些首字母缩写的单词（如 BOLD）则会被误杀；</li>
+<li>从 PDF 中直接解析年份与文题一直悬而未解，能找到合适的方法才可以真正完全自动化；</li>
+<li>...</li>
+</ul>
   </div><!-- /.entry-content -->
   <div class="end-article">- END -</div>
   <div class="asset-footer">
   <ul>
     <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
     <li>
-      原文网址：<a href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html">http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html</a>
+      原文网址：<a href="http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html">http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html</a>
     </li>
   </ul>
   </div>
 <div class="neighbors">
   <ul class="neighbors">
     <li class="prev">
-        <a href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html" rel="prev" title="prev post">
-            <i class="fa fa-arrow-circle-o-left"></i> SICP 英文第二版
+        <a href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> 关于编码的一切
         </a>
     </li>
     <li class="next">
-      <a href="http://defsniky.com/posts/2013-12-09-choose-and-extract-the-right-features.html" rel="next" title="next post">
-        图像处理的第一步：选择并抽取正确的特征 <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
-      </a>
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
     </li>
 </ul>
 <div style="clear: both"></div>
@@ -172,10 +185,10 @@
 </div>
 
 <script type="text/javascript">
-	var wumiiPermaLink = "http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html"; 
-	var wumiiTitle = "Lisp初学之（二）: 线性递归 与 线性迭代"; 
-	var wumiiTags = "SICP,Lisp"; 
-	var wumiiCategories = ["语言"]; 
+	var wumiiPermaLink = "http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html"; 
+	var wumiiTitle = "用sed与awk整理文件名"; 
+	var wumiiTags = "Sed,Awk,FUN"; 
+	var wumiiCategories = ["趣味"]; 
 	var wumiiSitePrefix = "http://defsniky.com/";
 	var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
 </script>

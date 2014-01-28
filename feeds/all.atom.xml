@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/all.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-01-16T00:00:00+08:00</updated><entry><title>关于编码的一切</title><link href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="alternate"></link><updated>2014-01-16T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-16:posts/2014-01-16-All-about-encoding.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/all.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-01-28T00:00:00+08:00</updated><entry><title>用sed与awk整理文件名</title><link href="http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html" rel="alternate"></link><updated>2014-01-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-28:posts/2014-01-28-using-sed-and-awk-format-file-name.html</id><summary type="html">&lt;h3&gt;1. 需求&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;将文件名统一整理成如下格式：&lt;/p&gt;
+&lt;p&gt;1)文件名中只允许出现英文字母、数字以及短划线；&lt;/p&gt;
+&lt;p&gt;2)年份开头，并以短划线连接文件名，如：2014-Title of File.pdf；&lt;/p&gt;
+&lt;p&gt;3)四个字母及以上或短划线引导的单词首字母大写，出现其它符号如冒号、顿号等以空格代替。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;搜集文献的时候为了尽快、更多地下载，往往不想费时间整理文件名，于是就会得到下面的结果：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Raw file names" src="/theme/images/blog/raw_files.png" title="Raw files" /&gt;&lt;/p&gt;
+&lt;p&gt;根据文题及发表时间重命名后，不同的出处的文档标题格式各异，且各种符号不一而足，因而需要按照需求统一格式，下面引入 sed 与 awk 的解决方案，&lt;code&gt;一行代码&lt;/code&gt;解决问题&lt;code&gt;*_*&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Copy title" src="/theme/images/blog/copy_title.png" title="Copy original title" /&gt;&lt;/p&gt;
+&lt;h3&gt;2. 解决方案&lt;/h3&gt;
+&lt;p&gt;sed 与 awk 相关教程见此处：&lt;a href="http://coolshell.cn/articles/9070.html" title="awk"&gt;CoolShell&amp;gt;AWK 简明教程&lt;/a&gt;、&lt;a href="http://coolshell.cn/articles/9104.html" title="sed"&gt;CoolShell&amp;gt;sed 简明教程&lt;/a&gt;。由于文件名是单行文本，sed 只做单行文本的正则匹配与更改，即用到&lt;code&gt;'s/old/new/g;'&lt;/code&gt;将&lt;code&gt;old&lt;/code&gt;替换为&lt;code&gt;new&lt;/code&gt;，用于修改一些多余的符号包括空格、冒号等；awk 则是对输入流进行格式化处理，得到我们需求中规定的格式。&lt;/p&gt;
+&lt;p&gt;sed 部分正则替换代码如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*:[ ]*/-/g;&amp;#39;&lt;/span&gt;          &lt;span class="c"&gt;#冒号（包括两边空格）替换为短划线&lt;/span&gt;
+sed &lt;span class="s1"&gt;&amp;#39;s/\./=/g;&amp;#39;&lt;/span&gt;                 &lt;span class="c"&gt;#将点号临时替换为=&lt;/span&gt;
+sed &lt;span class="s1"&gt;&amp;#39;s/\(.*\)=/\1./g;&amp;#39;&lt;/span&gt;          &lt;span class="c"&gt;#将括号临时替换为=&lt;/span&gt;
+sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*[+|?|_|,|;][ ]*/ /g;&amp;#39;&lt;/span&gt;    &lt;span class="c"&gt;#特殊符号替换为空格&lt;/span&gt;
+sed &lt;span class="s1"&gt;&amp;#39;s/=/ /g;&amp;#39;&lt;/span&gt;                  &lt;span class="c"&gt;#将临时=替换为空格&lt;/span&gt;
+sed &lt;span class="s1"&gt;&amp;#39;s/ \([0-9]\)/-\1/g;s/\([0-9]\) /\1-/g&amp;#39;&lt;/span&gt;  &lt;span class="c"&gt;#将数字间的空格替换为短划线&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;awk 按照首字母大写规则进行格式化输出：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#以短划线分割 对短划线引导的单词首字母大写&lt;/span&gt;
+awk -F- &lt;span class="s1"&gt;&amp;#39;{for(i=1;i&amp;lt;=NF;i++){$i=tolower($i);sub(&amp;quot;.&amp;quot;,toupper(substr($i,1,1)),$i)}}1&amp;#39;&lt;/span&gt; &lt;span class="nv"&gt;OFS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;-
+
+&lt;span class="c"&gt;#四个字母以上单词首字母大写&lt;/span&gt;
+awk &lt;span class="s1"&gt;&amp;#39;{for(i=1;i&amp;lt;=NF;i++){if(length($i)&amp;gt;3||i==1){sub(&amp;quot;.&amp;quot;,toupper(substr($i,1,1)),$i)}}}1&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;以&lt;code&gt;pipe&lt;/code&gt;连接所有处理过程(&lt;a href="https://gist.github.com/sniky/6150585" title="Gist"&gt;gist&lt;/a&gt;)：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c"&gt;#Script name: Renamee.sh&lt;/span&gt;
+
+mv &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;`basename &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;|sed &amp;#39;s/[ ]*:[ ]*/-/g;s/\./=/g;s/\(.*\)=/\1./g;s/[ ]*[+|?|_|,|;][ ]*/ /g;s/=/ /g;s/ \([0-9]\)/-\1/g;s/\([0-9]\) /\1-/g&amp;#39;|awk -F- &amp;#39;{for(i=1;i&amp;lt;=NF;i++){$i=tolower($i);sub(&amp;quot;&lt;/span&gt;.&lt;span class="s2"&gt;&amp;quot;,toupper(substr($i,1,1)),$i)}}1&amp;#39; OFS=-|awk &amp;#39;{for(i=1;i&amp;lt;=NF;i++){if(length($i)&amp;gt;3||i==1){sub(&amp;quot;&lt;/span&gt;.&lt;span class="s2"&gt;&amp;quot;,toupper(substr($i,1,1)),$i)}}}1&amp;#39;`&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如需批量操作可用&lt;a href="https://gist.github.com/sniky/8215756" title="Mapwalk.py"&gt;Mapwalk&lt;/a&gt;。&lt;/p&gt;
+&lt;h3&gt;3. 待改进&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;以单词长度作为首字母大小写的判断仍不够智能，一些较长的介词仍会被误判而一些首字母缩写的单词（如 BOLD）则会被误杀；&lt;/li&gt;
+&lt;li&gt;从 PDF 中直接解析年份与文题一直悬而未解，能找到合适的方法才可以真正完全自动化；&lt;/li&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="Sed"></category><category term="Awk"></category><category term="FUN"></category></entry><entry><title>关于编码的一切</title><link href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="alternate"></link><updated>2014-01-16T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-16:posts/2014-01-16-All-about-encoding.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;乱码&lt;/strong&gt;与&lt;strong&gt;时间格式&lt;/strong&gt;错误如同矗立在所有程序员面前的太行王屋两座大山。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;编码错误或乱码几乎是每个人都会遇到的问题，比如用 Python 抓取网页进行正则分析之后发现在原来网页上正常的文字抓取下来之后变成乱码了，或者是存进 MySQL 之后变成乱码了，又或者本来在编辑器里面编辑得好好的输出之后又是乱码……要命的是每次遇到乱码问题，经过一番痛苦挣扎之后终于解决了，之后总是还会遇到新的乱码问题，这才是真正的“子子孙孙无穷尽也”，本文试图从头到尾将编码问题彻底阐述清楚，至少以后再次遇到&lt;code&gt;烫烫烫烫烫烫烫烫烫&lt;/code&gt;的问题能够有迹可循。&lt;/p&gt;
