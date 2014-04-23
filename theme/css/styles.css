@@ -129,16 +129,13 @@ div#site-logo span a {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 div#site-logo div.sub-logo {
-  font-size: 20px;
-  color: #db5e63;
+  border-bottom: 1px solid #ccc;
 }
-div#site-logo div.tsc_hrline_silver {
-  width: 40%;
-  height: 35px;
-  width: 600px;
-  margin: 0px auto;
-  background: url(../images/tsc_divider1_black.png) no-repeat scroll center transparent;
-  padding: 6px;
+div#site-logo div.sub-logo a {
+  font-size: 30px;
+  font-family: 'Kaushan Script', 'cursive';
+  color: #db5e63;
+  text-decoration: none;
 }
 #main-wrapper {
   margin-top: 40px;
