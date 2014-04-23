@@ -31,7 +31,7 @@ body {
   font: 14px/25px "Oxygen", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
   font-family: Georgia, "Times New Roman", Times, "Kai", "Kaiti SC", "KaiTi", "BiauKai", "楷体", "楷体_GB2312", serif;
-  color: #000000;
+  color: #333333;
 }
 li {
   list-style: none;
@@ -73,7 +73,7 @@ li {
   background-color: #ffffff !important;
 }
 #page-menu-wrapper ul li:hover a.top-menu {
-  color: #000000;
+  color: #333333;
 }
 #page-menu-wrapper ul li:hover ul.dropdown-menu {
   display: block;
@@ -119,15 +119,26 @@ li {
 }
 div#site-logo {
   max-width: 1108px;
-  margin: 20px auto;
-  margin-top: 120px;
-  padding-left: 20px;
+  margin: 80px auto;
+  text-align: center;
   font-size: 35px;
   font-weight: 900;
 }
 div#site-logo span a {
   text-decoration: none;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+div#site-logo div.sub-logo {
+  font-size: 20px;
+  color: #db5e63;
+}
+div#site-logo div.tsc_hrline_silver {
+  width: 40%;
+  height: 35px;
+  width: 600px;
+  margin: 0px auto;
+  background: url(../images/tsc_divider1_black.png) no-repeat scroll center transparent;
+  padding: 6px;
 }
 #main-wrapper {
   margin-top: 40px;
@@ -171,11 +182,8 @@ div#site-logo span a {
 }
 .article-container {
   width: 70%;
-  float: left;
+  margin: 15px auto;
   padding-top: 25px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border-right: 1px dashed #ede1ab;
 }
 #post-list li {
   margin-bottom: 14px;
@@ -218,7 +226,7 @@ h2.entry-title a {
 }
 article.hentry {
   padding: 0px 6px 25px 6px;
-  border-bottom: 1px dashed #ede1ab;
+  border-bottom: 1px dotted #3f6d8a;
 }
 article.hentry footer {
   margin-bottom: 8px;
@@ -375,7 +383,7 @@ div.end-article {
 }
 div.neighbors {
   padding-bottom: 14px;
-  border-bottom: 1px dashed #ede1ab;
+  border-bottom: 1px dotted #3f6d8a;
   margin-bottom: 14px;
 }
 ul.neighbors li.prev {
@@ -415,6 +423,9 @@ div.asset-footer {
   background-color: #f6f8f8;
 }
 @media all and (max-width: 900px) {
+  p {
+    overflow: scroll;
+  }
   ul.right {
     display: none;
   }
@@ -427,6 +438,12 @@ div.asset-footer {
   }
 }
 @media all and (max-width: 400px) {
+  p {
+    overflow: scroll;
+  }
+  h2 {
+    font-size: 25px;
+  }
   li.about-me {
     display: none;
   }

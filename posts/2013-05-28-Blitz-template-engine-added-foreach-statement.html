@@ -17,6 +17,7 @@
     <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
     <link rel="shortcut icon" href="/theme/images/fav.ico" />
     <meta name="description" contents="Blitz是一个快速的PHP模板引擎，由C语言编写，通过PHP插件安装，通过改进加入了PHP常用的foreach循环语句。" />
@@ -33,10 +34,10 @@
         <div id="page-menu-wrapper">
             <ul class="main left">
                 <li>
-                    <a href="/" class="top-menu"><span class="glyphicon glyphicon-home"></span></a>
+                    <a href="/" class="top-menu"><span class="fa fa-th-large"></span></a>
                 </li>
                 <li>
-                    <a href="#" title="categories" class="top-menu">文章分类</a>
+                    <a href="#" title="categories" class="top-menu">分类</a>
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">2</span>]</a></li>
                         <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
@@ -54,14 +55,15 @@
             
             <ul class="main right">
                 <li>
-                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss"></i></a>
+                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss-square"></i></a>
                 <li>
-                    <a href="/" title="find-me" class="top-menu" rel="nofollow" >找到我</a>
+                    <a href="/" title="find-me" class="top-menu" rel="nofollow" ><i class="fa fa-globe"></i></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://github.com/sniky" rel="nofollow" title="github"><i class="fa fa-github"></i> Github</a></li>
-                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
-                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="Google plus page"><i class="fa fa-google-plus"></i> Google+</a></li>
-                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>
+                        <li><a href="mailto:sniky.hack@gmail.com"  title="mail to me"><i class="fa fa-envelope"></i> Mail</a></li>
+                        <li><a href="https://github.com/sniky" rel="nofollow" title="github"><i class="fa fa-github-square"></i> Github</a></li>
+<!--                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>-->
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="google-plus"><i class="fa fa-google-plus-square"></i> Google+</a></li>
+<!--                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>-->
                     </ul>
                 </li>
                 <li>
@@ -70,11 +72,14 @@
             </ul>
         </div>
     </div>
-    <div id="site-logo">
-        <span><a href="http://defsniky.com">It's rainy</a></span>
-    </div>
+
     <div id="main-wrapper">
         <div id="content-wrapper">
+            <div id="site-logo">
+                <div class="logo-main"></div>
+                <div class="sub-logo"><a href="/" alt="You-know-nothing">{You know nothing.}</a></div>
+            </div>
+
             <div class="article-container">
 <section id="content" class="body">
   <header>
@@ -154,6 +159,9 @@ Smarty used: 11.965036392212ms
 <p>最后，Blitz或者说C扩展确实快，其速度相当于C vs PHP，其缺点也恰恰相当于PHP vs C，无论PHP设计好与坏，开发PHP程序显然要比开发C更快速，因为它基于（集成于）C但更灵活，所以Smarty等PHP程序相较于C扩展也是类似的道理，速度'稍慢'，但灵活度更高，只在取舍。</p>
   </div><!-- /.entry-content -->
   <div class="end-article">- END -</div>
+    <div class="shares">
+        <a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img3.douban.com/pics/douban-icons/favicon_32x32.png" alt="推荐到豆瓣" /></a>
+    </div>
   <div class="asset-footer">
   <ul>
     <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
@@ -193,7 +201,7 @@ Smarty used: 11.965036392212ms
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
 <div style="clear: both"></div>
 </section>
             </div>
