@@ -1,8 +1,9 @@
 function main(){
     var raw = document.getElementById('raw').value;
-    raw = raw.replace(/\s/g,' ');
-    var lst = raw.split(' ');
-    console.log(lst)
+    raw = raw.replace(/\s/g,'|');
+//    console.log(raw);
+    var lst = raw.split('|');
+//    console.log(lst)
 
     var dig = [];
     for (var i = 0; i < lst.length; i++) {
@@ -18,7 +19,7 @@ function main(){
     var output = result.join("\n") + "\n----\nSUM = " + sumList(result) + "\nDIF = " + (Math.abs(sumList(result) - W));
     res.innerHTML = output;
 
-    console.log(output)
+//    console.log(output)
 }
 
 function select(result, vault, w){
