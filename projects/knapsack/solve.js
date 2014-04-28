@@ -1,11 +1,9 @@
 function main(){
     var raw = document.getElementById('raw').value;
+    raw = raw.replace(/\s/g,' ');
     var lst = raw.split(' ');
+    console.log(lst)
 
-    raw = '169501.99 169501.99 169501.99 169501.99 169501.99 1437.01 560.13 120.02 2862.51 103601.2 169501.99 280213.47 146498.86 87498.56 82791.61 11775.04 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72 169498.72'
-    lst = raw.split(' ');
-    console.log(raw)
-    console.log(lst);
     var dig = [];
     for (var i = 0; i < lst.length; i++) {
 	   dig[i] = parseFloat(lst[i])
