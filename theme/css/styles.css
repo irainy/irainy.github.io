@@ -311,6 +311,7 @@ div.entry-content ul li {
 div.entry-content img {
   max-width: 550px;
   margin: 4px auto;
+  border: 1px solid #ccc;
 }
 div.entry-content blockquote {
   background-color: #fdf1ef;
@@ -417,6 +418,10 @@ div.asset-footer {
   padding: 20px;
   text-align: center;
   background-color: #f6f8f8;
+}
+div.shares {
+  text-align: right;
+  padding: 20px;
 }
 @media all and (max-width: 900px) {
   p {

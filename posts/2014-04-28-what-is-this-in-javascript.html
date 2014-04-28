@@ -20,12 +20,12 @@
     <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
     <link rel="shortcut icon" href="/theme/images/fav.ico" />
-    <meta name="description" contents="通过某些渠道收集了一些用户常用密码，并进行简单统计，发现一些有趣的规律，提示我们尽量避免使用一些容易被猜中的密码组合。" />
-    <meta name="tags" contents="FUN" />
-    <title>你的密码是什么？</title>
+    <meta name="description" contents="Javascript 语言中 this 关键字的含义及应用" />
+    <meta name="tags" contents="Javascript" />
+    <title>What's this in Javascript</title>
     <link href="/theme/css/syntax.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-    <link rel="canonical" href="http://defsniky.com/posts/2013-12-26-password-statistic.html" />
+    <link rel="canonical" href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html" />
 </head>
 
 <body id="index" class="home">
@@ -84,18 +84,52 @@
   <header>
     <h2 class="entry-title">
       <a href="#" rel="bookmark"
-         title="Permalink to 你的密码是什么？">你的密码是什么？</a></h2>
+         title="Permalink to What's this in Javascript">What's this in Javascript</a></h2>
  
   </header>
   <footer class="post-info">
                     <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2013.12.26
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/qu-wei.html" rel="category" title="category:趣味" > 趣味</a>
-                    · <span class="glyphicon glyphicon-tags"></span> FUN
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.04.28
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
+                    · <span class="glyphicon glyphicon-tags"></span> Javascript
               </footer><!-- /.post-info -->
   <div class="entry-content">
-    <p>收集了一些密码，做了简单的统计，发现一些比较有趣的现象<code>^_^</code>。</p>
-<p><a href="/projects/password/visu.html">What's your Passwords?</a></p>
+    <p><img alt="咬尾蛇" src="/theme/images/blog/ouroboros.png" title="咬尾蛇" /></p>
+<p>this是Javascript中的一个关键字，由于Javascript并没有“类”(class)的概念，致使这里的this与其它面向对象的语言中诸如<code>this</code>、<code>self</code>等关键字的含义存在一定的差异，而容易造成的误解。在面向对象的语言中<code>this</code>指向类的实例对象，在实例化之后通过<code>this</code>调用的属性或方法会被自动指向类作用域中的属性或方法，同样的，Javascript中的<code>this</code>也用于指向特定的作用域，只不过因为JavaScript中没有类作用域的概念，而是采用作用域链(Scope Chain)的方式管理上下文，因而需要根据不同的应用场景判定<code>this</code>所指向的内容。</p>
+<p>首先，在Chrome Console或Node中直接输入<code>this</code>，得到的是<code>Window</code>对象或Node中的全局对象（以下以Console为例，因为突然发现<code>console.log()</code>跟<code>alert()</code>还是有差别的:P），这时<code>this</code>指向全局变量（或者说它是全局变量的指针），这时的<code>this</code>默认是隐含的：</p>
+<div class="highlight"><pre><span class="c1">//在全局环境中</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">//等价于this.x = 1</span>
+<span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>      <span class="c1">//输出1</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>           <span class="c1">//输出1</span>
+</pre></div>
+
+
+<p>当<code>this</code>在函数中被使用的时候，类似一个递归的过程，<code>this</code>指向调用该函数的（全局或对象）作用域，即只要看“包裹”函数的作用域即可：</p>
+<div class="highlight"><pre><span class="c1">//新的环境</span>
+<span class="kd">function</span> <span class="nx">test</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">test</span><span class="p">();</span> <span class="c1">//undefined, 因为此时调用test()的是全局作用域，而全局作用域中没有定义x</span>
+<span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">1</span><span class="p">};</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">test</span> <span class="o">=</span> <span class="nx">test</span><span class="p">;</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">test</span><span class="p">();</span> <span class="c1">//1, 因为调用test()的是obj作用域，而obj.x = 1，在这里其功能已经类似于面向对象的this指针了</span>
+</pre></div>
+
+
+<p>另外一种比较特殊的情况是，当使用<code>new</code>关键字构造新的对象时，被<code>new</code>的函数就不是普通的函数了，它变成了一个“构造函数”，此时会自动给它“包裹”上一层对象作用域：</p>
+<div class="highlight"><pre><span class="c1">//新的环境</span>
+<span class="kd">function</span> <span class="nx">Person</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;None&#39;</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;rainy&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">rainy</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">();</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">rainy</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#39;rainy&#39;, 不再是undefined</span>
+</pre></div>
+
+
+<hr />
+<p>好久没有更新，关于<code>this</code>在看《JavaScript高级程序设计》时就想整理一下，一直拖到现在。Javascript中的<code>this</code>容易被混淆更多的是因为其<strong>作用域链</strong>与<strong>原型链</strong>的概念与一般语言尤其是面向对象语言的作用域规则相差较多；而<code>this</code>关键字本身有趣的地方在于它存在于对象或函数内部却从外向内地指向了对象或函数本身，就像一条首尾相接的“衔尾蛇”，衔尾蛇既反映荣格所说的人类心理的<strong>原型</strong>，又与道长神秘兮兮地说过的人的意识<strong>自指</strong>的特性不谋而合，哈哈，又见心理学。</p>
   </div><!-- /.entry-content -->
   <div class="end-article">- END -</div>
     <div class="shares">
@@ -105,21 +139,19 @@
   <ul>
     <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
     <li>
-      原文网址：<a href="http://defsniky.com/posts/2013-12-26-password-statistic.html">http://defsniky.com/posts/2013-12-26-password-statistic.html</a>
+      原文网址：<a href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html">http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html</a>
     </li>
   </ul>
   </div>
 <div class="neighbors">
   <ul class="neighbors">
     <li class="prev">
-        <a href="http://defsniky.com/posts/2013-12-09-choose-and-extract-the-right-features.html" rel="prev" title="prev post">
-            <i class="fa fa-arrow-circle-o-left"></i> 图像处理的第一步：选择并抽取正确的特征
+        <a href="http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> 用sed与awk整理文件名
         </a>
     </li>
     <li class="next">
-      <a href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="next" title="next post">
-        关于编码的一切 <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
-      </a>
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
     </li>
 </ul>
 <div style="clear: both"></div>

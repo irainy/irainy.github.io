@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/all.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-01-28T00:00:00+08:00</updated><entry><title>用sed与awk整理文件名</title><link href="http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html" rel="alternate"></link><updated>2014-01-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-28:posts/2014-01-28-using-sed-and-awk-format-file-name.html</id><summary type="html">&lt;h3&gt;1. 需求&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>It's rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/all.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-04-28T00:00:00+08:00</updated><entry><title>What's this in Javascript</title><link href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html" rel="alternate"></link><updated>2014-04-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-04-28:posts/2014-04-28-what-is-this-in-javascript.html</id><summary type="html">&lt;p&gt;&lt;img alt="咬尾蛇" src="/theme/images/blog/ouroboros.png" title="咬尾蛇" /&gt;&lt;/p&gt;
+&lt;p&gt;this是Javascript中的一个关键字，由于Javascript并没有“类”(class)的概念，致使这里的this与其它面向对象的语言中诸如&lt;code&gt;this&lt;/code&gt;、&lt;code&gt;self&lt;/code&gt;等关键字的含义存在一定的差异，而容易造成的误解。在面向对象的语言中&lt;code&gt;this&lt;/code&gt;指向类的实例对象，在实例化之后通过&lt;code&gt;this&lt;/code&gt;调用的属性或方法会被自动指向类作用域中的属性或方法，同样的，Javascript中的&lt;code&gt;this&lt;/code&gt;也用于指向特定的作用域，只不过因为JavaScript中没有类作用域的概念，而是采用作用域链(Scope Chain)的方式管理上下文，因而需要根据不同的应用场景判定&lt;code&gt;this&lt;/code&gt;所指向的内容。&lt;/p&gt;
+&lt;p&gt;首先，在Chrome Console或Node中直接输入&lt;code&gt;this&lt;/code&gt;，得到的是&lt;code&gt;Window&lt;/code&gt;对象或Node中的全局对象（以下以Console为例，因为突然发现&lt;code&gt;console.log()&lt;/code&gt;跟&lt;code&gt;alert()&lt;/code&gt;还是有差别的:P），这时&lt;code&gt;this&lt;/code&gt;指向全局变量（或者说它是全局变量的指针），这时的&lt;code&gt;this&lt;/code&gt;默认是隐含的：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//在全局环境中&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;//等价于this.x = 1&lt;/span&gt;
+&lt;span class="nx"&gt;alert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;      &lt;span class="c1"&gt;//输出1&lt;/span&gt;
+&lt;span class="nx"&gt;alert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;           &lt;span class="c1"&gt;//输出1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;当&lt;code&gt;this&lt;/code&gt;在函数中被使用的时候，类似一个递归的过程，&lt;code&gt;this&lt;/code&gt;指向调用该函数的（全局或对象）作用域，即只要看“包裹”函数的作用域即可：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//新的环境&lt;/span&gt;
+&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;alert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;//undefined, 因为此时调用test()的是全局作用域，而全局作用域中没有定义x&lt;/span&gt;
+&lt;span class="nx"&gt;obj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="nx"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nx"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;//1, 因为调用test()的是obj作用域，而obj.x = 1，在这里其功能已经类似于面向对象的this指针了&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;另外一种比较特殊的情况是，当使用&lt;code&gt;new&lt;/code&gt;关键字构造新的对象时，被&lt;code&gt;new&lt;/code&gt;的函数就不是普通的函数了，它变成了一个“构造函数”，此时会自动给它“包裹”上一层对象作用域：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//新的环境&lt;/span&gt;
+&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;None&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rainy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nx"&gt;rainy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;alert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;rainy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;name&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// &amp;#39;rainy&amp;#39;, 不再是undefined&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr /&gt;
+&lt;p&gt;好久没有更新，关于&lt;code&gt;this&lt;/code&gt;在看《JavaScript高级程序设计》时就想整理一下，一直拖到现在。Javascript中的&lt;code&gt;this&lt;/code&gt;容易被混淆更多的是因为其&lt;strong&gt;作用域链&lt;/strong&gt;与&lt;strong&gt;原型链&lt;/strong&gt;的概念与一般语言尤其是面向对象语言的作用域规则相差较多；而&lt;code&gt;this&lt;/code&gt;关键字本身有趣的地方在于它存在于对象或函数内部却从外向内地指向了对象或函数本身，就像一条首尾相接的“衔尾蛇”，衔尾蛇既反映荣格所说的人类心理的&lt;strong&gt;原型&lt;/strong&gt;，又与道长神秘兮兮地说过的人的意识&lt;strong&gt;自指&lt;/strong&gt;的特性不谋而合，哈哈，又见心理学。&lt;/p&gt;</summary><category term="Javascript"></category></entry><entry><title>用sed与awk整理文件名</title><link href="http://defsniky.com/posts/2014-01-28-using-sed-and-awk-format-file-name.html" rel="alternate"></link><updated>2014-01-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-28:posts/2014-01-28-using-sed-and-awk-format-file-name.html</id><summary type="html">&lt;h3&gt;1. 需求&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;将文件名统一整理成如下格式：&lt;/p&gt;
 &lt;p&gt;1)文件名中只允许出现英文字母、数字以及短划线；&lt;/p&gt;
