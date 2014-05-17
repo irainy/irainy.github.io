@@ -93,13 +93,15 @@
     }
     var Nodes = arguments[0];
 		for (var i = 0; i < Nodes.length; i++) {
-			var name = Nodes[i];//Rainy-> {'name':name, 'index':ID, ...}
+			var name = Nodes[i];//Rainy-> {'name':name, 'index':ID, 'count': value, 'url': url} 
       var weight = name['count'];
 			var node = new Node(name['index'], {
-            name: name['name'],
+            url: name['url'],
             label:name['name'] +"["+  weight +"]",
-            color:rainbow(weight)
-            //font: 16 + weight * 2 + "px Verdana, sans-serif"
+            color:rainbow(weight),
+            ondoubleclick: function(){
+              window.location = "/" + this.url;
+            }
       });
 			this.addNode(node);
 		}

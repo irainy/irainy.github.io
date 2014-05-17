@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--
+            **                                                          
+             * Author:         rainy                                   
+             * Contact:        sniky.hack@gmail.com                   
+            **                                               
+    -->
+    <meta charset="utf-8" />
+    <meta name="description" content="rainy's technology blog"/>
+    <meta name="keywords" content="IT, learning, sharing" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta property="og:site_name" content="rainy"/>
+    <meta name="generator" content="Pelican" />
+    <meta name="author" content="rainy" />
+    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
+    <link rel="shortcut icon" href="/theme/images/fav.png" />
+    <meta name="description" contents="场景识别的计算模型通常都用SVM作为分类器，并将分类结果与行为实验结果对比，从而推断特征的有效性，但是为什么通常都用SVM？" />
+    <meta name="tags" contents="Psychology" />
+    <meta name="tags" contents="SVM" />
+    <meta name="tags" contents="场景识别" />
+    <meta name="tags" contents="Vision" />
+    <title>Why SVM</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="canonical" href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" />
+</head>
+
+<body id="index" class="home">
+    <div id="upper-menu-container">
+        <div id="page-menu-wrapper">
+            <ul class="main left">
+                <li>
+                    <a href="/" class="top-menu"><span class="fa fa-home"></span></a>
+                </li>
+                <li>
+                    <a href="#/归类" title="categories" class="top-menu"><i class="fa fa-list"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">6</span>]</a></li>
+                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="认知" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/ren-zhi.html">认知 [<span class="article-count">1</span>]</a></li>
+                        <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">2</span>]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/archives.html" class="top-menu" rel="index" title="archives" ><i class="fa fa-archive"></i></a>
+                </li>
+                <li>
+                    <a href="/tags.html" class="top-menu" rel="index" title="tags"><i class="fa fa-tags"></i></a>
+                </li>
+            </ul>
+            
+            <ul class="main right">
+                <li>
+                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss-square"></i></a>
+                </li>
+                <li>
+                    <a href="/" title="find-me" class="top-menu" rel="nofollow" ><i class="fa fa-globe"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="mailto:sniky.hack@gmail.com"  title="mail to me"><i class="fa fa-envelope"></i> Mail</a></li>
+                        <li><a href="https://github.com/sniky" rel="nofollow" title="github"><i class="fa fa-github-square"></i> Github</a></li>
+<!--                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>-->
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="google-plus"><i class="fa fa-google-plus-square"></i> Google+</a></li>
+<!--                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>-->
+                    </ul>
+                </li>
+                <li>
+                    <a href="http://about.me/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/avatar.jpeg" class="img-avatar" title="avatar" alt="avatar" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <div id="content-wrapper">
+            <div id="site-logo">
+                <div class="sub-logo"><a href="/" alt="You-know-nothing">{you know nothing.}</a></div>
+            </div>
+
+            <div class="article-container">
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to Why SVM">Why SVM</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+                    <span class="glyphicon glyphicon-user"></span> rainy
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.05.14
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/ren-zhi.html" rel="category" title="category:认知" > 认知</a>
+                    · <span class="glyphicon glyphicon-tags"></span><a href="http://defsniky.com/tag/psychology.html" rel="tag" title="tag:Psychology"> : Psychology : </a><a href="http://defsniky.com/tag/svm.html" rel="tag" title="tag:SVM"> : SVM : </a><a href="http://defsniky.com/tag/chang-jing-shi-bie.html" rel="tag" title="tag:场景识别"> : 场景识别 : </a><a href="http://defsniky.com/tag/vision.html" rel="tag" title="tag:Vision"> : Vision : </a>              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p>自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？</p>
+<p>首先看一下SVM(Support Vector Machine)算法，SVM是一种扩展的线性模型，它通过非线性映射的转换，将特征空间转换为一个维度更高的空间，从而实现非线性分类边界的划分，下面这张图能够很好第说明这一特点：</p>
+<p><img alt="svm" src="/theme/images/blog/svm.gif" title="“SVM”" /></p>
+<p>除此之外它还具有另外一些有点，例如SVM是取能够区分两个类别中“相距”最小的实例之间的决策平面，因而能够很好地规避过度拟合的现象(Overfitting，具体可参考<a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/05/02/basic-of-svm.html">机器学习中的算法(2)-支持向量机(SVM)基础</a>)。</p>
+<p>除了SVM之外还有许多其它分类算法，例如Logistic回归(就是把线性回归掰弯)、神经网络等，尤其是人工神经网络(ANN)算法，由于其神经网络的隐喻与心理学之间“暧昧”的关系，确实也有见过认知心理学研究甚至直接拿训练神经网络作为认知模型，但在场景识别的研究中却很少见。SVM与神经网络都是基于线性模型发展出来的，但两派的纷争却一直不断，SVM算法的出现凭借着对小样本量的支持、易于实现、计算复杂度较小等优点一度占尽了风头，在认知心理学研究中的广泛应用从某种程度上来说也佐证了其众多优点。然而最近深度学习(Deep learning, 多层神经网络)算法的快速走红，不知道会不会给场景识别研究也带来新的春天？</p>
+<p>然而毕竟心理学研究不是为了追逐新潮的算法，我们更加关注的是人类行为背后的认知加工机制，大家采用同样的机器学习算法可能也是为了彼此研究之间的横向对比，因此在计算机视觉中更加注重的是算法的效能，包括准确率、健壮性、欠拟合过度拟合等问题，而在心理学研究中应用机器学习算法更加关注的是其分类结果中的错误模式(Error Pattern)，并将其与人类观察者的行为结果进行对比，从而验证关于<strong>特征选取</strong>的假设，而算法的优劣则更像是一种系统偏差。</p>
+<p>当然除了SVM算法之外，场景识别研究也有很多心理学与计算机视觉交叉的研究方法与结果，包括JoV与CVPR等刊出的研究结果很有参考价值，下面列出几个非常重要的关于场景识别的计算模型，同样也是非常经典的认知模型(按发表时间顺序)：</p>
+<h4>1. Spatial Envelope</h4>
+<div class="highlight"><pre><span class="n">Oliva</span><span class="p">,</span> <span class="n">A</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Torralba</span><span class="p">,</span> <span class="n">A</span><span class="p">.</span> <span class="p">(</span><span class="mi">2001</span><span class="p">).</span> <span class="n">Modeling</span> <span class="n">the</span> <span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">scene</span><span class="o">:</span> <span class="n">A</span> <span class="n">holistic</span> <span class="n">representation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">spatial</span> <span class="n">envelope</span><span class="p">;</span>
+</pre></div>
+
+
+<h4>2. Bayesian Hierarchical Model</h4>
+<div class="highlight"><pre><span class="n">Fei</span><span class="o">-</span><span class="n">Fei</span><span class="p">,</span> <span class="n">L</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Perona</span><span class="p">,</span> <span class="n">P</span><span class="p">.</span> <span class="p">(</span><span class="mi">2005</span><span class="p">).</span> <span class="n">A</span> <span class="n">bayesian</span> <span class="n">hierarchical</span> <span class="n">model</span> <span class="k">for</span> <span class="n">learning</span> <span class="n">natural</span> <span class="n">scene</span> <span class="n">categories</span><span class="p">;</span>
+</pre></div>
+
+
+<h4>3. Contextual Guidance Model</h4>
+<div class="highlight"><pre><span class="n">Torralba</span><span class="p">,</span> <span class="n">A</span><span class="p">.,</span> <span class="n">Oliva</span><span class="p">,</span> <span class="n">A</span><span class="p">.,</span> <span class="n">Castelhano</span><span class="p">,</span> <span class="n">M</span><span class="p">.</span> <span class="n">S</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Henderson</span><span class="p">,</span> <span class="n">J</span><span class="p">.</span> <span class="n">M</span><span class="p">.</span> <span class="p">(</span><span class="mi">2006</span><span class="p">).</span> <span class="n">Contextual</span> <span class="n">guidance</span> <span class="n">of</span> <span class="n">eye</span> <span class="n">movements</span> <span class="n">and</span> <span class="n">attention</span> <span class="n">in</span> <span class="n">real</span><span class="o">-</span><span class="n">world</span> <span class="n">scenes</span><span class="o">:</span> <span class="n">the</span> <span class="n">role</span> <span class="n">of</span> <span class="n">global</span> <span class="n">features</span> <span class="n">in</span> <span class="n">object</span> <span class="n">search</span><span class="p">;</span>
+</pre></div>
+
+
+<h4>4. Bag of Visual Word(Latent Dirichlet Allocation系列的主题模型，选取最近一篇fMRI)</h4>
+<div class="highlight"><pre><span class="n">Stansbury</span><span class="p">,</span> <span class="n">D</span><span class="p">.</span> <span class="n">E</span><span class="p">.,</span> <span class="n">Naselaris</span><span class="p">,</span> <span class="n">T</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Gallant</span><span class="p">,</span> <span class="n">J</span><span class="p">.</span> <span class="n">L</span><span class="p">.</span> <span class="p">(</span><span class="mi">2013</span><span class="p">).</span> <span class="n">Natural</span> <span class="n">Scene</span> <span class="n">Statistics</span> <span class="n">Accountfor</span> <span class="n">the</span> <span class="n">Representation</span> <span class="n">of</span> <span class="n">Scene</span> <span class="n">Categories</span> <span class="n">in</span> <span class="n">Human</span> <span class="n">Visual</span> <span class="n">Cortex</span><span class="p">.</span>
+</pre></div>
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+    <div class="shares">
+        <a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img3.douban.com/pics/douban-icons/favicon_24x24.png" alt="推荐到豆瓣" /></a>
+    </div>
+  <div class="asset-footer">
+  <ul>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
+    <li>
+      原文网址：<a href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html">http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html</a>
+    </li>
+  </ul>
+  </div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> What's this in Javascript
+        </a>
+    </li>
+    <li class="next">
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
+    </li>
+</ul>
+<div style="clear: both"></div>
+</div>
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
+<div style="clear: both"></div>
+</section>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <footer id="contentinfo" class="body">
+        <ul>
+            <li>Author & Theme designer <span class="me">雨生</span></li>
+            <li>Generated by <a title="pelican" rel="nofollow" href="http://blog.getpelican.com/">Pelican</a></li>
+            <li>Sponsored by <a title="薛老板" rel="nofollow" href="javascript:alert(':)')">颖惠</a></li>
+        </ul>
+    </footer><!-- /#contentinfo -->
+    <!-- BAIDU STATISTIC -->
+    <script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5ec19c137dfa6ccc2e4f9c6d6fba3f4a' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</body>
+</html>

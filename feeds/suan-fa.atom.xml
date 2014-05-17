@@ -93,4 +93,4 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;从测试结果来看，训练数量越小，误差可以收敛到越小；增加测试数量，也可以提高最终准确率。或者说所选取的特征能否作为甄别、分类的有效指标，也需要做预先的判别。&lt;/p&gt;</summary><category term="ANN"></category><category term="BP"></category><category term="Python"></category></entry></feed>
+&lt;p&gt;从测试结果来看，训练数量越小，误差可以收敛到越小；增加测试数量，也可以提高最终准确率。或者说所选取的特征能否作为甄别、分类的有效指标，也需要做预先的判别。&lt;/p&gt;</summary><category term="ANN"></category><category term="BP"></category><category term="ML"></category></entry></feed>
