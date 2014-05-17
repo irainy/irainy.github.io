@@ -98,7 +98,7 @@
             graph: graph,
             nodeSelected: function(node){
               console.log('Node selected: ' + JSON.stringify(node.id));
-              window.location="/tag/" + node.data.name + ".html";
+              window.location="/tag/" + node.data.name.toLowerCase() + ".html";
             }
         });
       });
