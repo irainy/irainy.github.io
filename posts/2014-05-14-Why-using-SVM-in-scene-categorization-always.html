@@ -98,12 +98,12 @@
                     · <span class="glyphicon glyphicon-tags"></span><a href="http://defsniky.com/tag/psychology.html" rel="tag" title="tag:Psychology"> : Psychology : </a><a href="http://defsniky.com/tag/svm.html" rel="tag" title="tag:SVM"> : SVM : </a><a href="http://defsniky.com/tag/chang-jing-shi-bie.html" rel="tag" title="tag:场景识别"> : 场景识别 : </a><a href="http://defsniky.com/tag/vision.html" rel="tag" title="tag:Vision"> : Vision : </a>              </footer><!-- /.post-info -->
   <div class="entry-content">
     <p>自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？</p>
-<p>首先看一下SVM(Support Vector Machine)算法，SVM是一种扩展的线性模型，它通过非线性映射的转换，将特征空间转换为一个维度更高的空间，从而实现非线性分类边界的划分，下面这张图能够很好第说明这一特点：</p>
+<p>首先看一下SVM(Support Vector Machine)算法，SVM是一种扩展的线性模型，它通过非线性映射的转换，将特征空间转换为一个维度更高的空间，从而实现非线性分类边界的划分，下面这张图能够很好第说明这一特点，原本二维空间里面线性不可分的两类，投射到三维空间后就变得很好区分了：</p>
 <p><img alt="svm" src="/theme/images/blog/svm.gif" title="“SVM”" /></p>
 <p>除此之外它还具有另外一些有点，例如SVM是取能够区分两个类别中“相距”最小的实例之间的决策平面，因而能够很好地规避过度拟合的现象(Overfitting，具体可参考<a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/05/02/basic-of-svm.html">机器学习中的算法(2)-支持向量机(SVM)基础</a>)。</p>
-<p>除了SVM之外还有许多其它分类算法，例如Logistic回归(就是把线性回归掰弯)、神经网络等，尤其是人工神经网络(ANN)算法，由于其神经网络的隐喻与心理学之间“暧昧”的关系，确实也有见过认知心理学研究甚至直接拿训练神经网络作为认知模型，但在场景识别的研究中却很少见。SVM与神经网络都是基于线性模型发展出来的，但两派的纷争却一直不断，SVM算法的出现凭借着对小样本量的支持、易于实现、计算复杂度较小等优点一度占尽了风头，在认知心理学研究中的广泛应用从某种程度上来说也佐证了其众多优点。然而最近深度学习(Deep learning, 多层神经网络)算法的快速走红，不知道会不会给场景识别研究也带来新的春天？</p>
+<p>除了SVM之外还有许多其它分类算法，例如Logistic回归(就是把线性回归掰弯)、神经网络等，尤其是人工神经网络(ANN)算法，由于其神经网络的隐喻与心理学之间“暧昧”的关系，确实也有见过认知心理学研究甚至直接拿训练神经网络作为认知模型，但在场景识别的研究中却很少见。SVM与神经网络都是基于线性模型发展出来的，但两派的纷争却一直不断，SVM算法的出现凭借着对小样本量的支持、易于实现、计算复杂度较小等优点一度占尽了风头，在认知心理学研究中的广泛应用从某种程度上来说也佐证了其众多优点。不过最近深度学习(Deep learning, 多层神经网络)算法的快速走红，不知道会不会给场景识别研究也带来新的春天？</p>
 <p>然而毕竟心理学研究不是为了追逐新潮的算法，我们更加关注的是人类行为背后的认知加工机制，大家采用同样的机器学习算法可能也是为了彼此研究之间的横向对比，因此在计算机视觉中更加注重的是算法的效能，包括准确率、健壮性、欠拟合过度拟合等问题，而在心理学研究中应用机器学习算法更加关注的是其分类结果中的错误模式(Error Pattern)，并将其与人类观察者的行为结果进行对比，从而验证关于<strong>特征选取</strong>的假设，而算法的优劣则更像是一种系统偏差。</p>
-<p>当然除了SVM算法之外，场景识别研究也有很多心理学与计算机视觉交叉的研究方法与结果，包括JoV与CVPR等刊出的研究结果很有参考价值，下面列出几个非常重要的关于场景识别的计算模型，同样也是非常经典的认知模型(按发表时间顺序)：</p>
+<p>当然除了SVM算法之外，场景识别研究也有很多心理学与计算机视觉交叉的研究方法与结果，包括很多JoV与CVPR等刊出的研究结果很有参考价值，下面列出几个非常重要的关于场景识别的计算模型，同样也是非常经典的认知模型(按发表时间顺序)，后续将会逐一介绍：</p>
 <h4>1. Spatial Envelope</h4>
 <div class="highlight"><pre><span class="n">Oliva</span><span class="p">,</span> <span class="n">A</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Torralba</span><span class="p">,</span> <span class="n">A</span><span class="p">.</span> <span class="p">(</span><span class="mi">2001</span><span class="p">).</span> <span class="n">Modeling</span> <span class="n">the</span> <span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">scene</span><span class="o">:</span> <span class="n">A</span> <span class="n">holistic</span> <span class="n">representation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">spatial</span> <span class="n">envelope</span><span class="p">;</span>
 </pre></div>
@@ -119,7 +119,7 @@
 </pre></div>
 
 
-<h4>4. Bag of Visual Word(Latent Dirichlet Allocation系列的主题模型，选取最近一篇fMRI)</h4>
+<h4>4. Bag of Visual Word(LDA系列的主题模型，选取最近一篇fMRI研究)</h4>
 <div class="highlight"><pre><span class="n">Stansbury</span><span class="p">,</span> <span class="n">D</span><span class="p">.</span> <span class="n">E</span><span class="p">.,</span> <span class="n">Naselaris</span><span class="p">,</span> <span class="n">T</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Gallant</span><span class="p">,</span> <span class="n">J</span><span class="p">.</span> <span class="n">L</span><span class="p">.</span> <span class="p">(</span><span class="mi">2013</span><span class="p">).</span> <span class="n">Natural</span> <span class="n">Scene</span> <span class="n">Statistics</span> <span class="n">Accountfor</span> <span class="n">the</span> <span class="n">Representation</span> <span class="n">of</span> <span class="n">Scene</span> <span class="n">Categories</span> <span class="n">in</span> <span class="n">Human</span> <span class="n">Visual</span> <span class="n">Cortex</span><span class="p">.</span>
 </pre></div>
   </div><!-- /.entry-content -->
