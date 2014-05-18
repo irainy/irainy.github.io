@@ -5,7 +5,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/index.html</loc>
-<lastmod>2014-05-18T02:26:59-00:00</lastmod>
+<lastmod>2014-05-18T11:43:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
@@ -16,7 +16,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/archives.html</loc>
-<lastmod>2014-05-18T02:26:59-00:00</lastmod>
+<lastmod>2014-05-18T11:43:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
@@ -27,7 +27,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/tags.html</loc>
-<lastmod>2014-05-18T02:26:59-00:00</lastmod>
+<lastmod>2014-05-18T11:43:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
@@ -38,9 +38,20 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/categories.html</loc>
-<lastmod>2014-05-18T02:26:59-00:00</lastmod>
+<lastmod>2014-05-18T11:43:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+<data>
+<display>
+</display>
+</data>
+</url>
+
+<url>
+<loc>http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html</loc>
+<lastmod>2014-05-18T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 <data>
 <display>
 </display>
@@ -236,7 +247,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/category/qu-wei.html</loc>
-<lastmod>2014-01-28T00:00:00-00:00</lastmod>
+<lastmod>2014-05-18T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
@@ -324,7 +335,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/tag/javascript.html</loc>
-<lastmod>2014-04-28T00:00:00-00:00</lastmod>
+<lastmod>2014-05-18T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
@@ -390,7 +401,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/tag/fun.html</loc>
-<lastmod>2014-01-28T00:00:00-00:00</lastmod>
+<lastmod>2014-05-18T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
@@ -456,7 +467,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://defsniky.com/author/rainy.html</loc>
-<lastmod>2014-05-14T00:00:00-00:00</lastmod>
+<lastmod>2014-05-18T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 <data>
