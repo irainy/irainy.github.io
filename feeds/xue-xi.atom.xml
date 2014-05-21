@@ -9,13 +9,13 @@
 $$(p_1 + p_2 + ... + p_k) (p_1 + p_2 + ... + p_k) ... = (p_1 + p_2 + ... + p_k)^N = 1$$
 那么数字 $i$ 出现 $K_i$ 的次数满足：
 $$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k}  p^{K_1}p^{K_2}...p^{K_k}$$
-在主题模型中，假设文档 $D$ 中的所有词语 $\vec{W}=(w_1, w_2,..., w_N)$ 就是从 $k$ 个 topic 中进行了 $N$ 次独立取样得到的，因此从 $k$ 个 topic 中生成 $N$ 个词语，其中词语 $w_i$ 出现了 $k_i$ 次(即得到 $\vec{W}$ )的概率服从多项式分布。&lt;/p&gt;
+在主题模型中，假设文档 $D$ 中的所有词语 $\vec{W}=(w_1, w_2,..., w_N)$ 就是从 $k$ 个 topic 中进行了 $N$ 次独立取样得到的，那么从 $k$ 个 topic 中生成 $N$ 个词语，其中词语 $w_i$ 出现了 $k_i$ 次(即得到 $\vec{W}$ )的概率服从多项式分布。&lt;/p&gt;
 &lt;h3&gt;3. 贝叶斯概率论&lt;/h3&gt;
-&lt;p&gt;前面提到 LDA 是一个三层贝叶斯模型而不是简单的多项式分布，因此不得不提贝叶斯学派的概率理论。经典学派的观点认为概率是&lt;strong&gt;大量重复实验频率的稳定值&lt;/strong&gt;，因此也称作频率派；而在贝叶斯学派赞成&lt;strong&gt;主观概率&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;前面提到 LDA 是一个三层贝叶斯模型而不是简单的多项式分布，因此不得不提贝叶斯学派的概率理论。经典学派的观点认为概率是&lt;strong&gt;大量重复实验频率的稳定值&lt;/strong&gt;，因此也称作频率派；而贝叶斯学派赞成&lt;strong&gt;主观概率&lt;/strong&gt;：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;People apparently want statistics to tell them the probability of their hypothesis being right. &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;例如在抛硬币实验中我们不应该只考虑最终客观的统计频率，还要将我们对骰子本身特性的先验知识考虑在内。假设随机变量 $X \sim f(X, \theta)$ ，频率派将 $X$ 当做可重复实验的随机变量，而 $\theta$ 当做是概率分布中&lt;strong&gt;确定但未知&lt;/strong&gt;的参数，因此 $f(X, \theta)$ 反应的时 $X$ 的规律特性，$\theta$ 是可以通过对 $X$ 的抽样进行估计的。但是在贝叶斯派的观点中，未知的参数 $\theta$ 并&lt;strong&gt;不是确定的&lt;/strong&gt;，它自身服从自己的先验概率分布：&lt;/p&gt;
+&lt;p&gt;例如在抛硬币实验中我们不应该只考虑最终客观的统计频率，还要将我们对骰子本身特性的先验知识考虑在内。假设随机变量 $X \sim f(X, \theta)$ ，频率派将 $X$ 当做可重复实验的随机变量，而 $\theta$ 当做是概率分布中&lt;strong&gt;确定但未知&lt;/strong&gt;的参数，因此 $f(X, \theta)$ 反应的是 $X$ 的规律特性，$\theta$ 是可以通过对 $X$ 的抽样进行估计的。但是在贝叶斯派的观点中，未知的参数 $\theta$ 并&lt;strong&gt;不是确定的&lt;/strong&gt;，它自身服从自己的先验概率分布：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;在贝叶斯学派看来，一切参数都是随机变量&lt;/p&gt;
 &lt;/blockquote&gt;
