@@ -36,9 +36,9 @@
 &lt;hr /&gt;
 &lt;p&gt;好久没有更新，关于&lt;code&gt;this&lt;/code&gt;在看《JavaScript高级程序设计》时就想整理一下，一直拖到现在。Javascript中的&lt;code&gt;this&lt;/code&gt;容易被混淆更多的是因为其&lt;strong&gt;作用域链&lt;/strong&gt;与&lt;strong&gt;原型链&lt;/strong&gt;的概念与一般语言尤其是面向对象语言的作用域规则相差较多；而&lt;code&gt;this&lt;/code&gt;关键字本身有趣的地方在于它存在于对象或函数内部却从外向内地指向了对象或函数本身，就像一条首尾相接的“衔尾蛇”，衔尾蛇既反映荣格所说的人类心理的&lt;strong&gt;原型&lt;/strong&gt;，又与道长神秘兮兮地说过的人类意识&lt;strong&gt;自指&lt;/strong&gt;的特性不谋而合，哈哈，又见心理学。&lt;/p&gt;</summary><category term="Javascript"></category></entry><entry><title>Lisp初学之（二）: 线性递归 与 线性迭代</title><link href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html" rel="alternate"></link><updated>2013-11-09T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-11-09:posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP &lt;a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1"&gt;1.2.1  Linear Recursion and Iteration&lt;/a&gt;），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、&lt;code&gt;for/while/do&lt;/code&gt;的是循环迭代，结果就触礁了。&lt;/p&gt;
-&lt;p&gt;仍然从考虑阶乘函数开始：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="公式" src="http://latex.codecogs.com/svg.latex?n%21%20%3D%20n%20%5Ccdot%20%28n%20-%201%29%20%5Ccdot%20%28n%20-%202%29%20%5Ccdot%20%5Ccdot%20%5Ccdot%203%20%5Ccdot%202%5Ccdot%201" title="公式" /&gt;&lt;/p&gt;
-&lt;p&gt;用语言描述阶乘的定义为：当&lt;code&gt;n=1&lt;/code&gt;时，&lt;code&gt;n!=1&lt;/code&gt;；否则&lt;code&gt;n!=n*(n-1)!&lt;/code&gt;。很自然地，将定义转换成 Lisp 代码：&lt;/p&gt;
+&lt;p&gt;仍然从考虑阶乘函数开始：
+$$n! = n(n-1)(n-2)...1$$
+用语言描述阶乘的定义为：当&lt;code&gt;n=1&lt;/code&gt;时，&lt;code&gt;n!=1&lt;/code&gt;；否则&lt;code&gt;n!=n*(n-1)!&lt;/code&gt;。很自然地，将定义转换成 Lisp 代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;fac&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="mi"&gt;1&lt;/span&gt;
@@ -66,7 +66,37 @@
 
 &lt;p&gt;上面的程序从语法形式上来看，仍然是一个递归的过程：&lt;code&gt;(iter i product)&lt;/code&gt; 内部调用了 &lt;code&gt;(iter (+ i 1) (* product i))&lt;/code&gt;，但是从实际的计算过程来看，我们不需要像递归计算那样记住整个递归过程的推进路线，而是通过迭代更新每次调用时所用的参数，这样计算过程中我们需要记住的只有迭代计数变量 &lt;code&gt;i&lt;/code&gt;、迭代乘积 &lt;code&gt;product&lt;/code&gt;、以及 &lt;code&gt;n&lt;/code&gt;；又因为阶乘计算过程中，所用的计算步骤或者所要记住的迭代变量的迭代次数与 n 的大小线性相关，因而称这样的计算过程为“&lt;span class="emp"&gt;线性迭代过程(Linear Iterative Process)&lt;/span&gt;”。这种用递归的过程实现的迭代的计算过程也称为&lt;span class="emp"&gt;尾递归&lt;/span&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;总结&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。&lt;/p&gt;</summary><category term="SICP"></category><category term="Lisp"></category></entry><entry><title>Lisp初学之（一）: APPLY 与 MAPCAR</title><link href="http://defsniky.com/posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html" rel="alternate"></link><updated>2013-10-22T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-10-22:posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT ((COMP LIST CONS) (COMP APPLY MAPCAR)))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="SICP"></category><category term="Lisp"></category></entry><entry><title>Lisp初学之（一）: APPLY 与 MAPCAR</title><link href="http://defsniky.com/posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html" rel="alternate"></link><updated>2013-10-22T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-10-22:posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT ((COMP LIST CONS) (COMP APPLY MAPCAR)))&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;关于lisp的争论太多了，有人对其赞美到了无以复加的地步，也有人觉得不以为然，但是作为一个没有深入学习过的人来说，就只能做一个不明真相的围观群众。而对于那些跃跃欲试想要参与进来的初学者来说，想要入门却并非易事，一方面面对高手们扑面而来的那些玄之又玄的大道，另一方面还要面对lisp本身“奇异”的表达形式以及最致命的环环相扣的括号。因而选择一个合适的入门材料就显得更为重要&lt;a href="http://www.zhihu.com/question/19621539"&gt;&lt;strong&gt;&amp;rarr;&lt;/strong&gt;&lt;/a&gt;，有人推荐&lt;a href="http://mitpress.mit.edu/sicp/full-text/book/book.html"&gt;SICP&lt;/a&gt;等一些大部头著作，但是这些作为深入学习研究来说比较适合，如果作为熟悉语法特性等，还是直接动手开始coding比较合适，&lt;a href="https://github.com/google/lisp-koans"&gt;Common Lisp Koans&lt;/a&gt;就是一个很好的选择，这个项目模仿Ruby Koans通过填补代码来熟悉Lisp的语法及特性。&lt;/p&gt;
 &lt;p&gt;在&lt;code&gt;mapcar-and-reduce.lsp&lt;/code&gt;一节，用 apply 与 mapcar 实现转置矩阵的功能，在Lisp中函数也可以当做参数传递给其它函数使用，其中内置可以以函数作为参数的函数有：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;funcall&lt;/span&gt; &lt;span class="err"&gt;#&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -180,7 +210,37 @@ bash中的变量，既可以被bash本身所应用，而更常见的是作为环
 &lt;span class="k"&gt;for &lt;/span&gt;arg in &lt;span class="nv"&gt;$@&lt;/span&gt;;&lt;span class="k"&gt;do&lt;/span&gt;
 &lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$arg&lt;/span&gt;
 &lt;span class="k"&gt;done&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="Bash"></category></entry><entry><title>C语言PHP扩展模板引擎Blitz加入FOREACH特性</title><link href="http://defsniky.com/posts/2013-05-28-Blitz-template-engine-added-foreach-statement.html" rel="alternate"></link><updated>2013-05-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-05-28:posts/2013-05-28-Blitz-template-engine-added-foreach-statement.html</id><summary type="html">&lt;p&gt;常用的PHP模板引擎（如&lt;a href="http://www.smarty.net/"&gt;Smarty&lt;/a&gt;）大多为PHP写成，而PHP的执行效率较低；C语言开发的PHP扩展用作模板引擎效率可以得到显著提升，&lt;a href="http://alexeyrybak.com/blitz/blitz_en.html"&gt;Blitz&lt;/a&gt;就是一个C语言开发的PHP模板引擎扩展，废话不多，先做一个简单的测试（测试代码在&lt;a href="https://github.com/sniky/Blitz-featured/blob/master/benchmark/index.php"&gt;这里&lt;/a&gt;）:&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Bash"></category></entry><entry><title>C语言PHP扩展模板引擎Blitz加入FOREACH特性</title><link href="http://defsniky.com/posts/2013-05-28-Blitz-template-engine-added-foreach-statement.html" rel="alternate"></link><updated>2013-05-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-05-28:posts/2013-05-28-Blitz-template-engine-added-foreach-statement.html</id><summary type="html">&lt;p&gt;常用的PHP模板引擎（如&lt;a href="http://www.smarty.net/"&gt;Smarty&lt;/a&gt;）大多为PHP写成，而PHP的执行效率较低；C语言开发的PHP扩展用作模板引擎效率可以得到显著提升，&lt;a href="http://alexeyrybak.com/blitz/blitz_en.html"&gt;Blitz&lt;/a&gt;就是一个C语言开发的PHP模板引擎扩展，废话不多，先做一个简单的测试（测试代码在&lt;a href="https://github.com/sniky/Blitz-featured/blob/master/benchmark/index.php"&gt;这里&lt;/a&gt;）:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
 &lt;span class="nv"&gt;$list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 
@@ -241,7 +301,37 @@ Smarty used: 11.965036392212ms
 
 &lt;p&gt;结果如此，大概就不需要进行显著性检验了。&lt;/p&gt;
 &lt;p&gt;另，原本的Blitz中不支持for或者foreach循环，取而代之的是block进行遍历、迭代数组，但传入模板引擎的变量必须在PHP代码中格式化成嵌套数组的形式，这对于对于简单的数组（如上例中的一维数组）是很不方便的，将其稍加改动，在Blitz中加入foreach的属性(&lt;a href="https://github.com/sniky/Blitz-featured"&gt;这里&lt;/a&gt;)。实际上Blitz(v0.8.6)设计已经相当完善，改动内容一共也只有十几行，并没有对原本结构有所改动，但是阅读6000+行C源码，理清其错综复杂的数据结构、函数调用以及神出鬼没的指针传递的确不是件容易的事。&lt;/p&gt;
-&lt;p&gt;最后，Blitz或者说C扩展确实快，其速度相当于C vs PHP，其缺点也恰恰相当于PHP vs C，无论PHP设计好与坏，开发PHP程序显然要比开发C更快速，因为它基于（集成于）C但更灵活，所以Smarty等PHP程序相较于C扩展也是类似的道理，速度'稍慢'，但灵活度更高，只在取舍。&lt;/p&gt;</summary><category term="PHP"></category><category term="C"></category></entry><entry><title>PHP与Python实现Hash比较（一）</title><link href="http://defsniky.com/posts/2013-05-18-Hash-implementation-in-PHP-vs-Python-part-1.html" rel="alternate"></link><updated>2013-05-18T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-05-18:posts/2013-05-18-Hash-implementation-in-PHP-vs-Python-part-1.html</id><summary type="html">&lt;p&gt;PHP中的array，python中的dict都是通过hash表(哈希表或散列表)实现的，或者说array与dict本身就是hash结构，本文及后续文章将分别比较PHP与python源代码中对哈希表的实现算法，一来学习其设计思想，另外可用于避免开发过程中一些可能会降低效率或易引发bug的操作。&lt;/p&gt;
+&lt;p&gt;最后，Blitz或者说C扩展确实快，其速度相当于C vs PHP，其缺点也恰恰相当于PHP vs C，无论PHP设计好与坏，开发PHP程序显然要比开发C更快速，因为它基于（集成于）C但更灵活，所以Smarty等PHP程序相较于C扩展也是类似的道理，速度'稍慢'，但灵活度更高，只在取舍。&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="PHP"></category><category term="C"></category></entry><entry><title>PHP与Python实现Hash比较（一）</title><link href="http://defsniky.com/posts/2013-05-18-Hash-implementation-in-PHP-vs-Python-part-1.html" rel="alternate"></link><updated>2013-05-18T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-05-18:posts/2013-05-18-Hash-implementation-in-PHP-vs-Python-part-1.html</id><summary type="html">&lt;p&gt;PHP中的array，python中的dict都是通过hash表(哈希表或散列表)实现的，或者说array与dict本身就是hash结构，本文及后续文章将分别比较PHP与python源代码中对哈希表的实现算法，一来学习其设计思想，另外可用于避免开发过程中一些可能会降低效率或易引发bug的操作。&lt;/p&gt;
 &lt;p&gt;先来PHP。一切源于PHP的内置数据类型zval(见&lt;a href="http://lxr.php.net/xref/PHP_5_4/Zend/zend.h"&gt;PHP_X_X/Zend/zend.h&lt;/a&gt;):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;union&lt;/span&gt; &lt;span class="n"&gt;_zvalue_value&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="n"&gt;lval&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;                  &lt;span class="c1"&gt;//long value&lt;/span&gt;

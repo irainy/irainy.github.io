@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/xue-xi.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-01-16T00:00:00+08:00</updated><entry><title>关于编码的一切</title><link href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="alternate"></link><updated>2014-01-16T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-16:posts/2014-01-16-All-about-encoding.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/xue-xi.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-05-21T00:00:00+08:00</updated><entry><title>恶补概率统计（一）</title><link href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-21:posts/2014-05-21-math-and-statistics-relearning-part-1.html</id><summary type="html">&lt;p&gt;之前(&lt;a href="/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html"&gt;Why SVM&lt;/a&gt;)整理的几篇关于场景识别的计算模型，其中一个是Bayesian Hierarchical Model，还有就是最近比较热门的LDA(Latent Dirichlet Allocation)主题模型。LDA首先由Blei, David M.，Ng, Andrew Y.和Jordan, Michael I于2003年提出，比较成熟地应用于文本挖掘、文本主题识别等领域，后来被引入到图像场景识别中，包括Li Fei-Fei教授的Bayesian Hierarchical Model其实也是应用的LDA模型，但又因为LDA本身就是一个三层贝叶斯模型(three-level hierarchical Bayesian model)，只不过在具体应用过程中还有所不同，后面详细描述几个模型的时候将会提到。&lt;/p&gt;
+&lt;p&gt;总而言之一句话，LDA模型很重要，但是涉及到很多概率统计的东西，仔细一看才发现，以前学过的基本已经忘得差不多了，只好恶补一下，网上有很多介绍LDA的文章，但是良莠不齐，抄袭者、昏昏者居多，但是&lt;a href="http://cos.name/author/rickjin/"&gt;rickjin&lt;/a&gt;大牛发表在&lt;a href="http://cos.name/author/rickjin/"&gt;统计之都&lt;/a&gt;的一系列文章绝对值得细细拜读。&lt;/p&gt;
+&lt;p&gt;下面的内容将会是结合rickjin的文章以及重新学习整理过的一些知识点有助于学习、理解LDA模型：&lt;/p&gt;
+&lt;h3&gt;1. 伯努利实验与二项分布&lt;/h3&gt;
+&lt;p&gt;伯努利试验就是著名的抛硬币实验，抛一次硬币得到正面的概率为 $p$，得到反面的概率为 $q = 1 - p$；而二项分布(Binomial)就是 $n$ 次独立的伯努利试验中成功(得到正面)次数的分布 $X \sim B(n, p)$：$$P(k;n,p) = C^n_k p^k (1-p)^{n-k}$$&lt;/p&gt;
+&lt;h3&gt;2. 多项式分布(Multinomial distribution)&lt;/h3&gt;
+&lt;p&gt;将二项分布进行扩展，如果抛的不是只有两面的硬币，而是一个有 $k$ 个面的骰子，相互独立地抛 $N$ 次，那么数字 $i$ 出现的次数 $K_i$ 服从多项式分布；假设出现数字 $i$ 的概率为 $p_i$ ，则满足 $(p_1 + p_2 + ... + p_k) = \sum{p_i} = 1$，将 $N$ 次独立抽样看作是从 $N$ 次多项式全部展开后取其中 $i$ (概率为 $p_i$ )出现次数为 $K_i$的概率：
+$$(p_1 + p_2 + ... + p_k) (p_1 + p_2 + ... + p_k) ... = (p_1 + p_2 + ... + p_k)^N = 1$$
+那么数字 $i$ 出现 $K_i$ 的次数满足：
+$$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k}  p^{K_1}p^{K_2}...p^{K_k}$$
+在主题模型中，假设文档 $D$ 中的所有词语 $\vec{W}=(w_1, w_2,..., w_N)$ 就是从 $k$ 个 topic 中进行了 $N$ 次独立取样得到的，因此从 $k$ 个 topic 中生成 $N$ 个词语，其中词语 $w_i$ 出现了 $k_i$ 次(即得到 $\vec{W}$ )的概率服从多项式分布。&lt;/p&gt;
+&lt;h3&gt;3. 贝叶斯概率论&lt;/h3&gt;
+&lt;p&gt;前面提到 LDA 是一个三层贝叶斯模型而不是简单的多项式分布，因此不得不提贝叶斯学派的概率理论。经典学派的观点认为概率是&lt;strong&gt;大量重复实验频率的稳定值&lt;/strong&gt;，因此也称作频率派；而在贝叶斯学派赞成&lt;strong&gt;主观概率&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;People apparently want statistics to tell them the probability of their hypothesis being right. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例如在抛硬币实验中我们不应该只考虑最终客观的统计频率，还要将我们对骰子本身特性的先验知识考虑在内。假设随机变量 $X \sim f(X, \theta)$ ，频率派将 $X$ 当做可重复实验的随机变量，而 $\theta$ 当做是概率分布中&lt;strong&gt;确定但未知&lt;/strong&gt;的参数，因此 $f(X, \theta)$ 反应的时 $X$ 的规律特性，$\theta$ 是可以通过对 $X$ 的抽样进行估计的。但是在贝叶斯派的观点中，未知的参数 $\theta$ 并&lt;strong&gt;不是确定的&lt;/strong&gt;，它自身服从自己的先验概率分布：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在贝叶斯学派看来，一切参数都是随机变量&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;而贝叶斯的基本公式是：
+$$P(H|D)  \propto  P(H) P(D|H)$$
+也就是说我们最终观察到的&lt;strong&gt;后验概率&lt;/strong&gt; $P(H|D)$ 是由我们对假设 $H$ 本身的&lt;strong&gt;先验知识&lt;/strong&gt; $P(H)$ 与在先验知识的基础上观察得到的新数据即&lt;strong&gt;相似度&lt;/strong&gt; $P(D|H)$ 决定的；接下来问题就来了，对于先验知识，我们并不总是能够准确地知道其遵循什么样的规律，服从什么样的分布，如何选取先验分布是一个相当重要的问题，确定先验分布的方法有：客观法、主观概率法、同等物质原则、共轭分布法、Jeffreys原则、最大熵原则等。这里需要着重介绍的就是&lt;strong&gt;共轭分布法&lt;/strong&gt;。所谓的共轭分布就是指当 $P(D|H)$ 遵循某种分布时先验分布和后验分布遵循相同的分布形式，只是参数不同而已，例如常见的共轭分布有：Beta-Binomial 共轭、Gamma-Dirichlet 共轭，结合上面提到的主题模型中得多项式分布，可以知道 LDA 模型中所采取的先验概率即为 Gamma 分布。&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Psychology"></category><category term="统计"></category><category term="LDA"></category></entry><entry><title>关于编码的一切</title><link href="http://defsniky.com/posts/2014-01-16-All-about-encoding.html" rel="alternate"></link><updated>2014-01-16T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-01-16:posts/2014-01-16-All-about-encoding.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;乱码&lt;/strong&gt;与&lt;strong&gt;时间格式&lt;/strong&gt;错误如同矗立在所有程序员面前的太行王屋两座大山。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;编码错误或乱码几乎是每个人都会遇到的问题，比如用 Python 抓取网页进行正则分析之后发现在原来网页上正常的文字抓取下来之后变成乱码了，或者是存进 MySQL 之后变成乱码了，又或者本来在编辑器里面编辑得好好的输出之后又是乱码……要命的是每次遇到乱码问题，经过一番痛苦挣扎之后终于解决了，之后总是还会遇到新的乱码问题，这才是真正的“子子孙孙无穷尽也”，本文试图从头到尾将编码问题彻底阐述清楚，至少以后再次遇到&lt;code&gt;烫烫烫烫烫烫烫烫烫&lt;/code&gt;的问题能够有迹可循。&lt;/p&gt;

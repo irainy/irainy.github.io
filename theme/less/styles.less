@@ -44,10 +44,10 @@
 	-o-box-shadow:		@string;
 }
 .inline-link (@padding){
-	padding: @padding;
+	//padding: @padding;
 	text-decoration: none;
 	&:hover {
-		padding: @padding;
+		//padding: @padding;
 		background: @wall-deeper;
 		color: @white;
 		.border-radius(2px);
@@ -61,10 +61,16 @@ html, body, ol, ul, li, h1, h2, h3, h4, h5, h6, p, form, img, table, dl, dt, dd{
 	.box-sizing;
 }
 body {
+/*
 	background-color: @back;
 	font:14px/25px "Oxygen",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;-webkit-font-smoothing:antialiased;
 	font-family: Georgia,"Times New Roman",Times,"Kai","Kaiti SC","KaiTi","BiauKai","楷体","楷体_GB2312",serif;
 	color: @front;
+*/
+  font: 15px/24px "Vollkorn", Palatino, Times;
+  color: @front;
+  line-height: 1.4;
+  //text-align: justify;
 }
 li {
 	list-style: none;
@@ -249,7 +255,7 @@ h2#arch {
 }
 // entry-content
 div.entry-content {
-	font-size: 17px;
+	//font-size: 17px;
 	line-height: 28px;
 	margin-top: 20px;
 	code {
@@ -259,8 +265,8 @@ div.entry-content {
 		padding: 2px;
 	}
 	h3 {
-		padding: 16px 0px;
-		font-size: 20px;
+		padding: 14px 0px;
+		font-size: 18px;
 	}
 	a {
 		.inline-link(1px);
@@ -285,11 +291,12 @@ div.entry-content {
 		background-color: #fdf1ef;
 		border-left: 3px solid #eee;
 		border-color: #dd4b39;
-		padding: 20px;
+		padding: 10px 10px 10px 20px;
 		margin-bottom: 16px;
 		.box-sizing(border-box);
 		p {
 			font-size: 16px;
+      //font-weight: 900;
 			line-height: 28px;
 			margin-bottom: 0;
 		}
@@ -300,7 +307,7 @@ footer#contentinfo {
 	margin: 20px auto;
 	margin-top: 0px;
 	ul li {
-		font-size: 12px;
+		//font-size: 12px;
 		color: @wall-deeper;
 		span.me, a{
 			color: @wall-green;
@@ -345,7 +352,7 @@ ul.neighbors {
 	}
 	li a {
 		padding: 3px;
-		.inline-link(3px);
+		.inline-link(1px);
 		.transition(all .2s ease-out);
 	}
 }
@@ -362,6 +369,7 @@ div.shares {
 
 @media all and (max-width: 900px) {
     p { overflow: scroll;}
+    div.MathJax_Display{ overflow: scroll;}
 	ul.right {
 		display: none;
 	}
@@ -374,6 +382,7 @@ div.shares {
 	}
 }
 @media all and (max-width: 400px) {
+    div.MathJax_Display{ overflow: scroll;}
     p { overflow: scroll;}
     h2 {
         font-size: 25px;

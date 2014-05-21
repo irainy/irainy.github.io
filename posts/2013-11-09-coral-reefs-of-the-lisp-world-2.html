@@ -40,7 +40,7 @@
                     <a href="#/归类" title="categories" class="top-menu"><i class="fa fa-list"></i></a>
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">6</span>]</a></li>
-                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">3</span>]</a></li>
                         <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
                         <li role="presentation"><a title="认知" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/ren-zhi.html">认知 [<span class="article-count">1</span>]</a></li>
                         <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
@@ -97,9 +97,9 @@
   <div class="entry-content">
     <p><code>(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))</code></p>
 <p>在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP <a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1">1.2.1  Linear Recursion and Iteration</a>），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、<code>for/while/do</code>的是循环迭代，结果就触礁了。</p>
-<p>仍然从考虑阶乘函数开始：</p>
-<p><img alt="公式" src="http://latex.codecogs.com/svg.latex?n%21%20%3D%20n%20%5Ccdot%20%28n%20-%201%29%20%5Ccdot%20%28n%20-%202%29%20%5Ccdot%20%5Ccdot%20%5Ccdot%203%20%5Ccdot%202%5Ccdot%201" title="公式" /></p>
-<p>用语言描述阶乘的定义为：当<code>n=1</code>时，<code>n!=1</code>；否则<code>n!=n*(n-1)!</code>。很自然地，将定义转换成 Lisp 代码：</p>
+<p>仍然从考虑阶乘函数开始：
+$$n! = n(n-1)(n-2)...1$$
+用语言描述阶乘的定义为：当<code>n=1</code>时，<code>n!=1</code>；否则<code>n!=n*(n-1)!</code>。很自然地，将定义转换成 Lisp 代码：</p>
 <div class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">fac</span> <span class="p">(</span><span class="nv">n</span><span class="p">)</span>
     <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">=</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
         <span class="mi">1</span>
@@ -127,7 +127,37 @@
 
 <p>上面的程序从语法形式上来看，仍然是一个递归的过程：<code>(iter i product)</code> 内部调用了 <code>(iter (+ i 1) (* product i))</code>，但是从实际的计算过程来看，我们不需要像递归计算那样记住整个递归过程的推进路线，而是通过迭代更新每次调用时所用的参数，这样计算过程中我们需要记住的只有迭代计数变量 <code>i</code>、迭代乘积 <code>product</code>、以及 <code>n</code>；又因为阶乘计算过程中，所用的计算步骤或者所要记住的迭代变量的迭代次数与 n 的大小线性相关，因而称这样的计算过程为“<span class="emp">线性迭代过程(Linear Iterative Process)</span>”。这种用递归的过程实现的迭代的计算过程也称为<span class="emp">尾递归</span>。</p>
 <p><strong>总结</strong></p>
-<p>总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。</p>
+<p>总的来说，区分线性递归与尾递归、递归与迭代要从语法描述的过程与实际的计算过程去考虑。</p><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+
   </div><!-- /.entry-content -->
   <div class="end-article">- END -</div>
     <div class="shares">

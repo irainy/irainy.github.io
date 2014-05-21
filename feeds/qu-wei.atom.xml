@@ -64,5 +64,35 @@ mv &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="s2
 &lt;li&gt;以单词长度作为首字母大小写的判断仍不够智能，一些较长的介词仍会被误判而一些首字母缩写的单词（如 BOLD）则会被误杀；&lt;/li&gt;
 &lt;li&gt;从 PDF 中直接解析年份与文题一直悬而未解，能找到合适的方法才可以真正完全自动化；&lt;/li&gt;
 &lt;li&gt;...&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="Sed"></category><category term="Awk"></category><category term="FUN"></category></entry><entry><title>你的密码是什么？</title><link href="http://defsniky.com/posts/2013-12-26-password-statistic.html" rel="alternate"></link><updated>2013-12-26T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-12-26:posts/2013-12-26-password-statistic.html</id><summary type="html">&lt;p&gt;收集了一些密码，做了简单的统计，发现一些比较有趣的现象&lt;code&gt;^_^&lt;/code&gt;。&lt;/p&gt;
+&lt;/ul&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Sed"></category><category term="Awk"></category><category term="FUN"></category></entry><entry><title>你的密码是什么？</title><link href="http://defsniky.com/posts/2013-12-26-password-statistic.html" rel="alternate"></link><updated>2013-12-26T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-12-26:posts/2013-12-26-password-statistic.html</id><summary type="html">&lt;p&gt;收集了一些密码，做了简单的统计，发现一些比较有趣的现象&lt;code&gt;^_^&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;a href="/projects/password/visu.html"&gt;What's your Passwords?&lt;/a&gt;&lt;/p&gt;</summary><category term="FUN"></category></entry></feed>
