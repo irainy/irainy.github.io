@@ -96,7 +96,7 @@
                     · <span class="glyphicon glyphicon-tags"></span><a href="http://defsniky.com/tag/sicp.html" rel="tag" title="tag:SICP"> : SICP : </a><a href="http://defsniky.com/tag/lisp.html" rel="tag" title="tag:Lisp"> : Lisp : </a>              </footer><!-- /.post-info -->
   <div class="entry-content">
     <p><code>(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))</code></p>
-<p>在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP <a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1">1.2.1  Linear Recursion and Iteration</a>），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、<code>for/while/do</code>的是循环迭代，结果就触礁了。</p>
+<p>在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP <a href="/projects/sicp/book-Z-H-11.html#%_sec_1.2.1">1.2.1  Linear Recursion and Iteration</a>），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、<code>for/while/do</code>的是循环迭代，结果就触礁了。</p>
 <p>仍然从考虑阶乘函数开始：
 $$n! = n(n-1)(n-2)...1$$
 用语言描述阶乘的定义为：当<code>n=1</code>时，<code>n!=1</code>；否则<code>n!=n*(n-1)!</code>。很自然地，将定义转换成 Lisp 代码：</p>
@@ -110,7 +110,7 @@ $$n! = n(n-1)(n-2)...1$$
 
 
 <p>单从语法形式上(syntactic)看上面的代码，<code>(fac n)</code>在定义时调用了它自身，这一语法形式上的事实我们称之为“递归过程(recursive procedure)”；而从实际的计算过程来看，也就是说看<code>(fac n)</code>在实际执行的过程中做了那些计算，结果是只有当调用到<code>(fac 1)</code>时才返回了明确的结果 1，在此之前，<code>(fac (- n 1))</code>只是作为展开过程中的助记符，推进程序的前进，如下图：</p>
-<p><img alt="递归" src="http://sniky.github.io/extra/sicp/ch1-Z-G-7.gif" title="递归" /></p>
+<p><img alt="递归" src="/projects/sicp/ch1-Z-G-7.gif" title="递归" /></p>
 <p><code>(fac n)</code>产生了一个递归的计算过程(recursive process)，为了完成这一计算过程，它在形式上调用了自身，在计算过程中将自身作为推进（展开）计算的标识符，作为计算代价，我们不得不记住展开过程中所有<code>(fac (- n 1))</code>经过的地方，直到<code>(fac 1)</code>给出明确的返回值，再沿原路返回回去，得到<code>(fac n)</code>的值；又因为阶乘计算过程中，我们所要记住的<code>(fac (- n 1))</code>经过的路径与 n 的大小存在线性相关，因而称这样的计算过程为“<span class='emp'>线性递归过程(Linear Recursive Process)</span>”。</p>
 <p>再考虑迭代的算法，所谓迭代，在计算阶乘的过程中可以看做是对 <code>n</code> 与 <code>(n - 1)</code> 的乘积在 <code>n = 1, 2, ..., n</code> 的范围内重复、累积：</p>
 <div class="highlight"><pre><span class="p">(</span><span class="nb">defun</span> <span class="nv">fac-iter</span> <span class="p">(</span><span class="nv">n</span><span class="p">)</span>

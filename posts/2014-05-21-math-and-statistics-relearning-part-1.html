@@ -24,7 +24,7 @@
     <meta name="tags" contents="Psychology" />
     <meta name="tags" contents="统计" />
     <meta name="tags" contents="LDA" />
-    <title>恶补概率统计（一）</title>
+    <title>LDA 概率统计基础（一）</title>
     <link href="/theme/css/syntax.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
     <link rel="canonical" href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" />
@@ -87,7 +87,7 @@
   <header>
     <h2 class="entry-title">
       <a href="#" rel="bookmark"
-         title="Permalink to 恶补概率统计（一）">恶补概率统计（一）</a></h2>
+         title="Permalink to LDA 概率统计基础（一）">LDA 概率统计基础（一）</a></h2>
  
   </header>
   <footer class="post-info">
@@ -105,7 +105,7 @@
 <p>将二项分布进行扩展，如果抛的不是只有两面的硬币，而是一个有 $k$ 个面的骰子，相互独立地抛 $N$ 次，那么数字 $i$ 出现的次数 $K_i$ 服从多项式分布；假设出现数字 $i$ 的概率为 $p_i$ ，则满足 $(p_1 + p_2 + ... + p_k) = \sum{p_i} = 1$，将 $N$ 次独立抽样看作是从 $N$ 次多项式全部展开后取其中 $i$ (概率为 $p_i$ )出现次数为 $K_i$的概率：
 $$(p_1 + p_2 + ... + p_k) (p_1 + p_2 + ... + p_k) ... = (p_1 + p_2 + ... + p_k)^N = 1$$
 那么数字 $i$ 出现 $K_i$ 的次数满足：
-$$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k}  p^{K_1}p^{K_2}...p^{K_k}$$
+$$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k!}  p^{K_1}p^{K_2}...p^{K_k}$$
 在主题模型中，假设文档 $D$ 中的所有词语 $\vec{W}=(w_1, w_2,..., w_N)$ 就是从 $k$ 个 topic 中进行了 $N$ 次独立取样得到的，那么从 $k$ 个 topic 中生成 $N$ 个词语，其中词语 $w_i$ 出现了 $k_i$ 次(即得到 $\vec{W}$ )的概率服从多项式分布。</p>
 <h3>3. 贝叶斯概率论</h3>
 <p>前面提到 LDA 是一个三层贝叶斯模型而不是简单的多项式分布，因此不得不提贝叶斯学派的概率理论。经典学派的观点认为概率是<strong>大量重复实验频率的稳定值</strong>，因此也称作频率派；而贝叶斯学派赞成<strong>主观概率</strong>：</p>
@@ -118,7 +118,16 @@ $$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k}  p^{K_1}p^{K_2}...p^{K_k
 </blockquote>
 <p>而贝叶斯的基本公式是：
 $$P(H|D)  \propto  P(H) P(D|H)$$
-也就是说我们最终观察到的<strong>后验概率</strong> $P(H|D)$ 是由我们对假设 $H$ 本身的<strong>先验知识</strong> $P(H)$ 与在先验知识的基础上观察得到的新数据即<strong>相似度</strong> $P(D|H)$ 决定的；接下来问题就来了，对于先验知识，我们并不总是能够准确地知道其遵循什么样的规律，服从什么样的分布，如何选取先验分布是一个相当重要的问题，确定先验分布的方法有：客观法、主观概率法、同等物质原则、共轭分布法、Jeffreys原则、最大熵原则等。这里需要着重介绍的就是<strong>共轭分布法</strong>。所谓的共轭分布就是指当 $P(D|H)$ 遵循某种分布时先验分布和后验分布遵循相同的分布形式，只是参数不同而已，例如常见的共轭分布有：Beta-Binomial 共轭、Gamma-Dirichlet 共轭，结合上面提到的主题模型中得多项式分布，可以知道 LDA 模型中所采取的先验概率即为 Gamma 分布。</p><script type= "text/javascript">
+也就是说我们最终观察到的<strong>后验概率</strong> $P(H|D)$ 是由我们对假设 $H$ 本身的<strong>先验知识</strong> $P(H)$ 与在先验知识的基础上观察得到的新数据即<strong>相似度</strong> $P(D|H)$ 决定的；接下来问题就来了，对于先验知识，我们并不总是能够准确地知道其遵循什么样的规律，服从什么样的分布，如何选取先验分布是一个相当重要的问题，确定先验分布的方法有：客观法、主观概率法、同等物质原则、共轭分布法、Jeffreys原则、最大熵原则等。这里需要着重介绍的就是<strong>共轭分布法</strong>。所谓的共轭分布就是指当 $P(D|H)$ 遵循某种分布时先验分布和后验分布遵循相同的分布形式，只是参数不同而已，例如常见的共轭分布有：Beta-Binomial 共轭、Dirichlet-Multinomial 共轭，结合上面提到的主题模型中得多项式分布，可以知道 LDA 模型中所采取的先验概率即为 Gamma 分布。</p>
+<h3>4. Beta-Binomial 共轭 &amp; Dirichlet-Multinomial 共轭</h3>
+<p>在前面提到的二项分布中，频率派的观点认为抛一枚硬币正面朝上的概率应该是大量重复伯努利实验频率趋于的稳定值：$p = \frac{k}{n}$；而在贝叶斯派的眼中不应该存在一个确定的概率值 $p$，这个概率值应该服从于某一分布，例如 $p \sim X(\theta)$ ，从而二项分布在贝叶斯理论框架下变成了：
+$$P(k; n, p) =  P(p)C_k^n p^k(1-p)^{n-k}$$
+那么如何选取 $p$ 的先验分布呢？如上所述我们用共轭分布的方法选取 $p$ 的先验分布，当观察数据服从二项分布(Binomial)时，Beta 作为先验分布时后验分布也是 Beta 分布(<a href="http://cos.name/2013/01/lda-math-beta-dirichlet/">证明过程</a>)：
+$$Be(p; \alpha, \beta) = \frac{p^{\alpha - 1}(1 - p)^{\beta - 1}}{ \int_0^1 \theta^{\alpha - 1}(1 - \theta)^{\beta - 1}d\theta}$$
+类似的，多项式分布的共轭分布为 Dirichlet 分布：
+$$Dir(k_1, k_2, ..., k_N; p_1, p_2, ..., p_N) = \frac{ \Gamma (\sum_{n=1}^N\alpha_n)}{\prod_{n=1}^N\Gamma(\alpha_n)}\prod_{n=1}^Np_n^{k_n - 1}$$
+其中：
+$$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$</p><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -178,7 +187,7 @@ $$P(H|D)  \propto  P(H) P(D|H)$$
 <div id="disqus_thread"></div>
 <script type="text/javascript" id="wumiiComments">
 	var wumiiPermaLink = "http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html"; 
-	var wumiiTitle = "恶补概率统计（一）"; 
+	var wumiiTitle = "LDA 概率统计基础（一）"; 
 	var wumiiTags = "Psychology,统计,LDA"; 
 	var wumiiCategories = ["学习"]; 
 	var wumiiSitePrefix = "http://defsniky.com/";

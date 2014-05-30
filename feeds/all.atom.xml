@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/all.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-05-21T00:00:00+08:00</updated><entry><title>恶补概率统计（一）</title><link href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-21:posts/2014-05-21-math-and-statistics-relearning-part-1.html</id><summary type="html">&lt;p&gt;之前(&lt;a href="/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html"&gt;Why SVM&lt;/a&gt;)整理的几篇关于场景识别的计算模型，其中一个是Bayesian Hierarchical Model，还有就是最近比较热门的LDA(Latent Dirichlet Allocation)主题模型。LDA首先由Blei, David M.，Ng, Andrew Y.和Jordan, Michael I于2003年提出，比较成熟地应用于文本挖掘、文本主题识别等领域，后来被引入到图像场景识别中，包括Li Fei-Fei教授的Bayesian Hierarchical Model其实也是应用的LDA模型，但又因为LDA本身就是一个三层贝叶斯模型(three-level hierarchical Bayesian model)，只不过在具体应用过程中还有所不同，后面详细描述几个模型的时候将会提到。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/all.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-05-21T00:00:00+08:00</updated><entry><title>LDA 概率统计基础（一）</title><link href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-21:posts/2014-05-21-math-and-statistics-relearning-part-1.html</id><summary type="html">&lt;p&gt;之前(&lt;a href="/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html"&gt;Why SVM&lt;/a&gt;)整理的几篇关于场景识别的计算模型，其中一个是Bayesian Hierarchical Model，还有就是最近比较热门的LDA(Latent Dirichlet Allocation)主题模型。LDA首先由Blei, David M.，Ng, Andrew Y.和Jordan, Michael I于2003年提出，比较成熟地应用于文本挖掘、文本主题识别等领域，后来被引入到图像场景识别中，包括Li Fei-Fei教授的Bayesian Hierarchical Model其实也是应用的LDA模型，但又因为LDA本身就是一个三层贝叶斯模型(three-level hierarchical Bayesian model)，只不过在具体应用过程中还有所不同，后面详细描述几个模型的时候将会提到。&lt;/p&gt;
 &lt;p&gt;总而言之一句话，LDA模型很重要，但是涉及到很多概率统计的东西，仔细一看才发现，以前学过的基本已经忘得差不多了，只好恶补一下，网上有很多介绍LDA的文章，但是良莠不齐，抄袭者、昏昏者居多，但是&lt;a href="http://cos.name/author/rickjin/"&gt;rickjin&lt;/a&gt;大牛发表在&lt;a href="http://cos.name/author/rickjin/"&gt;统计之都&lt;/a&gt;的一系列文章绝对值得细细拜读。&lt;/p&gt;
 &lt;p&gt;下面的内容将会是结合rickjin的文章以及重新学习整理过的一些知识点有助于学习、理解LDA模型：&lt;/p&gt;
 &lt;h3&gt;1. 伯努利实验与二项分布&lt;/h3&gt;
@@ -8,7 +8,7 @@
 &lt;p&gt;将二项分布进行扩展，如果抛的不是只有两面的硬币，而是一个有 $k$ 个面的骰子，相互独立地抛 $N$ 次，那么数字 $i$ 出现的次数 $K_i$ 服从多项式分布；假设出现数字 $i$ 的概率为 $p_i$ ，则满足 $(p_1 + p_2 + ... + p_k) = \sum{p_i} = 1$，将 $N$ 次独立抽样看作是从 $N$ 次多项式全部展开后取其中 $i$ (概率为 $p_i$ )出现次数为 $K_i$的概率：
 $$(p_1 + p_2 + ... + p_k) (p_1 + p_2 + ... + p_k) ... = (p_1 + p_2 + ... + p_k)^N = 1$$
 那么数字 $i$ 出现 $K_i$ 的次数满足：
-$$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k}  p^{K_1}p^{K_2}...p^{K_k}$$
+$$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k!}  p^{K_1}p^{K_2}...p^{K_k}$$
 在主题模型中，假设文档 $D$ 中的所有词语 $\vec{W}=(w_1, w_2,..., w_N)$ 就是从 $k$ 个 topic 中进行了 $N$ 次独立取样得到的，那么从 $k$ 个 topic 中生成 $N$ 个词语，其中词语 $w_i$ 出现了 $k_i$ 次(即得到 $\vec{W}$ )的概率服从多项式分布。&lt;/p&gt;
 &lt;h3&gt;3. 贝叶斯概率论&lt;/h3&gt;
 &lt;p&gt;前面提到 LDA 是一个三层贝叶斯模型而不是简单的多项式分布，因此不得不提贝叶斯学派的概率理论。经典学派的观点认为概率是&lt;strong&gt;大量重复实验频率的稳定值&lt;/strong&gt;，因此也称作频率派；而贝叶斯学派赞成&lt;strong&gt;主观概率&lt;/strong&gt;：&lt;/p&gt;
@@ -21,7 +21,16 @@ $$P( \vec{K};N, \vec{p} ) =   \frac{n!}{K_i!K_2!...K_k}  p^{K_1}p^{K_2}...p^{K_k
 &lt;/blockquote&gt;
 &lt;p&gt;而贝叶斯的基本公式是：
 $$P(H|D)  \propto  P(H) P(D|H)$$
-也就是说我们最终观察到的&lt;strong&gt;后验概率&lt;/strong&gt; $P(H|D)$ 是由我们对假设 $H$ 本身的&lt;strong&gt;先验知识&lt;/strong&gt; $P(H)$ 与在先验知识的基础上观察得到的新数据即&lt;strong&gt;相似度&lt;/strong&gt; $P(D|H)$ 决定的；接下来问题就来了，对于先验知识，我们并不总是能够准确地知道其遵循什么样的规律，服从什么样的分布，如何选取先验分布是一个相当重要的问题，确定先验分布的方法有：客观法、主观概率法、同等物质原则、共轭分布法、Jeffreys原则、最大熵原则等。这里需要着重介绍的就是&lt;strong&gt;共轭分布法&lt;/strong&gt;。所谓的共轭分布就是指当 $P(D|H)$ 遵循某种分布时先验分布和后验分布遵循相同的分布形式，只是参数不同而已，例如常见的共轭分布有：Beta-Binomial 共轭、Gamma-Dirichlet 共轭，结合上面提到的主题模型中得多项式分布，可以知道 LDA 模型中所采取的先验概率即为 Gamma 分布。&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+也就是说我们最终观察到的&lt;strong&gt;后验概率&lt;/strong&gt; $P(H|D)$ 是由我们对假设 $H$ 本身的&lt;strong&gt;先验知识&lt;/strong&gt; $P(H)$ 与在先验知识的基础上观察得到的新数据即&lt;strong&gt;相似度&lt;/strong&gt; $P(D|H)$ 决定的；接下来问题就来了，对于先验知识，我们并不总是能够准确地知道其遵循什么样的规律，服从什么样的分布，如何选取先验分布是一个相当重要的问题，确定先验分布的方法有：客观法、主观概率法、同等物质原则、共轭分布法、Jeffreys原则、最大熵原则等。这里需要着重介绍的就是&lt;strong&gt;共轭分布法&lt;/strong&gt;。所谓的共轭分布就是指当 $P(D|H)$ 遵循某种分布时先验分布和后验分布遵循相同的分布形式，只是参数不同而已，例如常见的共轭分布有：Beta-Binomial 共轭、Dirichlet-Multinomial 共轭，结合上面提到的主题模型中得多项式分布，可以知道 LDA 模型中所采取的先验概率即为 Gamma 分布。&lt;/p&gt;
+&lt;h3&gt;4. Beta-Binomial 共轭 &amp;amp; Dirichlet-Multinomial 共轭&lt;/h3&gt;
+&lt;p&gt;在前面提到的二项分布中，频率派的观点认为抛一枚硬币正面朝上的概率应该是大量重复伯努利实验频率趋于的稳定值：$p = \frac{k}{n}$；而在贝叶斯派的眼中不应该存在一个确定的概率值 $p$，这个概率值应该服从于某一分布，例如 $p \sim X(\theta)$ ，从而二项分布在贝叶斯理论框架下变成了：
+$$P(k; n, p) =  P(p)C_k^n p^k(1-p)^{n-k}$$
+那么如何选取 $p$ 的先验分布呢？如上所述我们用共轭分布的方法选取 $p$ 的先验分布，当观察数据服从二项分布(Binomial)时，Beta 作为先验分布时后验分布也是 Beta 分布(&lt;a href="http://cos.name/2013/01/lda-math-beta-dirichlet/"&gt;证明过程&lt;/a&gt;)：
+$$Be(p; \alpha, \beta) = \frac{p^{\alpha - 1}(1 - p)^{\beta - 1}}{ \int_0^1 \theta^{\alpha - 1}(1 - \theta)^{\beta - 1}d\theta}$$
+类似的，多项式分布的共轭分布为 Dirichlet 分布：
+$$Dir(k_1, k_2, ..., k_N; p_1, p_2, ..., p_N) = \frac{ \Gamma (\sum_{n=1}^N\alpha_n)}{\prod_{n=1}^N\Gamma(\alpha_n)}\prod_{n=1}^Np_n^{k_n - 1}$$
+其中：
+$$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$&lt;/p&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -325,7 +334,7 @@ rain.encode&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;u
 &lt;p&gt;结果如下：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="最终结果" src="/theme/images/blog/sicp_res.png" title="最终结果" /&gt;&lt;/p&gt;
 &lt;p&gt;后面的阈值化等操作的分离效果很大程度上来说并不取决于参数的选取，尤其是考虑到不同的图像中文字颜色、尺寸及其与背景噪音的对比，能否将特征分离出来更多还是取决于颜色空间的选取。&lt;/p&gt;</summary><category term="OpenCV"></category><category term="Python"></category><category term="Vision"></category></entry><entry><title>Lisp初学之（二）: 线性递归 与 线性迭代</title><link href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html" rel="alternate"></link><updated>2013-11-09T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-11-09:posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP &lt;a href="http://sniky.github.io/extra/sicp/book-Z-H-11.html#%_sec_1.2.1"&gt;1.2.1  Linear Recursion and Iteration&lt;/a&gt;），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、&lt;code&gt;for/while/do&lt;/code&gt;的是循环迭代，结果就触礁了。&lt;/p&gt;
+&lt;p&gt;在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP &lt;a href="/projects/sicp/book-Z-H-11.html#%_sec_1.2.1"&gt;1.2.1  Linear Recursion and Iteration&lt;/a&gt;），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、&lt;code&gt;for/while/do&lt;/code&gt;的是循环迭代，结果就触礁了。&lt;/p&gt;
 &lt;p&gt;仍然从考虑阶乘函数开始：
 $$n! = n(n-1)(n-2)...1$$
 用语言描述阶乘的定义为：当&lt;code&gt;n=1&lt;/code&gt;时，&lt;code&gt;n!=1&lt;/code&gt;；否则&lt;code&gt;n!=n*(n-1)!&lt;/code&gt;。很自然地，将定义转换成 Lisp 代码：&lt;/p&gt;
@@ -339,7 +348,7 @@ $$n! = n(n-1)(n-2)...1$$
 
 
 &lt;p&gt;单从语法形式上(syntactic)看上面的代码，&lt;code&gt;(fac n)&lt;/code&gt;在定义时调用了它自身，这一语法形式上的事实我们称之为“递归过程(recursive procedure)”；而从实际的计算过程来看，也就是说看&lt;code&gt;(fac n)&lt;/code&gt;在实际执行的过程中做了那些计算，结果是只有当调用到&lt;code&gt;(fac 1)&lt;/code&gt;时才返回了明确的结果 1，在此之前，&lt;code&gt;(fac (- n 1))&lt;/code&gt;只是作为展开过程中的助记符，推进程序的前进，如下图：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="递归" src="http://sniky.github.io/extra/sicp/ch1-Z-G-7.gif" title="递归" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="递归" src="/projects/sicp/ch1-Z-G-7.gif" title="递归" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;(fac n)&lt;/code&gt;产生了一个递归的计算过程(recursive process)，为了完成这一计算过程，它在形式上调用了自身，在计算过程中将自身作为推进（展开）计算的标识符，作为计算代价，我们不得不记住展开过程中所有&lt;code&gt;(fac (- n 1))&lt;/code&gt;经过的地方，直到&lt;code&gt;(fac 1)&lt;/code&gt;给出明确的返回值，再沿原路返回回去，得到&lt;code&gt;(fac n)&lt;/code&gt;的值；又因为阶乘计算过程中，我们所要记住的&lt;code&gt;(fac (- n 1))&lt;/code&gt;经过的路径与 n 的大小存在线性相关，因而称这样的计算过程为“&lt;span class='emp'&gt;线性递归过程(Linear Recursive Process)&lt;/span&gt;”。&lt;/p&gt;
 &lt;p&gt;再考虑迭代的算法，所谓迭代，在计算阶乘的过程中可以看做是对 &lt;code&gt;n&lt;/code&gt; 与 &lt;code&gt;(n - 1)&lt;/code&gt; 的乘积在 &lt;code&gt;n = 1, 2, ..., n&lt;/code&gt; 的范围内重复、累积：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;fac-iter&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
