@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'KR';
+  src: url('/theme/fonts/KaushanScript-Regular.ttf') format('truetype');
+}
 html,
 body,
 ol,
@@ -135,7 +139,7 @@ div#site-logo div.sub-logo {
 }
 div#site-logo div.sub-logo a {
   font-size: 35px;
-  font-family: 'Kaushan Script', 'cursive';
+  font-family: 'KR', 'cursive';
   color: #db5e63;
   text-decoration: none;
   text-shadow: 1px 2px 2px #eee;
