@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--
+            **                                                          
+             * Author:         rainy                                   
+             * Contact:        sniky.hack@gmail.com                   
+            **                                               
+    -->
+    <meta charset="utf-8" />
+    <meta name="description" content="rainy's technology blog"/>
+    <meta name="keywords" content="IT, learning, sharing" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta property="og:site_name" content="rainy"/>
+    <meta name="generator" content="Pelican" />
+    <meta name="author" content="rainy" />
+    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
+    <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
+    <link rel="shortcut icon" href="/theme/images/fav.png" />
+    <meta name="description" contents="Lua 语言 15 分钟快速入门 - 技术翻译" />
+    <meta name="tags" contents="Lua" />
+    <title>Lua 语言 15 分钟快速入门【译】</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="canonical" href="http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html" />
+</head>
+
+<body id="index" class="home">
+    <div id="upper-menu-container">
+        <div id="page-menu-wrapper">
+            <ul class="main left">
+                <li>
+                    <a href="/" class="top-menu"><span class="fa fa-home"></span></a>
+                </li>
+                <li>
+                    <a href="#/归类" title="categories" class="top-menu"><i class="fa fa-list"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">7</span>]</a></li>
+                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">3</span>]</a></li>
+                        <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
+                        <li role="presentation"><a title="认知" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/ren-zhi.html">认知 [<span class="article-count">1</span>]</a></li>
+                        <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/archives.html" class="top-menu" rel="index" title="archives" ><i class="fa fa-archive"></i></a>
+                </li>
+                <li>
+                    <a href="/tags.html" class="top-menu" rel="index" title="tags"><i class="fa fa-tags"></i></a>
+                </li>
+            </ul>
+            
+            <ul class="main right">
+               <li>
+                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss-square"></i></a>
+                </li>
+                <li>
+                    <a href="/" title="find-me" class="top-menu" rel="nofollow" ><i class="fa fa-globe"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="mailto:sniky.hack@gmail.com"  title="mail to me"><i class="fa fa-envelope"></i> Mail</a></li>
+                        <li><a href="https://github.com/sniky" rel="nofollow" title="github"><i class="fa fa-github-square"></i> Github</a></li>
+                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
+                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="google-plus"><i class="fa fa-google-plus-square"></i> Google+</a></li>
+<!--                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>-->
+                    </ul>
+                </li>
+                <li>
+                    <a href="http://about.me/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/avatar.jpeg" class="img-avatar" title="avatar" alt="avatar" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <div id="content-wrapper">
+            <div id="site-logo">
+                <div class="sub-logo"><a href="/" alt="You-know-nothing">{you know nothing.}</a></div>
+            </div>
+
+            <div class="article-container">
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to Lua 语言 15 分钟快速入门【译】">Lua 语言 15 分钟快速入门【译】</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+                    <span class="glyphicon glyphicon-user"></span> rainy
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.06.05
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
+                    · <span class="glyphicon glyphicon-tags"></span><a href="http://defsniky.com/tag/lua.html" rel="tag" title="tag:Lua"> : Lua : </a>              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p><img alt="Lua" src="http://www.lua.org/images/lua.gif" /></p>
+<p>译文，英文原文：<a href="http://tylerneylon.com/a/learn-lua/">Learn Lua in 15 Minutes</a></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">-- 单行注释</span>
+<span class="cm">--[[</span>
+<span class="cm">    [多行注释]</span>
+<span class="cm">--]]</span>
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">1.</span> <span class="err">变量</span> <span class="err">&amp;</span> <span class="err">控制流</span>
+<span class="c1">----------</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">23</span> <span class="c1">-- 数字都是双精度</span>
+<span class="n">str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">aspythonstring&#39;</span> <span class="c1">-- 像 Python 一样不可变</span>
+<span class="n">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">aspythonuse&quot;</span> <span class="c1">-- 可以双引号</span>
+<span class="n">str</span> <span class="o">=</span> <span class="s">[[</span>
+<span class="s">        像 Python 的多行注释可用于</span>
+<span class="s">        表示多行字符串一样</span>
+<span class="s">        方便</span>
+<span class="s">    ]]</span>
+
+<span class="n">bol</span> <span class="o">=</span> <span class="kc">nil</span> <span class="c1">-- 未定义；支持垃圾回收</span>
+
+<span class="c1">-- 缩进只为易读性，像 Matlab 一样以 end 结尾</span>
+<span class="k">while</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="k">do</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1">-- 没有 ++ 或 += 自增操作符号</span>
+<span class="k">end</span>
+
+<span class="c1">-- IF 条件开关</span>
+<span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">40</span> <span class="k">then</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">&gt; 40&#39;</span><span class="p">)</span>
+<span class="k">elseif</span> <span class="n">s</span> <span class="o">~=</span> <span class="s1">&#39;</span><span class="s">aspython&#39;</span> <span class="k">then</span> <span class="c1">-- ~= 表示 !=</span>
+    <span class="nb">io.write</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">s is not aspython&#39;</span><span class="p">)</span> <span class="c1">-- 风骚的标准输出</span>
+<span class="k">else</span>
+    <span class="n">thisIsGlobal</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1">-- 驼峰式命名</span>
+    <span class="c1">-- 显示声明局部变量（像 Javascript 一样）</span>
+    <span class="kd">local</span> <span class="n">line</span> <span class="o">=</span> <span class="nb">io.read</span><span class="p">()</span>
+
+    <span class="c1">-- .. 作为字符串连接符</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">凛冬将至&#39;</span> <span class="o">..</span> <span class="n">line</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1">-- 引用未定义变量将返回 nil ，这不是错误</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">anUnknownVariable</span>  <span class="c1">-- 等价于 foo = nil</span>
+
+<span class="n">aBoolValue</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="c1">-- 只有 nil 与 false 为逻辑假； 数字 0 与空字串 &#39;&#39; 为真！</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">aBoolValue</span> <span class="k">then</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">false&#39;</span><span class="p">)</span> <span class="k">end</span>
+
+<span class="c1">-- 像 Python 一样运用 &#39;or&#39; 和 &#39;and&#39;</span>
+<span class="c1">-- 得到 C 语言中 a ? b : c 的效果；需注意 b = false 或 nil 的情况</span>
+<span class="n">ans</span> <span class="o">=</span> <span class="n">aBoolValue</span> <span class="ow">and</span> <span class="s1">&#39;</span><span class="s">yes&#39;</span> <span class="ow">or</span> <span class="s1">&#39;</span><span class="s">no&#39;</span>
+
+<span class="n">karlSum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span> <span class="k">do</span> <span class="c1">-- 像 Matlab 一样的递增语法，包括两端，如同数学中[1, 100]</span>
+    <span class="n">karlSum</span> <span class="o">=</span> <span class="n">karlSum</span> <span class="o">+</span> <span class="n">i</span>
+<span class="k">end</span>
+
+<span class="c1">-- Step 为 2 递减的方式 &#39;100, 1, -2&#39;</span>
+<span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="k">then</span> <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">end</span>
+
+<span class="c1">-- 综上，范围可表示为 &quot;begin, end [, step]&quot;</span>
+
+<span class="c1">-- 另一个循环控制</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">23</span>
+<span class="k">repeat</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">凡人必有一死&#39;</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="k">until</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span>
+
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">2.</span> <span class="err">函数</span>
+<span class="c1">----------</span>
+<span class="k">function</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">then</span> <span class="k">return</span> <span class="mi">1</span> <span class="k">end</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1">-- Javascript 一样的匿名函数与闭包</span>
+<span class="k">function</span> <span class="nf">adder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1">-- 返回一个函数</span>
+    <span class="c1">-- 闭包内封存 x 值</span>
+    <span class="k">return</span> <span class="k">function</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">a1</span> <span class="o">=</span> <span class="n">adder</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">a2</span> <span class="o">=</span> <span class="n">adder</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a1</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>  <span class="c1">--&gt; 25</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a2</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>  <span class="c1">--&gt; 100</span>
+
+<span class="c1">-- 遇到不匹配的列表长度时</span>
+<span class="c1">-- 过长的变量将被赋予 nil</span>
+<span class="c1">-- 过长的值将被忽略</span>
+
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="c1">-- 4 将被忽略</span>
+<span class="k">function</span> <span class="nf">bar</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">42</span>
+<span class="k">end</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">bar</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">zaphod&#39;</span><span class="p">)</span>  <span class="c1">--&gt; &quot;zaphod  nil nil&quot;</span>
+<span class="c1">-- x = 4, y = 8, 其余值被忽略</span>
+
+<span class="c1">-- 函数与其他类型一样为一等公民</span>
+<span class="c1">-- 同样有 local/global 之分</span>
+<span class="c1">-- 像 Javascript 一样定义</span>
+<span class="k">function</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">end</span>
+<span class="n">f</span> <span class="o">=</span> <span class="k">function</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">end</span>
+
+<span class="nb">print</span> <span class="s1">&#39;</span><span class="s">Hello World!&#39;</span> <span class="c1">-- 只有一个`字符串`参数时可省略括号</span>
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">3.</span> <span class="err">表</span><span class="p">(</span><span class="n">Table</span><span class="p">)</span> 
+<span class="c1">----------</span>
+<span class="c1">-- 表是 Lua 中唯一的复合类型</span>
+<span class="c1">-- 像 PHP 中的数组或 Javascript 中的 Object 一样</span>
+<span class="c1">-- 可用作 list/dict/map</span>
+
+<span class="c1">-- 默认以字符串作为 key</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">{</span><span class="n">key1</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">value1&#39;</span><span class="p">,</span> <span class="n">key2</span> <span class="o">=</span> <span class="kc">false</span><span class="p">}</span>
+<span class="c1">-- 像 Javascript 一样以 . 取值</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">key1</span><span class="p">)</span> <span class="c1">--&gt; &quot;value1&quot;</span>
+<span class="n">t</span><span class="p">.</span><span class="n">key3</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">-- 加入新的键值对</span>
+<span class="n">t</span><span class="p">.</span><span class="n">key2</span> <span class="o">=</span> <span class="kc">nil</span> <span class="c1">-- 销毁一组键值对</span>
+
+<span class="c1">-- 理论上任何非 nil 的变量都可以作为 key</span>
+<span class="n">u</span> <span class="o">=</span> <span class="p">{[</span><span class="s1">&#39;</span><span class="s">@!#&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">qbert&#39;</span><span class="p">,</span> <span class="p">[{}]</span> <span class="o">=</span> <span class="mi">1729</span><span class="p">,</span> <span class="p">[</span><span class="mf">6.28</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">tau&#39;</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mf">6.28</span><span class="p">])</span>  <span class="c1">--&gt; &quot;tau&quot;</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="s1">&#39;</span><span class="s">@!#&#39;</span><span class="p">]</span> <span class="c1">-- a = &#39;qbert&#39;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">u</span><span class="p">[{}]</span> <span class="c1">-- b = nil；像 Javascript 一样 {} 会创建新的对象</span>
+          <span class="c1">-- 因此不要用蛋疼的 key 值，老老实实用字串或数字</span>
+
+<span class="c1">-- 同字符串一样，只有一个表作为函数的参数时可以省略括号</span>
+<span class="c1">-- 为了一个括号增加阅读难度，得不偿失</span>
+<span class="k">function</span> <span class="nf">h</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">key1</span><span class="p">)</span> <span class="k">end</span>
+<span class="n">h</span><span class="p">{</span><span class="n">key1</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">Sonmi~451&#39;</span><span class="p">}</span>  <span class="c1">--&gt; &quot;Sonmi~451&quot;</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">do</span>  <span class="c1">-- 像 Python  一样的键值迭代</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1">-- 像 Javascript 一样的全局作用域 _G</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">_G</span><span class="p">[</span><span class="s1">&#39;</span><span class="s">_G&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">_G</span><span class="p">)</span> <span class="c1">--&gt; true</span>
+
+<span class="c1">-- 省略 key 之后即可变身为 list</span>
+<span class="c1">-- 实际上是以递增自然数为 key</span>
+<span class="n">v</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;</span><span class="s">value1&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="s">value2&#39;</span><span class="p">,</span> <span class="mf">1.21</span><span class="p">,</span> <span class="s1">&#39;</span><span class="s">gigawatts&#39;</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">#</span><span class="n">v</span> <span class="k">do</span>  <span class="c1">-- 像 Bash 一样，#v 表示列表长度</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1">-- 像 Matlab 一样，列表索引从 1 开始</span>
+<span class="k">end</span>
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">3.1</span> <span class="n">Metatables</span> <span class="err">&amp;</span> <span class="n">metamethods</span>
+<span class="c1">----------</span>
+<span class="c1">-- 元表(metatable)就是表的表，像 Javascript 的原型(prototype)一样</span>
+<span class="c1">-- 为表重载一些元方法(metamethods)</span>
+
+<span class="n">f1</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">3</span><span class="p">}</span>
+<span class="c1">-- s = f1 + f2 为错</span>
+
+<span class="n">mm</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">function</span> <span class="nc">mm</span><span class="p">.</span><span class="nf">__add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+  <span class="n">sum</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">sum</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">y</span><span class="p">.</span><span class="n">a</span>
+  <span class="n">sum</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">b</span> <span class="o">+</span> <span class="n">y</span><span class="p">.</span><span class="n">b</span>
+  <span class="k">return</span> <span class="n">sum</span>
+<span class="k">end</span>
+
+<span class="nb">setmetatable</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">mm</span><span class="p">)</span>
+<span class="nb">setmetatable</span><span class="p">(</span><span class="n">f2</span><span class="p">,</span> <span class="n">mm</span><span class="p">)</span>
+
+<span class="c1">-- 实际调用 f1 的 metatable 中的 __add(f1, f2)</span>
+<span class="c1">-- 只为 f1 设置元表也可以</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">f1</span> <span class="o">+</span> <span class="n">f2</span> <span class="c1">-- s = {a = 3, b = 5}</span>
+
+<span class="c1">-- s2 = s + s 为错，s 未定义元表</span>
+
+<span class="c1">-- __index 元方法重载表中 key 的提取符号 `.`</span>
+<span class="n">defaultFavs</span> <span class="o">=</span> <span class="p">{</span><span class="n">animal</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">gru&#39;</span><span class="p">,</span> <span class="n">food</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">donuts&#39;</span><span class="p">}</span>
+<span class="n">myFavs</span> <span class="o">=</span> <span class="p">{</span><span class="n">food</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">pizza&#39;</span><span class="p">}</span>
+<span class="nb">setmetatable</span><span class="p">(</span><span class="n">myFavs</span><span class="p">,</span> <span class="p">{</span><span class="n">__index</span> <span class="o">=</span> <span class="n">defaultFavs</span><span class="p">})</span>
+<span class="n">food</span> <span class="o">=</span> <span class="n">myFavs</span><span class="p">.</span><span class="n">food</span>
+
+<span class="c1">-- Lua 中的值都具有元方法，只有 Table 可以重载</span>
+<span class="c1">-- 所有元方法如下</span>
+
+<span class="c1">-- __add(a, b)                     for a + b</span>
+<span class="c1">-- __sub(a, b)                     for a - b</span>
+<span class="c1">-- __mul(a, b)                     for a * b</span>
+<span class="c1">-- __div(a, b)                     for a / b</span>
+<span class="c1">-- __mod(a, b)                     for a % b</span>
+<span class="c1">-- __pow(a, b)                     for a ^ b</span>
+<span class="c1">-- __unm(a)                        for -a</span>
+<span class="c1">-- __concat(a, b)                  for a .. b</span>
+<span class="c1">-- __len(a)                        for #a</span>
+<span class="c1">-- __eq(a, b)                      for a == b</span>
+<span class="c1">-- __lt(a, b)                      for a &lt; b</span>
+<span class="c1">-- __le(a, b)                      for a &lt;= b</span>
+<span class="c1">-- __index(a, b)  &lt;fn or a table&gt;  for a.b</span>
+<span class="c1">-- __newindex(a, b, c)             for a.b = c</span>
+<span class="c1">-- __call(a, ...)                  for a(...)</span>
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">3.2</span> <span class="err">类风格的</span> <span class="n">Table</span> <span class="err">与继承</span>
+<span class="c1">----------</span>
+
+<span class="c1">-- 像 Javascript 一样并没有内置 Class</span>
+<span class="c1">-- 但可以通过 Table `{}` 实现</span>
+
+<span class="n">Dog</span> <span class="o">=</span> <span class="p">{}</span>                                <span class="c1">-- 1.</span>
+<span class="k">function</span> <span class="nf">Dog</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>                      <span class="c1">-- 2.</span>
+    <span class="n">newObj</span> <span class="o">=</span> <span class="p">{</span><span class="n">sound</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">woof&#39;</span><span class="p">}</span>           <span class="c1">-- 3.</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">__index</span> <span class="o">=</span> <span class="n">self</span>                 <span class="c1">-- 4.</span>
+    <span class="k">return</span> <span class="nb">setmetatable</span><span class="p">(</span><span class="n">newObj</span><span class="p">,</span> <span class="n">self</span><span class="p">)</span>   <span class="c1">-- 5.</span>
+<span class="k">end</span>
+<span class="k">function</span> <span class="nf">Dog</span><span class="p">:</span><span class="n">makeSound</span><span class="p">()</span>                <span class="c1">-- 6.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">I say &#39;</span> <span class="o">..</span> <span class="n">self</span><span class="p">.</span><span class="n">sound</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">mrDog</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>                       <span class="c1">-- 7.</span>
+<span class="n">mrDog</span><span class="p">:</span><span class="n">makeSound</span><span class="p">()</span> <span class="c1">--&gt; &quot;I say woof&quot;</span>
+
+<span class="c1">-- 1. Dog 像类但实际是 Table</span>
+<span class="c1">-- 2. Dog:new(...) := Dog.new(self, ...)</span>
+<span class="c1">-- 3. newObj 作 Dog 的实例</span>
+<span class="c1">-- 4. self 是 Lua 中默认的参数，在这里 self = Dog</span>
+<span class="c1">--    继承的时候可以改变</span>
+<span class="c1">--    self.__index 与 self 的元方法 __index 不是一回事</span>
+<span class="c1">--    self = {__index = self, metatable = {__index = ...}}</span>
+<span class="c1">-- 5. setmetatable(newObj, self) 相当于 setmetatable(newObj, {__index = self})</span>
+<span class="c1">--    赋予实例所有类方法</span>
+<span class="c1">-- 6. 同 2.</span>
+<span class="c1">-- 7. mrDog = Dog.new(Dog)</span>
+
+<span class="c1">-- 继承</span>
+<span class="n">LoudDog</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
+<span class="k">function</span> <span class="nf">LoudDog</span><span class="p">:</span><span class="n">makeSound</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">sound</span> <span class="o">..</span> <span class="s1">&#39;</span><span class="s"> &#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span> <span class="o">..</span> <span class="n">s</span> <span class="o">..</span> <span class="n">s</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">seymour</span> <span class="o">=</span> <span class="n">LoudDog</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
+<span class="n">seymour</span><span class="p">:</span><span class="n">makeSound</span><span class="p">()</span> <span class="c1">--&gt; &quot;woof woof woof&quot;</span>
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">4.</span> <span class="err">模块</span>
+<span class="c1">----------</span>
+
+<span class="c1">-- 以下来自文件 mod.lua</span>
+<span class="kd">local</span> <span class="n">M</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="kd">local</span> <span class="k">function</span> <span class="nf">sayMyName</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">Hrunkner&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">M</span><span class="p">.</span><span class="nf">sayHello</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">Why hello there&#39;</span><span class="p">)</span>
+    <span class="n">sayMyName</span><span class="p">()</span>
+<span class="k">end</span>
+<span class="k">return</span> <span class="n">M</span>
+<span class="c1">-- 以上</span>
+<span class="c1">-- 回到主文件</span>
+<span class="kd">local</span> <span class="n">mod</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">mod&#39;</span><span class="p">)</span> <span class="c1">-- 运行 mod.lua 中的代码</span>
+<span class="c1">-- 操作同下</span>
+<span class="kd">local</span> <span class="n">mod</span> <span class="o">=</span> <span class="p">(</span><span class="k">function</span><span class="p">()</span>
+    <span class="c1">-- 像 Javascript 一样</span>
+    <span class="cm">--[[</span>
+<span class="cm">        mod.lua 中的代码</span>
+<span class="cm">    ]]</span><span class="c1">--</span>
+<span class="k">end</span><span class="p">)()</span>
+
+<span class="n">mod</span><span class="p">.</span><span class="n">sayHello</span><span class="p">()</span> <span class="c1">--&gt; &quot;Why hello there&quot;</span>
+<span class="n">mod</span><span class="p">.</span><span class="n">sayMyName</span><span class="p">()</span> <span class="c1">--&gt; 错！sayMyName() 是 mod.lua 中的局部变量</span>
+
+<span class="c1">-- require 返回的值将被缓存</span>
+<span class="c1">-- 即使多次调用 require 被调用文件也只运行一次</span>
+
+<span class="c1">-- mod2.lua 包含 print(&quot;mod2&quot;)</span>
+<span class="kd">local</span> <span class="n">a</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">mod2&quot;</span><span class="p">)</span> <span class="c1">--&gt; &quot;mod2&quot;</span>
+<span class="kd">local</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">mod2&quot;</span><span class="p">)</span> <span class="c1">-- 不输出， 实际为 b = a</span>
+
+<span class="c1">-- dofile 是不缓存的版本的 require</span>
+<span class="nb">dofile</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">mod2&quot;</span><span class="p">)</span> <span class="c1">--&gt; &quot;mod2&quot;</span>
+<span class="nb">dofile</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">mod2&quot;</span><span class="p">)</span> <span class="c1">--&gt; &quot;mod2&quot;</span>
+
+<span class="c1">-- loadfile 读取文件但不执行</span>
+<span class="c1">-- 勘误：f = loadfile(&#39;mod2&#39;)，需加后缀名，否则找不到文件</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">loadfile</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">mod2.lua&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="p">()</span> <span class="c1">--&gt; &quot;mod2&quot;</span>
+
+<span class="c1">-- loadstring 读取代码字符串</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">loadstring</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">print(&#39;Lua is cool!&#39;)&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="p">()</span> <span class="c1">--&gt; &quot;Lua is cool!&quot;</span>
+
+<span class="c1">----------</span>
+<span class="o">-</span> <span class="mf">5.</span> <span class="err">参考，略</span>
+<span class="c1">----------</span>
+</pre></div>
+</td></tr></table>
+
+<hr />
+<p>后记：</p>
+<p>感觉 Lua 才应该是学完 C 语言之后最先学习的语言，因为它本身就是一个非常优秀的纯粹由 C 语言完成的项目，尤其是对于非计算机专业出身又想要学习计算机原理相关的东西，甚至可以尝试阅读 Lua 源码；因为其内容简洁而又五脏俱全，相比于其它高级语言对基本数据类型的复杂操作、复杂的语法结构等，Lua 15 分钟入门应该会比《21天精通XXX》更现实一些吧<code>:)</code>。</p>
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+    <div class="shares">
+      <div class="wumii-hook"></div>
+    </div>
+  <div class="asset-footer">
+  <ul>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
+    <li>
+      原文网址：<a href="http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html">http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html</a>
+    </li>
+  </ul>
+  </div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> LDA 概率统计基础（一）
+        </a>
+    </li>
+    <li class="next">
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
+    </li>
+</ul>
+<div style="clear: both"></div>
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript" id="wumiiComments">
+	var wumiiPermaLink = "http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html"; 
+	var wumiiTitle = "Lua 语言 15 分钟快速入门【译】"; 
+	var wumiiTags = "Lua"; 
+	var wumiiCategories = ["语言"]; 
+	var wumiiSitePrefix = "http://defsniky.com/";
+  var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
+</script>
+<script type="text/javascript" src="http://widget.wumii.cn/ext/cw/widget"></script>
+<script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
+<a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
+    <img src="http://static.wumii.cn/images/pixel.png" alt="无觅关联推荐，快速提升流量" style="border:0;padding:0;margin:0;" />
+</a>
+<style>
+.wumii-related-items-div{display:none}
+</style>
+</div>
+<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
+<div style="clear: both"></div>
+</section>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <footer id="contentinfo" class="body">
+        <ul>
+            <li>Author & Theme designer <span class="me">雨生</span></li>
+            <li>Generated by <a title="pelican" rel="nofollow" href="http://blog.getpelican.com/">Pelican</a></li>
+            <li>Sponsored by <a title="薛老板" rel="nofollow" href="javascript:alert(':)')">颖惠</a></li>
+        </ul>
+    </footer><!-- /#contentinfo -->
+    <!-- QQ STATISTIC -->
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=29616172" charset="UTF-8"></script>
+    <!-- Google Ads -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- test -->
+    <ins class="adsbygoogle"
+      style="display:inline-block;width:200px;height:200px"
+      data-ad-client="ca-pub-1465732372978982"
+      data-ad-slot="6730782558"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+</html>
