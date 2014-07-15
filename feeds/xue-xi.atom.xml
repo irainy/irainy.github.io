@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/xue-xi.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-05-21T00:00:00+08:00</updated><entry><title>LDA 概率统计基础（一）</title><link href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-21:posts/2014-05-21-math-and-statistics-relearning-part-1.html</id><summary type="html">&lt;p&gt;之前(&lt;a href="/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html"&gt;Why SVM&lt;/a&gt;)整理的几篇关于场景识别的计算模型，其中一个是Bayesian Hierarchical Model，还有就是最近比较热门的LDA(Latent Dirichlet Allocation)主题模型。LDA首先由Blei, David M.，Ng, Andrew Y.和Jordan, Michael I于2003年提出，比较成熟地应用于文本挖掘、文本主题识别等领域，后来被引入到图像场景识别中，包括Li Fei-Fei教授的Bayesian Hierarchical Model其实也是应用的LDA模型，但又因为LDA本身就是一个三层贝叶斯模型(three-level hierarchical Bayesian model)，只不过在具体应用过程中还有所不同，后面详细描述几个模型的时候将会提到。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/xue-xi.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-07-15T00:00:00+08:00</updated><entry><title>马克飞象 + Evernote</title><link href="http://defsniky.com/posts/2014-07-15-keep-notes-with-maxiang.html" rel="alternate"></link><updated>2014-07-15T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-07-15:posts/2014-07-15-keep-notes-with-maxiang.html</id><summary type="html">&lt;p&gt;很多人都有记笔记的习惯，很多人也都有不停尝试各种软件、硬件试图找出一款用起来最舒心的笔记本的习惯，甚至不惜花费大量时间比较来、比较去，结果做选择的时间比真正拿来记笔记的时间还要多，而且不停地换来换去导致笔记大量流失。好吧，说的就是我&lt;code&gt;-_-!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OneNote  VS  Evernote&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;很早之前就接触过微软的 OneNote ，一直以来 OneNote 都是我最喜欢的笔记软件，因为只有它用起来最像是在真正的笔记本上记录一样，所有的内容可以随处放置，落笔之处即可记录，而不需要像写 Word 文档一样规规矩矩地从上到下一行一行地写。当然其缺点也是由于有点过于拘泥于实体笔记本的模式了，缺少了 Tag、分类等归类整理的功能，随着笔记数量的增加负担会越来越重，当然最终让我不得不放弃它的原因主要还是在于内存吃得太多，运行不够流畅，想要等它优化升级，以微软的执行效率，估计还是等我攒钱加大内存来解决这个问题会更快一点吧...&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OneNote" src="/images/onenote.png" /&gt;&lt;/p&gt;
+&lt;p&gt;大名鼎鼎的 Evernote 不可能没有用过，标签管理啊、跨终端啊、云存储啊等等的噱头其实在一开始的使用过程中都会觉得有些华而不实，因为说实话会在手机或者iPad上做笔记的情况真的是少之又少，而且刚开始线上同步的速度实在是不能忍，好在后来在大天朝地区另辟了印象笔记的服务器，速度跟稳定性总算有保障了。但是用起来还是觉得不爽因为排版实在是不行，用起来简直就是加强版的记事本而已，因此中间反反复复尝试了很多次也都没有坚持下来。最后重新回到 Evernote 竟然是因为它的一款插件性质的 Web App：&lt;a href="http://maxiang.info"&gt;马克飞象&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Evernote" src="/images/maxiang.png" /&gt;&lt;/p&gt;
+&lt;p&gt;马克飞象虽然名字有点虎但是确实是一款利器，Markdown 语言的加入瞬间让排版变成一件令人愉快的事情，更不用说能够会心一击戳中所有程序猿死穴的&lt;code&gt;Syntax Highlight&lt;/code&gt;功能，再加上 $LaTex$ 的数学公式编辑能力，简直让人毫无招架之力，分分钟跪地求饶：&lt;strong&gt;shut up and take my money!&lt;/strong&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;这边好久没有更新不只是因为变懒了，也是因为平日里整理的笔记都丢在 Evernote 里面（诶，这个借口不错！），因为不需要重新排版可以直接把笔记页面共享出来，下面会整理一些已完成的部分共享出来：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. &lt;/strong&gt;&lt;a href="https://app.yinxiang.com/shard/s40/sh/eccd8174-70d9-4fad-bf7b-002bdcca5ca2/7ecb9d59cf7a9a799f750fdd161b0a04"&gt;Pomelo Server &amp;amp; Client&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. &lt;/strong&gt;&lt;a href="#"&gt;MySQL Notes&lt;/a&gt;&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Notes"></category></entry><entry><title>LDA 概率统计基础（一）</title><link href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-21:posts/2014-05-21-math-and-statistics-relearning-part-1.html</id><summary type="html">&lt;p&gt;之前(&lt;a href="/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html"&gt;Why SVM&lt;/a&gt;)整理的几篇关于场景识别的计算模型，其中一个是Bayesian Hierarchical Model，还有就是最近比较热门的LDA(Latent Dirichlet Allocation)主题模型。LDA首先由Blei, David M.，Ng, Andrew Y.和Jordan, Michael I于2003年提出，比较成熟地应用于文本挖掘、文本主题识别等领域，后来被引入到图像场景识别中，包括Li Fei-Fei教授的Bayesian Hierarchical Model其实也是应用的LDA模型，但又因为LDA本身就是一个三层贝叶斯模型(three-level hierarchical Bayesian model)，只不过在具体应用过程中还有所不同，后面详细描述几个模型的时候将会提到。&lt;/p&gt;
 &lt;p&gt;总而言之一句话，LDA模型很重要，但是涉及到很多概率统计的东西，仔细一看才发现，以前学过的基本已经忘得差不多了，只好恶补一下，网上有很多介绍LDA的文章，但是良莠不齐，抄袭者、昏昏者居多，但是&lt;a href="http://cos.name/author/rickjin/"&gt;rickjin&lt;/a&gt;大牛发表在&lt;a href="http://cos.name/author/rickjin/"&gt;统计之都&lt;/a&gt;的一系列文章绝对值得细细拜读。&lt;/p&gt;
 &lt;p&gt;下面的内容将会是结合rickjin的文章以及重新学习整理过的一些知识点有助于学习、理解LDA模型：&lt;/p&gt;
 &lt;h3&gt;1. 伯努利实验与二项分布&lt;/h3&gt;
