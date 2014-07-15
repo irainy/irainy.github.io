@@ -95,7 +95,9 @@
                     · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
                     · <span class="glyphicon glyphicon-tags"></span><a href="http://defsniky.com/tag/javascript.html" rel="tag" title="tag:Javascript"> : Javascript : </a>              </footer><!-- /.post-info -->
   <div class="entry-content">
-    <p><img alt="咬尾蛇" src="/theme/images/blog/ouroboros.png" title="咬尾蛇" /></p>
+    <p><a href="/images/ouroboros.png" data-title="咬尾蛇" data-lightbox="example-set">
+<img alt="咬尾蛇" src="/images/ouroboros.png" title="咬尾蛇" />
+</a></p>
 <p>this是Javascript中的一个关键字，由于Javascript并没有“类”(class)的概念，致使这里的this与其它面向对象的语言中诸如<code>this</code>、<code>self</code>等关键字的含义存在一定的差异，而容易造成的误解。在面向对象的语言中<code>this</code>指向类的实例对象，在实例化之后通过<code>this</code>调用的属性或方法会被自动指向类作用域中的属性或方法，同样的，Javascript中的<code>this</code>也用于指向特定的作用域，只不过因为JavaScript中没有类作用域的概念，而是采用作用域链(Scope Chain)的方式管理上下文，因而需要根据不同的应用场景判定<code>this</code>所指向的内容。</p>
 <p>首先，在Chrome Console或Node中直接输入<code>this</code>，得到的是<code>Window</code>对象或Node中的全局对象（以下以Console为例，因为突然发现<code>console.log()</code>跟<code>alert()</code>还是有差别的:P），这时<code>this</code>指向全局变量（或者说它是全局变量的指针），这时的<code>this</code>默认是隐含的：</p>
 <div class="highlight"><pre><span class="c1">//在全局环境中</span>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>rainy</title><link href="http://defsniky.com/" rel="alternate"></link><link href="http://defsniky.com/feeds/qu-wei.atom.xml" rel="self"></link><id>http://defsniky.com/</id><updated>2014-05-18T00:00:00+08:00</updated><entry><title>做一个可视化网络的标签云</title><link href="http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html" rel="alternate"></link><updated>2014-05-18T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-18:posts/2014-05-18-tag-cloud-network-visualization.html</id><summary type="html">&lt;p&gt;想要制作一个标签云：每一个标签(Tag)都像是一个topic，不同的topic之间通过文章联系起来，即不同的topic出现在同一篇文章中就形成一个更大的主题，因此自然而然地想到用网络的形式呈现，先看一下&lt;a href="/tags.html"&gt;Demo&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="network" src="/theme/images/blog/network.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/network.png" data-title="Network" data-lightbox="example-set"&gt;
+&lt;img alt="network" src="/images/network.png" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;首先想要用 &lt;code&gt;Javascript&lt;/code&gt; 实现可视化网络的话要选一个可视化工具库，最先想到的是&lt;a href="http://d3js.org/"&gt;D3&lt;/a&gt;，但后来发现用起来并不顺利，最后选用了一个小巧的&lt;a href="http://getspringy.com/"&gt;Springy.js&lt;/a&gt;，它包含两个部分，一是计算网络属性&lt;code&gt;Node &amp;amp; Edge&lt;/code&gt;等(&lt;a href="https://github.com/dhotson/springy/blob/master/springy.js"&gt;springy.js&lt;/a&gt;)，另一个基于 HTML5 的 Canvas 对网络进行绘制(&lt;a href="https://github.com/dhotson/springy/blob/master/springyui.js"&gt;springyui.js&lt;/a&gt;)。接下来要获取标签的统计以及标签之间的联系，因为我是用&lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;生成网站的，因此就想要自己写一个 plugin 在生成网站的时候统计文章标签的情况(&lt;a href="http://git.oschina.net/sniky/pelican-blog/blob/master/plugins/tagsnet/tagsnet.py"&gt;代码&lt;/a&gt;)，其中关于网络的 &lt;code&gt;Node &amp;amp; Edge&lt;/code&gt; 数据格式部分如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;Node&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;None&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Url&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
@@ -26,9 +28,13 @@
 &lt;p&gt;3)四个字母及以上或短划线引导的单词首字母大写，出现其它符号如冒号、顿号等以空格代替。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;搜集文献的时候为了尽快、更多地下载，往往不想费时间整理文件名，于是就会得到下面的结果：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Raw file names" src="/theme/images/blog/raw_files.png" title="Raw files" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/raw_files.png" data-title="原始" data-lightbox="example-set"&gt;
+&lt;img alt="Raw file names" src="/images/raw_files.png" title="Raw files" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;根据文题及发表时间重命名后，不同的出处的文档标题格式各异，且各种符号不一而足，因而需要按照需求统一格式，下面引入 sed 与 awk 的解决方案，&lt;code&gt;一行代码&lt;/code&gt;解决问题&lt;code&gt;*_*&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Copy title" src="/theme/images/blog/copy_title.png" title="Copy original title" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/copy_title.png" data-title="复制" data-lightbox="example-set"&gt;
+&lt;img alt="Copy title" src="/images/copy_title.png" title="Copy original title" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;2. 解决方案&lt;/h3&gt;
 &lt;p&gt;sed 与 awk 相关教程见此处：&lt;a href="http://coolshell.cn/articles/9070.html" title="awk"&gt;CoolShell&amp;gt;AWK 简明教程&lt;/a&gt;、&lt;a href="http://coolshell.cn/articles/9104.html" title="sed"&gt;CoolShell&amp;gt;sed 简明教程&lt;/a&gt;。由于文件名是单行文本，sed 只做单行文本的正则匹配与更改，即用到&lt;code&gt;'s/old/new/g;'&lt;/code&gt;将&lt;code&gt;old&lt;/code&gt;替换为&lt;code&gt;new&lt;/code&gt;，用于修改一些多余的符号包括空格、冒号等；awk 则是对输入流进行格式化处理，得到我们需求中规定的格式。&lt;/p&gt;
 &lt;p&gt;sed 部分正则替换代码如下：&lt;/p&gt;

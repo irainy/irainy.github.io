@@ -43,7 +43,9 @@
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-</summary><category term="Notes"></category></entry><entry><title>Lua 语言 15 分钟快速入门【译】</title><link href="http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html" rel="alternate"></link><updated>2014-06-05T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-06-05:posts/2014-06-05-learn-lua-in-15-minutes.html</id><summary type="html">&lt;p&gt;&lt;img alt="Lua" src="http://www.lua.org/images/lua.gif" /&gt;&lt;/p&gt;
+</summary><category term="Notes"></category></entry><entry><title>Lua 语言 15 分钟快速入门【译】</title><link href="http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html" rel="alternate"></link><updated>2014-06-05T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-06-05:posts/2014-06-05-learn-lua-in-15-minutes.html</id><summary type="html">&lt;p&gt;&lt;a href="http://www.lua.org/images/lua.gif" data-title="Lua Logo" data-lightbox="example-set"&gt;
+&lt;img alt="Lua" src="http://www.lua.org/images/lua.gif" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;译文，英文原文：&lt;a href="http://tylerneylon.com/a/learn-lua/"&gt;Learn Lua in 15 Minutes&lt;/a&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;-- 单行注释&lt;/span&gt;
 &lt;span class="cm"&gt;--[[&lt;/span&gt;
@@ -404,7 +406,9 @@ $$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$&lt;/p&gt;&lt;script type= "text/ja
     }
 &lt;/script&gt;
 </summary><category term="Psychology"></category><category term="统计"></category><category term="LDA"></category></entry><entry><title>做一个可视化网络的标签云</title><link href="http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html" rel="alternate"></link><updated>2014-05-18T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-18:posts/2014-05-18-tag-cloud-network-visualization.html</id><summary type="html">&lt;p&gt;想要制作一个标签云：每一个标签(Tag)都像是一个topic，不同的topic之间通过文章联系起来，即不同的topic出现在同一篇文章中就形成一个更大的主题，因此自然而然地想到用网络的形式呈现，先看一下&lt;a href="/tags.html"&gt;Demo&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="network" src="/theme/images/blog/network.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/network.png" data-title="Network" data-lightbox="example-set"&gt;
+&lt;img alt="network" src="/images/network.png" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;首先想要用 &lt;code&gt;Javascript&lt;/code&gt; 实现可视化网络的话要选一个可视化工具库，最先想到的是&lt;a href="http://d3js.org/"&gt;D3&lt;/a&gt;，但后来发现用起来并不顺利，最后选用了一个小巧的&lt;a href="http://getspringy.com/"&gt;Springy.js&lt;/a&gt;，它包含两个部分，一是计算网络属性&lt;code&gt;Node &amp;amp; Edge&lt;/code&gt;等(&lt;a href="https://github.com/dhotson/springy/blob/master/springy.js"&gt;springy.js&lt;/a&gt;)，另一个基于 HTML5 的 Canvas 对网络进行绘制(&lt;a href="https://github.com/dhotson/springy/blob/master/springyui.js"&gt;springyui.js&lt;/a&gt;)。接下来要获取标签的统计以及标签之间的联系，因为我是用&lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;生成网站的，因此就想要自己写一个 plugin 在生成网站的时候统计文章标签的情况(&lt;a href="http://git.oschina.net/sniky/pelican-blog/blob/master/plugins/tagsnet/tagsnet.py"&gt;代码&lt;/a&gt;)，其中关于网络的 &lt;code&gt;Node &amp;amp; Edge&lt;/code&gt; 数据格式部分如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;Node&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;None&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Url&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
@@ -424,7 +428,9 @@ $$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$&lt;/p&gt;&lt;script type= "text/ja
 &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="FUN"></category><category term="Javascript"></category></entry><entry><title>Why SVM</title><link href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" rel="alternate"></link><updated>2014-05-14T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-05-14:posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html</id><summary type="html">&lt;p&gt;自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？&lt;/p&gt;
 &lt;p&gt;首先看一下SVM(Support Vector Machine)算法，SVM是一种扩展的线性模型，它通过非线性映射的转换，将特征空间转换为一个维度更高的空间，从而实现非线性分类边界的划分，下面这张图能够很好第说明这一特点，原本二维空间里面线性不可分的两类，投射到三维空间后就变得很好区分了：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="svm" src="/theme/images/blog/svm.gif" title="“SVM”" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/svm.gif" data-title="SVM" data-lightbox="example-set"&gt;
+&lt;img alt="svm" src="/images/svm.gif" title="“SVM”" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;除此之外它还具有另外一些有点，例如SVM是取能够区分两个类别中“相距”最小的实例之间的决策平面，因而能够很好地规避过度拟合的现象(Overfitting，具体可参考&lt;a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/05/02/basic-of-svm.html"&gt;机器学习中的算法(2)-支持向量机(SVM)基础&lt;/a&gt;)。&lt;/p&gt;
 &lt;p&gt;除了SVM之外还有许多其它分类算法，例如Logistic回归(就是把线性回归掰弯)、神经网络等，尤其是人工神经网络(ANN)算法，由于其神经网络的隐喻与心理学之间“暧昧”的关系，确实也有见过认知心理学研究甚至直接拿训练神经网络作为认知模型，但在场景识别的研究中却很少见。SVM与神经网络都是基于线性模型发展出来的，但两派的纷争却一直不断，SVM算法的出现凭借着对小样本量的支持、易于实现、计算复杂度较小等优点一度占尽了风头，在认知心理学研究中的广泛应用从某种程度上来说也佐证了其众多优点。不过最近深度学习(Deep learning, 多层神经网络)算法的快速走红，不知道会不会给场景识别研究也带来新的春天？&lt;/p&gt;
 &lt;p&gt;然而毕竟心理学研究不是为了追逐新潮的算法，我们更加关注的是人类行为背后的认知加工机制，大家采用同样的机器学习算法可能也是为了彼此研究之间的横向对比，因此在计算机视觉中更加注重的是算法的效能，包括准确率、健壮性、欠拟合过度拟合等问题，而在心理学研究中应用机器学习算法更加关注的是其分类结果中的错误模式(Error Pattern)，并将其与人类观察者的行为结果进行对比，从而验证关于&lt;strong&gt;特征选取&lt;/strong&gt;的假设，而算法的优劣则更像是一种系统偏差。&lt;/p&gt;
@@ -446,7 +452,9 @@ $$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$&lt;/p&gt;&lt;script type= "text/ja
 
 &lt;h4&gt;4. Bag of Visual Word(LDA系列的主题模型，选取最近一篇fMRI研究)&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Stansbury&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="n"&gt;Naselaris&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;Gallant&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;J&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2013&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt; &lt;span class="n"&gt;Natural&lt;/span&gt; &lt;span class="n"&gt;Scene&lt;/span&gt; &lt;span class="n"&gt;Statistics&lt;/span&gt; &lt;span class="n"&gt;Accountfor&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Representation&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Scene&lt;/span&gt; &lt;span class="n"&gt;Categories&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="n"&gt;Visual&lt;/span&gt; &lt;span class="n"&gt;Cortex&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="Psychology"></category><category term="SVM"></category><category term="场景识别"></category><category term="Vision"></category></entry><entry><title>What's this in Javascript</title><link href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html" rel="alternate"></link><updated>2014-04-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-04-28:posts/2014-04-28-what-is-this-in-javascript.html</id><summary type="html">&lt;p&gt;&lt;img alt="咬尾蛇" src="/theme/images/blog/ouroboros.png" title="咬尾蛇" /&gt;&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Psychology"></category><category term="SVM"></category><category term="场景识别"></category><category term="Vision"></category></entry><entry><title>What's this in Javascript</title><link href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html" rel="alternate"></link><updated>2014-04-28T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2014-04-28:posts/2014-04-28-what-is-this-in-javascript.html</id><summary type="html">&lt;p&gt;&lt;a href="/images/ouroboros.png" data-title="咬尾蛇" data-lightbox="example-set"&gt;
+&lt;img alt="咬尾蛇" src="/images/ouroboros.png" title="咬尾蛇" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;this是Javascript中的一个关键字，由于Javascript并没有“类”(class)的概念，致使这里的this与其它面向对象的语言中诸如&lt;code&gt;this&lt;/code&gt;、&lt;code&gt;self&lt;/code&gt;等关键字的含义存在一定的差异，而容易造成的误解。在面向对象的语言中&lt;code&gt;this&lt;/code&gt;指向类的实例对象，在实例化之后通过&lt;code&gt;this&lt;/code&gt;调用的属性或方法会被自动指向类作用域中的属性或方法，同样的，Javascript中的&lt;code&gt;this&lt;/code&gt;也用于指向特定的作用域，只不过因为JavaScript中没有类作用域的概念，而是采用作用域链(Scope Chain)的方式管理上下文，因而需要根据不同的应用场景判定&lt;code&gt;this&lt;/code&gt;所指向的内容。&lt;/p&gt;
 &lt;p&gt;首先，在Chrome Console或Node中直接输入&lt;code&gt;this&lt;/code&gt;，得到的是&lt;code&gt;Window&lt;/code&gt;对象或Node中的全局对象（以下以Console为例，因为突然发现&lt;code&gt;console.log()&lt;/code&gt;跟&lt;code&gt;alert()&lt;/code&gt;还是有差别的:P），这时&lt;code&gt;this&lt;/code&gt;指向全局变量（或者说它是全局变量的指针），这时的&lt;code&gt;this&lt;/code&gt;默认是隐含的：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//在全局环境中&lt;/span&gt;
@@ -489,9 +497,13 @@ $$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$&lt;/p&gt;&lt;script type= "text/ja
 &lt;p&gt;3)四个字母及以上或短划线引导的单词首字母大写，出现其它符号如冒号、顿号等以空格代替。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;搜集文献的时候为了尽快、更多地下载，往往不想费时间整理文件名，于是就会得到下面的结果：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Raw file names" src="/theme/images/blog/raw_files.png" title="Raw files" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/raw_files.png" data-title="原始" data-lightbox="example-set"&gt;
+&lt;img alt="Raw file names" src="/images/raw_files.png" title="Raw files" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;根据文题及发表时间重命名后，不同的出处的文档标题格式各异，且各种符号不一而足，因而需要按照需求统一格式，下面引入 sed 与 awk 的解决方案，&lt;code&gt;一行代码&lt;/code&gt;解决问题&lt;code&gt;*_*&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Copy title" src="/theme/images/blog/copy_title.png" title="Copy original title" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/copy_title.png" data-title="复制" data-lightbox="example-set"&gt;
+&lt;img alt="Copy title" src="/images/copy_title.png" title="Copy original title" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;2. 解决方案&lt;/h3&gt;
 &lt;p&gt;sed 与 awk 相关教程见此处：&lt;a href="http://coolshell.cn/articles/9070.html" title="awk"&gt;CoolShell&amp;gt;AWK 简明教程&lt;/a&gt;、&lt;a href="http://coolshell.cn/articles/9104.html" title="sed"&gt;CoolShell&amp;gt;sed 简明教程&lt;/a&gt;。由于文件名是单行文本，sed 只做单行文本的正则匹配与更改，即用到&lt;code&gt;'s/old/new/g;'&lt;/code&gt;将&lt;code&gt;old&lt;/code&gt;替换为&lt;code&gt;new&lt;/code&gt;，用于修改一些多余的符号包括空格、冒号等；awk 则是对输入流进行格式化处理，得到我们需求中规定的格式。&lt;/p&gt;
 &lt;p&gt;sed 部分正则替换代码如下：&lt;/p&gt;
@@ -568,10 +580,14 @@ mv &lt;span class="s2"&gt;&amp;quot;$1&amp;quot;&lt;/span&gt; &lt;span class="s2
 &lt;p&gt;很巧的是编码格式与时间格式等问题以及许多计算机相关的问题都避免不了与&lt;strong&gt;格式&lt;/strong&gt;相关，统一的格式源自于相同的规则或者说标准(Standard)。ASCII第一次以规范标准的型态发表是在1967年，最后一次更新则是在1986年，至今为止共定义了128个字符(&lt;a href="http://zh.wikipedia.org/wiki/Ascii" title="wikipedia"&gt;Wiki&lt;/a&gt;)，在ASCII编码中每一个字符需要8位来表示，而8位一共可以编码&lt;code&gt;2**8 = 256&lt;/code&gt;个字符，这显然不足以将全世界各种不同语系、各种不同的符号涵盖在内，因而就需要将其进行扩展，也就是我们现在最常用的Unicode，现在 Unicode 仍然在不断增加，每次增加都会有新的字符被编码进来，Unicode目前普遍采用的是UCS-2,它用两个字节来编码一个字符，每个字符占用2个字节，这样理论上一共最多可以表示&lt;code&gt;2**16 = 65536&lt;/code&gt;个字符，其中中文在Unicode表中所对应的二进制数字（转换成十六进制后）的范围是：&lt;code&gt;4E00 - 9FFF&lt;/code&gt;中日韩统一表意文字(CJK Unified Ideographs)。ASCII 与 Unicode 的编码方式就如同 C 语言中 &lt;code&gt;char&lt;/code&gt; 类型与 &lt;code&gt;int&lt;/code&gt; 类型的区别一样。&lt;/p&gt;
 &lt;h3&gt;3. Unicode 与 UTF-8&lt;/h3&gt;
 &lt;p&gt;Unicode是一种编码标准，比如说它规定汉字&lt;code&gt;雨&lt;/code&gt;对应的数字大小为&lt;code&gt;0x96e8&lt;/code&gt;（十进制38632），因而从本质上来说Unicode只是一张字符表(code table)，但是具体用什么方法来实现这种编码的转换，也有许多不同的选择，常见的UTF-8(8-bit Unicode Transformation Format)即是其中一种转换方法。(&lt;a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html#unicode"&gt;UTF-8 and Unicode FAQ&lt;/a&gt;)，其工作方式如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="UTF-8" src="/theme/images/blog/utf-8.png" title="UTF-8" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/utf-8.png" data-title="UTF-8" data-lightbox="example-set"&gt;
+&lt;img alt="UTF-8" src="/images/utf-8.png" title="UTF-8" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;4. 实现过程中的各个环节&lt;/h3&gt;
 &lt;p&gt;字符从键盘输入到显示器显示出来，一般会经历下面几个过程：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="encoding-decoding-flow" src="/theme/images/blog/encoding-decoding-flow.png" title="Encoding-Decoding-FLow" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/encoding-decoding-flow.png" data-title="Encoding flow" data-lightbox="example-set"&gt;
+&lt;img alt="encoding-decoding-flow" src="/images/encoding-decoding-flow.png" title="Encoding-Decoding-FLow" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;首先是编码过程，这一过程与所用的&lt;strong&gt;编辑器&lt;/strong&gt;相关，以 vim 为例，当以 ASCII 的格式保存文件时，如果文件中含有 ASCII 字符之外的字符，则在保存的时候就会报错，因而需要将 vim 设置为 UTF-8 的编码格式（以UTF-8的方法保存、读取文件），方法如下：&lt;/p&gt;
@@ -651,7 +667,9 @@ rain.encode&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;u
 
 
 &lt;p&gt;结果如下：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="处理结果" src="/theme/images/blog/sicp.png" title="处理结果" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/sicp.png" data-title="处理结果" data-lightbox="example-set"&gt;
+&lt;img alt="处理结果" src="/images/sicp.png" title="处理结果" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Wiki 中提到：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;不像RGB和CMYK色彩空间，Lab颜色被设计来接近人类视觉。&lt;/p&gt;
@@ -675,7 +693,9 @@ rain.encode&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;u
 
 
 &lt;p&gt;结果如下：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="最终结果" src="/theme/images/blog/sicp_res.png" title="最终结果" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/sicp_res.png" data-title="最终结果" data-lightbox="example-set"&gt;
+&lt;img alt="最终结果" src="/images/sicp_res.png" title="最终结果" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;后面的阈值化等操作的分离效果很大程度上来说并不取决于参数的选取，尤其是考虑到不同的图像中文字颜色、尺寸及其与背景噪音的对比，能否将特征分离出来更多还是取决于颜色空间的选取。&lt;/p&gt;</summary><category term="OpenCV"></category><category term="Python"></category><category term="Vision"></category></entry><entry><title>Lisp初学之（二）: 线性递归 与 线性迭代</title><link href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html" rel="alternate"></link><updated>2013-11-09T00:00:00+08:00</updated><author><name>rainy</name></author><id>tag:defsniky.com,2013-11-09:posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html</id><summary type="html">&lt;p&gt;&lt;code&gt;(TOPIC-ABOUT (COMP 'linear-recursive-process 'linear-iterative-process))&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;在学习使用其他语言时，迭代(iterative)或者循环是流程控制中非常重要的一个环节，但是与之功能类似递归(recursive)却往往不被提及或总是一带而过，原因大多是出于机器执行效率或消耗层面的考量，在这里我们抛开这些不去考虑，单纯从计算过程的角度出发去看 Lisp 中的迭代与递归（SICP &lt;a href="/projects/sicp/book-Z-H-11.html#%_sec_1.2.1"&gt;1.2.1  Linear Recursion and Iteration&lt;/a&gt;），发现之前所理解的递归与迭代还是太肤浅，只是从语法形式层面判断“调用了自身”的是递归、&lt;code&gt;for/while/do&lt;/code&gt;的是循环迭代，结果就触礁了。&lt;/p&gt;
 &lt;p&gt;仍然从考虑阶乘函数开始：

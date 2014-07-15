@@ -115,10 +115,14 @@ $$\Gamma (x) = \int_0^\infty  t^{x-1}e^{-t}$$&lt;/p&gt;&lt;script type= "text/ja
 &lt;p&gt;很巧的是编码格式与时间格式等问题以及许多计算机相关的问题都避免不了与&lt;strong&gt;格式&lt;/strong&gt;相关，统一的格式源自于相同的规则或者说标准(Standard)。ASCII第一次以规范标准的型态发表是在1967年，最后一次更新则是在1986年，至今为止共定义了128个字符(&lt;a href="http://zh.wikipedia.org/wiki/Ascii" title="wikipedia"&gt;Wiki&lt;/a&gt;)，在ASCII编码中每一个字符需要8位来表示，而8位一共可以编码&lt;code&gt;2**8 = 256&lt;/code&gt;个字符，这显然不足以将全世界各种不同语系、各种不同的符号涵盖在内，因而就需要将其进行扩展，也就是我们现在最常用的Unicode，现在 Unicode 仍然在不断增加，每次增加都会有新的字符被编码进来，Unicode目前普遍采用的是UCS-2,它用两个字节来编码一个字符，每个字符占用2个字节，这样理论上一共最多可以表示&lt;code&gt;2**16 = 65536&lt;/code&gt;个字符，其中中文在Unicode表中所对应的二进制数字（转换成十六进制后）的范围是：&lt;code&gt;4E00 - 9FFF&lt;/code&gt;中日韩统一表意文字(CJK Unified Ideographs)。ASCII 与 Unicode 的编码方式就如同 C 语言中 &lt;code&gt;char&lt;/code&gt; 类型与 &lt;code&gt;int&lt;/code&gt; 类型的区别一样。&lt;/p&gt;
 &lt;h3&gt;3. Unicode 与 UTF-8&lt;/h3&gt;
 &lt;p&gt;Unicode是一种编码标准，比如说它规定汉字&lt;code&gt;雨&lt;/code&gt;对应的数字大小为&lt;code&gt;0x96e8&lt;/code&gt;（十进制38632），因而从本质上来说Unicode只是一张字符表(code table)，但是具体用什么方法来实现这种编码的转换，也有许多不同的选择，常见的UTF-8(8-bit Unicode Transformation Format)即是其中一种转换方法。(&lt;a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html#unicode"&gt;UTF-8 and Unicode FAQ&lt;/a&gt;)，其工作方式如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="UTF-8" src="/theme/images/blog/utf-8.png" title="UTF-8" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/utf-8.png" data-title="UTF-8" data-lightbox="example-set"&gt;
+&lt;img alt="UTF-8" src="/images/utf-8.png" title="UTF-8" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;4. 实现过程中的各个环节&lt;/h3&gt;
 &lt;p&gt;字符从键盘输入到显示器显示出来，一般会经历下面几个过程：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="encoding-decoding-flow" src="/theme/images/blog/encoding-decoding-flow.png" title="Encoding-Decoding-FLow" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/images/encoding-decoding-flow.png" data-title="Encoding flow" data-lightbox="example-set"&gt;
+&lt;img alt="encoding-decoding-flow" src="/images/encoding-decoding-flow.png" title="Encoding-Decoding-FLow" /&gt;
+&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;首先是编码过程，这一过程与所用的&lt;strong&gt;编辑器&lt;/strong&gt;相关，以 vim 为例，当以 ASCII 的格式保存文件时，如果文件中含有 ASCII 字符之外的字符，则在保存的时候就会报错，因而需要将 vim 设置为 UTF-8 的编码格式（以UTF-8的方法保存、读取文件），方法如下：&lt;/p&gt;

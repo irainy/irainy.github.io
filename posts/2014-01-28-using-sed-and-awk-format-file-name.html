@@ -105,9 +105,13 @@
 <p>3)四个字母及以上或短划线引导的单词首字母大写，出现其它符号如冒号、顿号等以空格代替。</p>
 </blockquote>
 <p>搜集文献的时候为了尽快、更多地下载，往往不想费时间整理文件名，于是就会得到下面的结果：</p>
-<p><img alt="Raw file names" src="/theme/images/blog/raw_files.png" title="Raw files" /></p>
+<p><a href="/images/raw_files.png" data-title="原始" data-lightbox="example-set">
+<img alt="Raw file names" src="/images/raw_files.png" title="Raw files" />
+</a></p>
 <p>根据文题及发表时间重命名后，不同的出处的文档标题格式各异，且各种符号不一而足，因而需要按照需求统一格式，下面引入 sed 与 awk 的解决方案，<code>一行代码</code>解决问题<code>*_*</code></p>
-<p><img alt="Copy title" src="/theme/images/blog/copy_title.png" title="Copy original title" /></p>
+<p><a href="/images/copy_title.png" data-title="复制" data-lightbox="example-set">
+<img alt="Copy title" src="/images/copy_title.png" title="Copy original title" />
+</a></p>
 <h3>2. 解决方案</h3>
 <p>sed 与 awk 相关教程见此处：<a href="http://coolshell.cn/articles/9070.html" title="awk">CoolShell&gt;AWK 简明教程</a>、<a href="http://coolshell.cn/articles/9104.html" title="sed">CoolShell&gt;sed 简明教程</a>。由于文件名是单行文本，sed 只做单行文本的正则匹配与更改，即用到<code>'s/old/new/g;'</code>将<code>old</code>替换为<code>new</code>，用于修改一些多余的符号包括空格、冒号等；awk 则是对输入流进行格式化处理，得到我们需求中规定的格式。</p>
 <p>sed 部分正则替换代码如下：</p>
