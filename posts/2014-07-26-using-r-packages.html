@@ -19,15 +19,14 @@
     <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
     <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
     <link rel="shortcut icon" href="/theme/images/fav.png" />
-    <meta name="description" contents="用可视化网络的形式展示标签云，采用了springy，自制了Pelican plugin" />
-    <meta name="tags" contents="FUN" />
-    <meta name="tags" contents="Javascript" />
-    <title>做一个可视化网络的标签云</title>
+    <meta name="description" contents="R 语言中 package 的相关操作，package的安装、载入与移除" />
+    <meta name="tags" contents="R" />
+    <title>R 语言 package 基本操作</title>
     <link href="/theme/css/syntax.css" rel="stylesheet">
     <link href="/theme/css/lightbox.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
     <script src="/theme/js/lightbox.js"></script>
-    <link rel="canonical" href="http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html" />
+    <link rel="canonical" href="http://defsniky.com/posts/2014-07-26-using-r-packages.html" />
 </head>
 
 <body id="index" class="home">
@@ -87,37 +86,71 @@
   <header>
     <h2 class="entry-title">
       <a href="#" rel="bookmark"
-         title="Permalink to 做一个可视化网络的标签云">做一个可视化网络的标签云</a></h2>
+         title="Permalink to R 语言 package 基本操作">R 语言 package 基本操作</a></h2>
  
   </header>
   <footer class="post-info">
                     <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2014.05.18
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/qu-wei.html" rel="category" title="category:趣味" > 趣味</a>
-                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/fun.html" rel="tag" title="tag:FUN"> FUN / </a><a href="http://defsniky.com/tag/javascript.html" rel="tag" title="tag:Javascript"> Javascript / </a>              </footer><!-- /.post-info -->
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.07.26
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
+                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/r.html" rel="tag" title="tag:R"> R / </a>              </footer><!-- /.post-info -->
   <div class="entry-content">
-    <p>想要制作一个标签云：每一个标签(Tag)都像是一个topic，不同的topic之间通过文章联系起来，即不同的topic出现在同一篇文章中就形成一个更大的主题，因此自然而然地想到用网络的形式呈现，先看一下<a href="/tags.html">Demo</a>。</p>
-<p><a href="/images/network.png" data-title="Network" data-lightbox="example-set">
-<img alt="network" src="/images/network.png" />
+    <p>小星星同学借口说在学习《Learning statistics with R》的时候被安装 package 卡住了，导致后面的学习存在很多障碍，由于我也很长时间没有接触 R，有些生疏了，所以没办法马上解决，但是我觉得几个 package 不应该太大，安装出问题一定是打开的姿势不对。</p>
+<p>首先来说，package 或者是 library 之类的“包”，是所有语言或者 projects 中非常重要的一部分核心内容，它们是所有先辈们智慧的结晶，这些 package 往往封装了许多底层或者通用的功能，让我们不必重造太多轮子。然而在复杂的项目中 package 的安装或者载入可能会伴随很多依赖性、兼容性等问题，优秀的项目往往提供相应的包管理工具来解决这些问题，同时也可以简化用户的操作。R 语言中 package 的下载、安装同样有两种方式，用<code>install.package()</code>命令自动下载安装或者手动下载压缩包并手动载入，两者各有利弊，自动载入方便快捷，不需要对逐一安装层层依赖，但是容易对新手（如小星星同学）产生不可知的后果，一旦出错就不知道究竟发生了什么，该怎么办，最后只好卡在这里一动不动 <code>-,-</code></p>
+<p>晚上我自己试了一下，安装了所需要的 <code>lsr, psych, car</code> 三个 package，耗时大概十分钟不到...，下面是总结的一些基本操作：</p>
+<h4>1. 查看当前电脑已经安装过的 package:</h4>
+<div class="highlight"><pre><span class="p">.</span><span class="n">packages</span><span class="p">(</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="c1">// 返回结果大致如下：</span>
+<span class="c1">// [1] &quot;alr4&quot;        &quot;base&quot;        &quot;bitops&quot;      &quot;boot&quot; ...</span>
+<span class="c1">// ...</span>
+<span class="c1">// 刚开始大概有 30+</span>
+
+<span class="n">library</span><span class="p">()</span>
+<span class="c1">// 会返回每个 package 更为详细的解释</span>
+</pre></div>
+
+
+<h4>2. 查看已经加载的 package:</h4>
+<div class="highlight"><pre><span class="c1">// 已经安装过的 package 并不代表会加载到 R 语言的运行环境中，可以通过如下命令(函数)查看</span>
+<span class="n">search</span><span class="p">()</span>
+<span class="c1">// 返回结果大致如下：</span>
+<span class="c1">// [1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;tools:RGUI&quot;  ...</span>
+<span class="c1">// ...</span>
+<span class="c1">// search 返回 R 运行环境的搜索路径，因此不仅包括 package ，也包括一些会用到的工具，如 GUI 图形界面等</span>
+</pre></div>
+
+
+<h4>3. 载入需要的 package:</h4>
+<div class="highlight"><pre><span class="c1">// 现在需要载入电脑中已安装但是未被加载近来的 package</span>
+<span class="k">library</span><span class="p">(</span><span class="k">package</span> <span class="o">=</span> <span class="s">&quot;survival&quot;</span><span class="p">)</span>
+<span class="c1">// 或简写为</span>
+<span class="k">library</span><span class="p">(</span><span class="n">survival</span><span class="p">)</span>
+<span class="o">--</span> <span class="err">载入需要的程辑包：</span><span class="n">splines</span> <span class="o">--</span>
+<span class="c1">// 同时也会载入其依赖的 package</span>
+</pre></div>
+
+
+<h4>4. (从运行环境中)移除不需要的 package:</h4>
+<div class="highlight"><pre><span class="c1">// 当不再需要某些包可以从运行环境中移除:</span>
+<span class="n">detach</span><span class="p">(</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;package:survival&quot;</span> <span class="p">)</span>
+<span class="c1">// 或简写为:</span>
+<span class="n">detach</span><span class="p">(</span><span class="s">&quot;package:splines&quot;</span><span class="p">)</span>
+<span class="c1">// 如果安装了 lsr 这个包，可以更方便地移除:</span>
+<span class="n">unlibrary</span><span class="p">(</span> <span class="n">survival</span> <span class="p">)</span>
+</pre></div>
+
+
+<h4>5. 下载并安装新的 packages:</h4>
+<p>以天朝尤其是校园网的网速，如果选用默认的镜像下载，很有可能遇到意想不到惊喜，所以最好还是指定镜像来安装，<code>install.package()</code> 方法提供了一些参数，其中 <code>repos = ""</code> 指定镜像的 URL，<a href="http://cran.r-project.org/mirrors.html">官网</a>提供了很多可选镜像，我一般会选<a href="http://mirror.bjtu.edu.cn/cran/">http://mirror.bjtu.edu.cn/cran/</a>：</p>
+<div class="highlight"><pre><span class="n">install</span><span class="p">.</span><span class="n">packages</span><span class="p">(</span> <span class="n">pkgs</span> <span class="o">=</span> <span class="s">&quot;car&quot;</span><span class="p">,</span> <span class="n">repos</span> <span class="o">=</span> <span class="s">&quot;http://mirror.bjtu.edu.cn/cran/&quot;</span><span class="p">,</span> <span class="n">dependencies</span> <span class="o">=</span> <span class="n">TRUE</span> <span class="p">)</span>
+<span class="c1">// dependencies = TRUE 指定自动下载相关依赖，所以可能需要一定时间</span>
+</pre></div>
+
+
+<p>结果如下：</p>
+<p><a href="/images/r-package.png" data-title="package installed" data-lightbox="example-set">
+<img alt="package installed" src="/images/r-package.png" title="package" />
 </a></p>
-<p>首先想要用 <code>Javascript</code> 实现可视化网络的话要选一个可视化工具库，最先想到的是<a href="http://d3js.org/">D3</a>，但后来发现用起来并不顺利，最后选用了一个小巧的<a href="http://getspringy.com/">Springy.js</a>，它包含两个部分，一是计算网络属性<code>Node &amp; Edge</code>等(<a href="https://github.com/dhotson/springy/blob/master/springy.js">springy.js</a>)，另一个基于 HTML5 的 Canvas 对网络进行绘制(<a href="https://github.com/dhotson/springy/blob/master/springyui.js">springyui.js</a>)。接下来要获取标签的统计以及标签之间的联系，因为我是用<a href="http://blog.getpelican.com/">Pelican</a>生成网站的，因此就想要自己写一个 plugin 在生成网站的时候统计文章标签的情况(<a href="http://git.oschina.net/sniky/pelican-blog/blob/master/plugins/tagsnet/tagsnet.py">代码</a>)，其中关于网络的 <code>Node &amp; Edge</code> 数据格式部分如下：</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">Node</span><span class="p">(</span><span class="n">ID</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Name</span> <span class="o">=</span> <span class="s">&#39;None&#39;</span><span class="p">,</span> <span class="n">Value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Url</span> <span class="o">=</span> <span class="s">&#39;Url&#39;</span><span class="p">):</span>
-  <span class="k">return</span> <span class="p">{</span><span class="s">&#39;ID&#39;</span><span class="p">:</span> <span class="n">ID</span><span class="p">,</span> <span class="s">&#39;Name&#39;</span><span class="p">:</span> <span class="n">Name</span><span class="p">,</span> <span class="s">&#39;Value&#39;</span><span class="p">:</span> <span class="n">Value</span><span class="p">,</span> <span class="s">&#39;Url&#39;</span><span class="p">:</span> <span class="n">Url</span><span class="p">}</span>
-<span class="k">def</span> <span class="nf">Link</span><span class="p">(</span><span class="n">Src</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Tar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-  <span class="k">return</span> <span class="p">{</span><span class="s">&#39;Src&#39;</span><span class="p">:</span> <span class="n">Src</span><span class="p">,</span> <span class="s">&#39;Tar&#39;</span><span class="p">:</span> <span class="n">Tar</span><span class="p">,</span> <span class="s">&#39;Value&#39;</span><span class="p">:</span> <span class="n">Value</span><span class="p">}</span>
-</pre></div>
-
-
-<p>接下来在页面中用<code>Springy</code>生成网络，其中<code>addNodes</code> 与 <code>addEdges</code>方法为适应上面生成的统计数据而进行了调整(<a href="http://git.oschina.net/sniky/pelican-blog/blob/master/themes/theme-by-rainy/static/js/springy.js#L87">addNodes</a>, <a href="http://git.oschina.net/sniky/pelican-blog/blob/master/themes/theme-by-rainy/static/js/springy.js#L140">addEdges</a>)，同时为<code>Node.data</code>添加了<code>ondoubleclick</code>的属性使标签在双击条件下跳转，正常的拖拽、选中不会产生跳转：</p>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Springy</span><span class="p">.</span><span class="nx">Graph</span><span class="p">();</span>
-<span class="nx">graph</span><span class="p">.</span><span class="nx">addNodes</span><span class="p">(</span><span class="nx">Network</span><span class="p">[</span><span class="s1">&#39;nodes&#39;</span><span class="p">]);</span>
-<span class="nx">graph</span><span class="p">.</span><span class="nx">addEdges</span><span class="p">(</span><span class="nx">Network</span><span class="p">[</span><span class="s1">&#39;links&#39;</span><span class="p">]);</span>
-<span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-    <span class="kd">var</span> <span class="nx">springy</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">springy</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;#tagsnet&#39;</span><span class="p">).</span><span class="nx">springy</span><span class="p">({</span>
-        <span class="nx">graph</span><span class="o">:</span> <span class="nx">graph</span>
-    <span class="p">});</span>
-<span class="p">});</span>
-</pre></div>
   </div><!-- /.entry-content -->
   <div class="end-article">- END -</div>
     <div class="shares">
@@ -127,21 +160,19 @@
   <ul>
     <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
     <li>
-      原文网址：<a href="http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html">http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html</a>
+      原文网址：<a href="http://defsniky.com/posts/2014-07-26-using-r-packages.html">http://defsniky.com/posts/2014-07-26-using-r-packages.html</a>
     </li>
   </ul>
   </div>
 <div class="neighbors">
   <ul class="neighbors">
     <li class="prev">
-        <a href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" rel="prev" title="prev post">
-            <i class="fa fa-arrow-circle-o-left"></i> Why SVM
+        <a href="http://defsniky.com/posts/2014-07-15-keep-notes-with-maxiang.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> 马克飞象 + Evernote
         </a>
     </li>
     <li class="next">
-      <a href="http://defsniky.com/posts/2014-05-21-math-and-statistics-relearning-part-1.html" rel="next" title="next post">
-        LDA 概率统计基础（一） <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
-      </a>
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
     </li>
 </ul>
 <div style="clear: both"></div>
