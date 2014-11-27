@@ -19,9 +19,13 @@
     <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
     <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
     <link rel="shortcut icon" href="/theme/images/fav.png" />
-	<meta name="description" contents="tags" />
-	<link rel="canonical" href="http://defsniky.com/tags.html" />
-  <title>rainy:Tag:Lua</title>
+    <meta name="tags" contents="" />
+    <title>内存布局与栈帧结构</title>
+    <link href="/theme/css/syntax.css" rel="stylesheet">
+    <link href="/theme/css/lightbox.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/theme/js/lightbox.js"></script>
+    <link rel="canonical" href="http://defsniky.com/posts/2014-09-02-Memory-layout-and-the-stack.html" />
 </head>
 
 <body id="index" class="home">
@@ -77,29 +81,72 @@
             </div>
 
             <div class="article-container">
-	<section id="content">
-		<ol id="post-list">
-   	    <li>
-       		<article class="hentry">
-       		    <header>
-       	    		<h2 class="entry-title"><a href="http://defsniky.com/posts/2014-06-05-learn-lua-in-15-minutes.html" rel="bookmark" title="Permalink to Lua 语言 15 分钟快速入门【译】">Lua 语言 15 分钟快速入门【译】</a></h2>
-        	    </header>
-   	        	<footer class="post-info">
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="#" rel="bookmark"
+         title="Permalink to 内存布局与栈帧结构">内存布局与栈帧结构</a></h2>
+ 
+  </header>
+  <footer class="post-info">
                     <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2014.06.05
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/yu-yan.html" rel="category" title="category:语言" > 语言</a>
-                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/lua.html" rel="tag" title="tag:Lua"> Lua / </a> 
-        	    </footer><!-- /.post-info -->
-   	        	<div class="entry-content"> <p>译文，英文原文：<a href="http://tylerneylon.com/a/learn-lua/">Learn Lua in 15 Minutes</a></p> </div><!-- /.entry-content -->
-        	</article>
-   	    </li>
-		</ol><!-- /#posts-list -->
-<div class="paginator">
-	<ul class="pagination">
-	    		<li  class="active" ><a href="/">1</a></li>
-	</ul>
+                    · <span class="glyphicon glyphicon-calendar"></span> 2014.09.02
+                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/xue-xi.html" rel="category" title="category:学习" > 学习</a>
+                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/.html" rel="tag" title="tag:">  / </a>              </footer><!-- /.post-info -->
+  <div class="entry-content">
+    
+  </div><!-- /.entry-content -->
+  <div class="end-article">- END -</div>
+    <div class="shares">
+      <div class="wumii-hook"></div>
+    </div>
+  <div class="asset-footer">
+  <ul>
+    <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
+    <li>
+      原文网址：<a href="http://defsniky.com/posts/2014-09-02-Memory-layout-and-the-stack.html">http://defsniky.com/posts/2014-09-02-Memory-layout-and-the-stack.html</a>
+    </li>
+  </ul>
+  </div>
+<div class="neighbors">
+  <ul class="neighbors">
+    <li class="prev">
+        <a href="http://defsniky.com/posts/2014-07-26-using-r-packages.html" rel="prev" title="prev post">
+            <i class="fa fa-arrow-circle-o-left"></i> R 语言 package 基本操作
+        </a>
+    </li>
+    <li class="next">
+      <a href="javascript:alert('That\'s the end!')" title="last post" rel="next" >已经是最后一篇</a>
+    </li>
+</ul>
+<div style="clear: both"></div>
 </div>
-	</section><!-- /#content -->
+<div id="disqus_thread"></div>
+<script type="text/javascript" id="wumiiComments">
+	var wumiiPermaLink = "http://defsniky.com/posts/2014-09-02-Memory-layout-and-the-stack.html"; 
+	var wumiiTitle = "内存布局与栈帧结构"; 
+	var wumiiTags = ""; 
+	var wumiiCategories = ["学习"]; 
+	var wumiiSitePrefix = "http://defsniky.com/";
+  //var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
+</script>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
+<div style="clear: both"></div>
+</section>
             </div>
             <div style="clear:both"></div>
         </div>
