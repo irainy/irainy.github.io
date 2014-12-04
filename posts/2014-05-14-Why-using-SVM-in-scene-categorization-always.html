@@ -1,104 +1,149 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <!--
-            **                                                          
-             * Author:         rainy                                   
-             * Contact:        sniky.hack@gmail.com                   
-            **                                               
-    -->
-    <meta charset="utf-8" />
-    <meta name="description" content="rainy's technology blog"/>
-    <meta name="keywords" content="IT, learning, sharing" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta property="og:site_name" content="rainy"/>
-    <meta name="generator" content="Pelican" />
-    <meta name="author" content="rainy" />
-    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
-    <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
-    <link rel="shortcut icon" href="/theme/images/fav.png" />
-    <meta name="description" contents="场景识别的计算模型通常都用SVM作为分类器，并将分类结果与行为实验结果对比，从而推断特征的有效性，但是为什么通常都用SVM？" />
-    <meta name="tags" contents="Psychology" />
-    <meta name="tags" contents="SVM" />
-    <meta name="tags" contents="场景识别" />
-    <meta name="tags" contents="Vision" />
-    <title>Why SVM</title>
-    <link href="/theme/css/syntax.css" rel="stylesheet">
-    <link href="/theme/css/lightbox.css" rel="stylesheet">
-    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-    <script src="/theme/js/lightbox.js"></script>
-    <link rel="canonical" href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" />
+
+<meta name="description" contents="场"/>
+<meta name="description" contents="景"/>
+<meta name="description" contents="识"/>
+<meta name="description" contents="别"/>
+<meta name="description" contents="的"/>
+<meta name="description" contents="计"/>
+<meta name="description" contents="算"/>
+<meta name="description" contents="模"/>
+<meta name="description" contents="型"/>
+<meta name="description" contents="通"/>
+<meta name="description" contents="常"/>
+<meta name="description" contents="都"/>
+<meta name="description" contents="用"/>
+<meta name="description" contents="S"/>
+<meta name="description" contents="V"/>
+<meta name="description" contents="M"/>
+<meta name="description" contents="作"/>
+<meta name="description" contents="为"/>
+<meta name="description" contents="分"/>
+<meta name="description" contents="类"/>
+<meta name="description" contents="器"/>
+<meta name="description" contents="，"/>
+<meta name="description" contents="并"/>
+<meta name="description" contents="将"/>
+<meta name="description" contents="分"/>
+<meta name="description" contents="类"/>
+<meta name="description" contents="结"/>
+<meta name="description" contents="果"/>
+<meta name="description" contents="与"/>
+<meta name="description" contents="行"/>
+<meta name="description" contents="为"/>
+<meta name="description" contents="实"/>
+<meta name="description" contents="验"/>
+<meta name="description" contents="结"/>
+<meta name="description" contents="果"/>
+<meta name="description" contents="对"/>
+<meta name="description" contents="比"/>
+<meta name="description" contents="，"/>
+<meta name="description" contents="从"/>
+<meta name="description" contents="而"/>
+<meta name="description" contents="推"/>
+<meta name="description" contents="断"/>
+<meta name="description" contents="特"/>
+<meta name="description" contents="征"/>
+<meta name="description" contents="的"/>
+<meta name="description" contents="有"/>
+<meta name="description" contents="效"/>
+<meta name="description" contents="性"/>
+<meta name="description" contents="，"/>
+<meta name="description" contents="但"/>
+<meta name="description" contents="是"/>
+<meta name="description" contents="为"/>
+<meta name="description" contents="什"/>
+<meta name="description" contents="么"/>
+<meta name="description" contents="通"/>
+<meta name="description" contents="常"/>
+<meta name="description" contents="都"/>
+<meta name="description" contents="用"/>
+<meta name="description" contents="S"/>
+<meta name="description" contents="V"/>
+<meta name="description" contents="M"/>
+<meta name="description" contents="？"/>
+
+<meta name="tags" contents="Psychology"/>
+<meta name="tags" contents="SVM"/>
+<meta name="tags" contents="场景识别"/>
+<meta name="tags" contents="Vision"/>
+    <title>rainy</title>
+    <meta charset="utf-8"/>
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" href="/theme/css/bootstrap-paper.min.css">
+    <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/theme/css/style.css">
+
+    <!-- Jquery before bootstrap.js -->
+    <script src="/theme/js/jquery.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+
 </head>
 
-<body id="index" class="home">
-    <div id="upper-menu-container">
-        <div id="page-menu-wrapper">
-            <ul class="main left">
+<body id="index">
+<div class="container main-container">
+    <div class="row main-row">
+        <section id="side-bar" class="col-md-4">
+            <ul class="name-card">
                 <li>
-                    <a href="/" class="top-menu"><span class="fa fa-home"></span></a>
+                    <a href="https://github.com/rainy-im" title="My Github">
+                        <img class="avatar" src="https://avatars0.githubusercontent.com/u/3953966?v=3&s=460"/>
+                    </a>
+                </li>
+                <li class="name-card-name"><b>rainy.im</b></li>
+                <li class="name-card-slogan"><i>I thought, therefore I write.</i></li>
+                <li class="divider"></li>
+            </ul>
+            <form class="side-search" onsubmit="return search()">
+                <input id="search-query" type="text" class="form-control" placeholder="Search">
+            </form>
+            <ul class="nav nav-sidebar">
+                <li><a href="/">Home</a></li>
+                <li><a href="/archives.html">Archive</a></li>
+                <li><a href="/categories.html">Category</a></li>
+                <li><a href="/tags.html">Tags</a></li>
+                <li><a href="">RSS</a></li>
+            </ul>
+            <ul class="sns">
+                <li>
+                    <a href="mailto:sniky.hack@gmail.com" title="email" class="fa fa-send"></a>
                 </li>
                 <li>
-                    <a href="#/归类" title="categories" class="top-menu"><i class="fa fa-list"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">8</span>]</a></li>
-                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">5</span>]</a></li>
-                        <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
-                        <li role="presentation"><a title="认知" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/ren-zhi.html">认知 [<span class="article-count">1</span>]</a></li>
-                        <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
-                    </ul>
+                    <a href="http://weibo.com/myaplysia" title="Weibo" alt="Weibo" class="fa fa-weibo"></a>
                 </li>
                 <li>
-                    <a href="/archives.html" class="top-menu" rel="index" title="archives" ><i class="fa fa-archive"></i></a>
-                </li>
-                <li>
-                    <a href="/tags.html" class="top-menu" rel="index" title="tags"><i class="fa fa-tags"></i></a>
+                    <a href="https://github.com/rainy-im" title="Github" alt="Github" class="fa fa-github"></a>
                 </li>
             </ul>
-            
-            <ul class="main right">
-               <li>
-                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss-square"></i></a>
-                </li>
-                <li>
-                    <a href="/" title="find-me" class="top-menu" rel="nofollow" ><i class="fa fa-globe"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="mailto:sniky.hack@gmail.com"  title="mail to me"><i class="fa fa-envelope"></i> Mail</a></li>
-                        <li><a href="https://github.com/irainy" rel="nofollow" title="github"><i class="fa fa-github-square"></i> Github</a></li>
-                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
-                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="google-plus"><i class="fa fa-google-plus-square"></i> Google+</a></li>
-<!--                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>-->
-                    </ul>
-                </li>
-                <li>
-                    <a href="http://about.me/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/rainy.png" class="img-avatar" title="avatar" alt="avatar" /></a>
-                </li>
-            </ul>
-        </div>
-    </div>
+        </section>
+        <!--left side-->
+        <section class="col-md-8">
+<section id="content" class="body col-md-8">
+    <ul class="post-info breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li>
+            <a href="/category/ren-zhi.html" title="认知" alt="认知">
+                认知
+            </a>
+        </li>
+        <li class="active">
+            三 14 五月 2014
+        </li>
+    </ul>
+    <!-- /.post-info -->
 
-    <div id="main-wrapper">
-        <div id="content-wrapper">
-            <div id="site-logo">
-                <div class="sub-logo"><a href="/" alt="star in the night sky.">Non-None.</a></div>
-            </div>
+    <header>
+        <h4 class="entry-title">
+            <a href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" rel="bookmark"
+               title="Permalink to Why SVM">Why SVM</a>
+        </h4>
+    </header>
 
-            <div class="article-container">
-<section id="content" class="body">
-  <header>
-    <h2 class="entry-title">
-      <a href="#" rel="bookmark"
-         title="Permalink to Why SVM">Why SVM</a></h2>
- 
-  </header>
-  <footer class="post-info">
-                    <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2014.05.14
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/ren-zhi.html" rel="category" title="category:认知" > 认知</a>
-                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/psychology.html" rel="tag" title="tag:Psychology"> Psychology / </a><a href="http://defsniky.com/tag/svm.html" rel="tag" title="tag:SVM"> SVM / </a><a href="http://defsniky.com/tag/chang-jing-shi-bie.html" rel="tag" title="tag:场景识别"> 场景识别 / </a><a href="http://defsniky.com/tag/vision.html" rel="tag" title="tag:Vision"> Vision / </a>              </footer><!-- /.post-info -->
-  <div class="entry-content">
-    <p>自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？</p>
+    <div class="entry-content">
+        <p>自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？</p>
 <p>首先看一下SVM(Support Vector Machine)算法，SVM是一种扩展的线性模型，它通过非线性映射的转换，将特征空间转换为一个维度更高的空间，从而实现非线性分类边界的划分，下面这张图能够很好第说明这一特点，原本二维空间里面线性不可分的两类，投射到三维空间后就变得很好区分了：</p>
 <p><a href="/images/svm.gif" data-title="SVM" data-lightbox="example-set">
 <img alt="svm" src="/images/svm.gif" title="“SVM”" />
@@ -125,72 +170,21 @@
 <h4>4. Bag of Visual Word(LDA系列的主题模型，选取最近一篇fMRI研究)</h4>
 <div class="highlight"><pre><span class="n">Stansbury</span><span class="p">,</span> <span class="n">D</span><span class="p">.</span> <span class="n">E</span><span class="p">.,</span> <span class="n">Naselaris</span><span class="p">,</span> <span class="n">T</span><span class="p">.,</span> <span class="o">&amp;</span> <span class="n">Gallant</span><span class="p">,</span> <span class="n">J</span><span class="p">.</span> <span class="n">L</span><span class="p">.</span> <span class="p">(</span><span class="mi">2013</span><span class="p">).</span> <span class="n">Natural</span> <span class="n">Scene</span> <span class="n">Statistics</span> <span class="n">Accountfor</span> <span class="n">the</span> <span class="n">Representation</span> <span class="n">of</span> <span class="n">Scene</span> <span class="n">Categories</span> <span class="n">in</span> <span class="n">Human</span> <span class="n">Visual</span> <span class="n">Cortex</span><span class="p">.</span>
 </pre></div>
-  </div><!-- /.entry-content -->
-  <div class="end-article">- END -</div>
-    <div class="shares">
-      <div class="wumii-hook"></div>
     </div>
-  <div class="asset-footer">
-  <ul>
-    <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
-    <li>
-      原文网址：<a href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html">http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html</a>
-    </li>
-  </ul>
-  </div>
-<div class="neighbors">
-  <ul class="neighbors">
-    <li class="prev">
-        <a href="http://defsniky.com/posts/2014-04-28-what-is-this-in-javascript.html" rel="prev" title="prev post">
-            <i class="fa fa-arrow-circle-o-left"></i> What's this in Javascript
-        </a>
-    </li>
-    <li class="next">
-      <a href="http://defsniky.com/posts/2014-05-18-tag-cloud-network-visualization.html" rel="next" title="next post">
-        做一个可视化网络的标签云 <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
-      </a>
-    </li>
-</ul>
-<div style="clear: both"></div>
-</div>
-<div id="disqus_thread"></div>
-<script type="text/javascript" id="wumiiComments">
-	var wumiiPermaLink = "http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html"; 
-	var wumiiTitle = "Why SVM"; 
-	var wumiiTags = "Psychology,SVM,场景识别,Vision"; 
-	var wumiiCategories = ["认知"]; 
-	var wumiiSitePrefix = "http://defsniky.com/";
-  //var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
-</script>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
-<div style="clear: both"></div>
+    <!-- /.entry-content -->
 </section>
-            </div>
-            <div style="clear:both"></div>
-        </div>
+        </section>
+        <!--main content-->
     </div>
-    <footer id="contentinfo" class="body">
-        <ul>
-            <li>Author & Theme designer <span class="me">雨生</span></li>
-            <li>Generated by <a title="pelican" rel="nofollow" href="http://blog.getpelican.com/">Pelican</a></li>
-            <li>Sponsored by <a title="薛老板" rel="nofollow" href="javascript:alert(':)')">颖惠</a></li>
-        </ul>
-    </footer><!-- /#contentinfo -->
-    <!-- QQ STATISTIC -->
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=29616172" charset="UTF-8"></script>
+    <footer id="contentinfo" class="row">
+        <address id="about" class="col-md-12">
+            Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+            Theme based on <a href="http://bootswatch.com/paper">Bootstrap paper</a>.
+        </address>
+    </footer>
+</div>
+
+<!-- /#contentinfo -->
+<script type="text/javascript" src="/theme/js/main.js"></script>
 </body>
 </html>

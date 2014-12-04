@@ -1,169 +1,122 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <!--
-            **                                                          
-             * Author:         rainy                                   
-             * Contact:        sniky.hack@gmail.com                   
-            **                                               
-    -->
-    <meta charset="utf-8" />
-    <meta name="description" content="rainy's technology blog"/>
-    <meta name="keywords" content="IT, learning, sharing" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta property="og:site_name" content="rainy"/>
-    <meta name="generator" content="Pelican" />
-    <meta name="author" content="rainy" />
-    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
-    <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
-    <link rel="shortcut icon" href="/theme/images/fav.png" />
-    <meta name="description" contents="SICP(计算机程序的构造和解释)重新排版" />
-    <meta name="tags" contents="SICP" />
-    <title>SICP 英文第二版</title>
-    <link href="/theme/css/syntax.css" rel="stylesheet">
-    <link href="/theme/css/lightbox.css" rel="stylesheet">
-    <script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-    <script src="/theme/js/lightbox.js"></script>
-    <link rel="canonical" href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html" />
+
+<meta name="description" contents="S"/>
+<meta name="description" contents="I"/>
+<meta name="description" contents="C"/>
+<meta name="description" contents="P"/>
+<meta name="description" contents="("/>
+<meta name="description" contents="计"/>
+<meta name="description" contents="算"/>
+<meta name="description" contents="机"/>
+<meta name="description" contents="程"/>
+<meta name="description" contents="序"/>
+<meta name="description" contents="的"/>
+<meta name="description" contents="构"/>
+<meta name="description" contents="造"/>
+<meta name="description" contents="和"/>
+<meta name="description" contents="解"/>
+<meta name="description" contents="释"/>
+<meta name="description" contents=")"/>
+<meta name="description" contents="重"/>
+<meta name="description" contents="新"/>
+<meta name="description" contents="排"/>
+<meta name="description" contents="版"/>
+
+<meta name="tags" contents="SICP"/>
+    <title>rainy</title>
+    <meta charset="utf-8"/>
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" href="/theme/css/bootstrap-paper.min.css">
+    <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/theme/css/style.css">
+
+    <!-- Jquery before bootstrap.js -->
+    <script src="/theme/js/jquery.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+
 </head>
 
-<body id="index" class="home">
-    <div id="upper-menu-container">
-        <div id="page-menu-wrapper">
-            <ul class="main left">
+<body id="index">
+<div class="container main-container">
+    <div class="row main-row">
+        <section id="side-bar" class="col-md-4">
+            <ul class="name-card">
                 <li>
-                    <a href="/" class="top-menu"><span class="fa fa-home"></span></a>
+                    <a href="https://github.com/rainy-im" title="My Github">
+                        <img class="avatar" src="https://avatars0.githubusercontent.com/u/3953966?v=3&s=460"/>
+                    </a>
+                </li>
+                <li class="name-card-name"><b>rainy.im</b></li>
+                <li class="name-card-slogan"><i>I thought, therefore I write.</i></li>
+                <li class="divider"></li>
+            </ul>
+            <form class="side-search" onsubmit="return search()">
+                <input id="search-query" type="text" class="form-control" placeholder="Search">
+            </form>
+            <ul class="nav nav-sidebar">
+                <li><a href="/">Home</a></li>
+                <li><a href="/archives.html">Archive</a></li>
+                <li><a href="/categories.html">Category</a></li>
+                <li><a href="/tags.html">Tags</a></li>
+                <li><a href="">RSS</a></li>
+            </ul>
+            <ul class="sns">
+                <li>
+                    <a href="mailto:sniky.hack@gmail.com" title="email" class="fa fa-send"></a>
                 </li>
                 <li>
-                    <a href="#/归类" title="categories" class="top-menu"><i class="fa fa-list"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">8</span>]</a></li>
-                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">5</span>]</a></li>
-                        <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
-                        <li role="presentation"><a title="认知" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/ren-zhi.html">认知 [<span class="article-count">1</span>]</a></li>
-                        <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
-                    </ul>
+                    <a href="http://weibo.com/myaplysia" title="Weibo" alt="Weibo" class="fa fa-weibo"></a>
                 </li>
                 <li>
-                    <a href="/archives.html" class="top-menu" rel="index" title="archives" ><i class="fa fa-archive"></i></a>
-                </li>
-                <li>
-                    <a href="/tags.html" class="top-menu" rel="index" title="tags"><i class="fa fa-tags"></i></a>
+                    <a href="https://github.com/rainy-im" title="Github" alt="Github" class="fa fa-github"></a>
                 </li>
             </ul>
-            
-            <ul class="main right">
-               <li>
-                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss-square"></i></a>
-                </li>
-                <li>
-                    <a href="/" title="find-me" class="top-menu" rel="nofollow" ><i class="fa fa-globe"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="mailto:sniky.hack@gmail.com"  title="mail to me"><i class="fa fa-envelope"></i> Mail</a></li>
-                        <li><a href="https://github.com/irainy" rel="nofollow" title="github"><i class="fa fa-github-square"></i> Github</a></li>
-                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
-                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="google-plus"><i class="fa fa-google-plus-square"></i> Google+</a></li>
-<!--                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>-->
-                    </ul>
-                </li>
-                <li>
-                    <a href="http://about.me/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/rainy.png" class="img-avatar" title="avatar" alt="avatar" /></a>
-                </li>
-            </ul>
-        </div>
-    </div>
+        </section>
+        <!--left side-->
+        <section class="col-md-8">
+<section id="content" class="body col-md-8">
+    <ul class="post-info breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li>
+            <a href="/category/xue-xi.html" title="学习" alt="学习">
+                学习
+            </a>
+        </li>
+        <li class="active">
+            一 28 十月 2013
+        </li>
+    </ul>
+    <!-- /.post-info -->
 
-    <div id="main-wrapper">
-        <div id="content-wrapper">
-            <div id="site-logo">
-                <div class="sub-logo"><a href="/" alt="star in the night sky.">Non-None.</a></div>
-            </div>
+    <header>
+        <h4 class="entry-title">
+            <a href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html" rel="bookmark"
+               title="Permalink to SICP 英文第二版">SICP 英文第二版</a>
+        </h4>
+    </header>
 
-            <div class="article-container">
-<section id="content" class="body">
-  <header>
-    <h2 class="entry-title">
-      <a href="#" rel="bookmark"
-         title="Permalink to SICP 英文第二版">SICP 英文第二版</a></h2>
- 
-  </header>
-  <footer class="post-info">
-                    <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2013.10.28
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/xue-xi.html" rel="category" title="category:学习" > 学习</a>
-                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/sicp.html" rel="tag" title="tag:SICP"> SICP / </a>              </footer><!-- /.post-info -->
-  <div class="entry-content">
-    <p><a href="/projects/sicp/book-Z-H-4.html">SICP full-text</a></p>
+    <div class="entry-content">
+        <p><a href="/projects/sicp/book-Z-H-4.html">SICP full-text</a></p>
 <p><em>this is a copy from <a href="http://mitpress.mit.edu/sicp/">here</a></em></p>
 <p><a href="http://creativecommons.org/licenses/by-nc/3.0/" title="licenses"><img alt="licenses" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a></p>
-  </div><!-- /.entry-content -->
-  <div class="end-article">- END -</div>
-    <div class="shares">
-      <div class="wumii-hook"></div>
     </div>
-  <div class="asset-footer">
-  <ul>
-    <li>版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></li>
-    <li>
-      原文网址：<a href="http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html">http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html</a>
-    </li>
-  </ul>
-  </div>
-<div class="neighbors">
-  <ul class="neighbors">
-    <li class="prev">
-        <a href="http://defsniky.com/posts/2013-10-22-coral-reefs-of-the-lisp-world-1.html" rel="prev" title="prev post">
-            <i class="fa fa-arrow-circle-o-left"></i> Lisp初学之（一）: APPLY 与 MAPCAR
-        </a>
-    </li>
-    <li class="next">
-      <a href="http://defsniky.com/posts/2013-11-09-coral-reefs-of-the-lisp-world-2.html" rel="next" title="next post">
-        Lisp初学之（二）: 线性递归 与 线性迭代 <i class="fa fa-arrow-circle-o-right"></i>&nbsp;
-      </a>
-    </li>
-</ul>
-<div style="clear: both"></div>
-</div>
-<div id="disqus_thread"></div>
-<script type="text/javascript" id="wumiiComments">
-	var wumiiPermaLink = "http://defsniky.com/posts/2013-10-28-sicp-online-with-reader-friendly-style.html"; 
-	var wumiiTitle = "SICP 英文第二版"; 
-	var wumiiTags = "SICP"; 
-	var wumiiCategories = ["学习"]; 
-	var wumiiSitePrefix = "http://defsniky.com/";
-  //var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
-</script>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'sniky'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-<!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"180"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>-->
-<div style="clear: both"></div>
+    <!-- /.entry-content -->
 </section>
-            </div>
-            <div style="clear:both"></div>
-        </div>
+        </section>
+        <!--main content-->
     </div>
-    <footer id="contentinfo" class="body">
-        <ul>
-            <li>Author & Theme designer <span class="me">雨生</span></li>
-            <li>Generated by <a title="pelican" rel="nofollow" href="http://blog.getpelican.com/">Pelican</a></li>
-            <li>Sponsored by <a title="薛老板" rel="nofollow" href="javascript:alert(':)')">颖惠</a></li>
-        </ul>
-    </footer><!-- /#contentinfo -->
-    <!-- QQ STATISTIC -->
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=29616172" charset="UTF-8"></script>
+    <footer id="contentinfo" class="row">
+        <address id="about" class="col-md-12">
+            Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+            Theme based on <a href="http://bootswatch.com/paper">Bootstrap paper</a>.
+        </address>
+    </footer>
+</div>
+
+<!-- /#contentinfo -->
+<script type="text/javascript" src="/theme/js/main.js"></script>
 </body>
 </html>

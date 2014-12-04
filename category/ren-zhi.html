@@ -1,123 +1,106 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <!--
-            **                                                          
-             * Author:         rainy                                   
-             * Contact:        sniky.hack@gmail.com                   
-            **                                               
-    -->
-    <meta charset="utf-8" />
-    <meta name="description" content="rainy's technology blog"/>
-    <meta name="keywords" content="IT, learning, sharing" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta property="og:site_name" content="rainy"/>
-    <meta name="generator" content="Pelican" />
-    <meta name="author" content="rainy" />
-    <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
-    <link rel="stylesheet" type="text/css" media="all" href="/theme/css/styles.css">
-    <link rel="shortcut icon" href="/theme/images/fav.png" />
-    <title>rainy:Category:认知
-</title>
-    <link rel="canonical" href="http://defsniky.com" />
-    <link href="http://defsniky.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="rainy Full Atom Feed" />
-    <link href="http://defsniky.com/feeds/yu-yan.atom.xml" type="application/atom+xml" rel=" alternate" title="rainy Categorie 语言 Atom Feed" />
-    <link href="http://defsniky.com/feeds/xue-xi.atom.xml" type="application/atom+xml" rel=" alternate" title="rainy Categorie 学习 Atom Feed" />
-    <link href="http://defsniky.com/feeds/suan-fa.atom.xml" type="application/atom+xml" rel=" alternate" title="rainy Categorie 算法 Atom Feed" />
-    <link href="http://defsniky.com/feeds/ren-zhi.atom.xml" type="application/atom+xml" rel=" alternate" title="rainy Categorie 认知 Atom Feed" />
-    <link href="http://defsniky.com/feeds/qu-wei.atom.xml" type="application/atom+xml" rel=" alternate" title="rainy Categorie 趣味 Atom Feed" />
+    <title>rainy</title>
+    <meta charset="utf-8"/>
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" href="/theme/css/bootstrap-paper.min.css">
+    <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/theme/css/style.css">
+
+    <!-- Jquery before bootstrap.js -->
+    <script src="/theme/js/jquery.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
 </head>
 
-<body id="index" class="home">
-    <div id="upper-menu-container">
-        <div id="page-menu-wrapper">
-            <ul class="main left">
+<body id="index">
+<div class="container main-container">
+    <div class="row main-row">
+        <section id="side-bar" class="col-md-4">
+            <ul class="name-card">
                 <li>
-                    <a href="/" class="top-menu"><span class="fa fa-home"></span></a>
+                    <a href="https://github.com/rainy-im" title="My Github">
+                        <img class="avatar" src="https://avatars0.githubusercontent.com/u/3953966?v=3&s=460"/>
+                    </a>
+                </li>
+                <li class="name-card-name"><b>rainy.im</b></li>
+                <li class="name-card-slogan"><i>I thought, therefore I write.</i></li>
+                <li class="divider"></li>
+            </ul>
+            <form class="side-search" onsubmit="return search()">
+                <input id="search-query" type="text" class="form-control" placeholder="Search">
+            </form>
+            <ul class="nav nav-sidebar">
+                <li><a href="/">Home</a></li>
+                <li><a href="/archives.html">Archive</a></li>
+                <li><a href="/categories.html">Category</a></li>
+                <li><a href="/tags.html">Tags</a></li>
+                <li><a href="">RSS</a></li>
+            </ul>
+            <ul class="sns">
+                <li>
+                    <a href="mailto:sniky.hack@gmail.com" title="email" class="fa fa-send"></a>
                 </li>
                 <li>
-                    <a href="#/归类" title="categories" class="top-menu"><i class="fa fa-list"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a title="语言" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/yu-yan.html">语言 [<span class="article-count">8</span>]</a></li>
-                        <li role="presentation"><a title="学习" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/xue-xi.html">学习 [<span class="article-count">5</span>]</a></li>
-                        <li role="presentation"><a title="算法" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/suan-fa.html">算法 [<span class="article-count">2</span>]</a></li>
-                        <li role="presentation"><a title="认知" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/ren-zhi.html">认知 [<span class="article-count">1</span>]</a></li>
-                        <li role="presentation"><a title="趣味" rel="index" role="menuitem" tabindex="-1" href="http://defsniky.com/category/qu-wei.html">趣味 [<span class="article-count">3</span>]</a></li>
-                    </ul>
+                    <a href="http://weibo.com/myaplysia" title="Weibo" alt="Weibo" class="fa fa-weibo"></a>
                 </li>
                 <li>
-                    <a href="/archives.html" class="top-menu" rel="index" title="archives" ><i class="fa fa-archive"></i></a>
-                </li>
-                <li>
-                    <a href="/tags.html" class="top-menu" rel="index" title="tags"><i class="fa fa-tags"></i></a>
+                    <a href="https://github.com/rainy-im" title="Github" alt="Github" class="fa fa-github"></a>
                 </li>
             </ul>
-            
-            <ul class="main right">
-               <li>
-                    <a href="/feeds/all.atom.xml" title="rss" class="top-menu" rel="alternate"><i class="fa fa-rss-square"></i></a>
-                </li>
-                <li>
-                    <a href="/" title="find-me" class="top-menu" rel="nofollow" ><i class="fa fa-globe"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="mailto:sniky.hack@gmail.com"  title="mail to me"><i class="fa fa-envelope"></i> Mail</a></li>
-                        <li><a href="https://github.com/irainy" rel="nofollow" title="github"><i class="fa fa-github-square"></i> Github</a></li>
-                        <li><a href="http://weibo.com/myaplysia"  rel="nofollow" title="aplysia"><i class="fa fa-weibo"></i> Weibo</a></li>
-                        <li><a href="https://plus.google.com/u/0/107310495452980544454"  rel="nofollow" title="google-plus"><i class="fa fa-google-plus-square"></i> Google+</a></li>
-<!--                        <li><a href="#/pages/donate.html"  title="donate me"><i class="fa fa-btc"></i> Donate</a></li>-->
-                    </ul>
-                </li>
-                <li>
-                    <a href="http://about.me/sniky" title="avatar" class="top-menu avatar"><img src="/theme/images/rainy.png" class="img-avatar" title="avatar" alt="avatar" /></a>
-                </li>
-            </ul>
-        </div>
+        </section>
+        <!--left side-->
+        <section class="col-md-8">
+<section id="content main-content" class="fa-col-md-8">
+<ul class="post-info breadcrumb">
+    <li><a href="/" title="Home">Home</a></li>
+    <li>
+        <a href="/categories.html" title="categories">
+            Category
+        </a>
+    </li>
+    <li class="">
+        认知
+    </li>
+</ul>
+    <ol id="post-list" class="row">
+        <li class="article-list">
+            <article class="hentry">
+                <header>
+                    <h5 class="entry-title">
+                        <a href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" rel="bookmark"
+                           title="Why SVM">Why SVM</a>
+                    </h5>
+                </header>
+                <footer class="post-info">
+                    <div class="published" title="2014-05-14T00:00:00"> 三 14 五月 2014
+                    </div>
+                </footer>
+                <!-- /.post-info -->
+                <div class="entry-content"> <p>自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？</p></div>
+                <!-- /.entry-content -->
+            </article>
+        </li>
+    </ol>
+    <!-- /#posts-list -->
+
+<ul class="paginator pager">
+    Page 1 / 1
+</ul>
+</section>
+<!-- /#content -->
+        </section>
+        <!--main content-->
     </div>
-
-    <div id="main-wrapper">
-        <div id="content-wrapper">
-            <div id="site-logo">
-                <div class="sub-logo"><a href="/" alt="star in the night sky.">Non-None.</a></div>
-            </div>
-
-            <div class="article-container">
-	<section id="content">
-		<ol id="post-list">
-   	    <li>
-       		<article class="hentry">
-       		    <header>
-       	    		<h2 class="entry-title"><a href="http://defsniky.com/posts/2014-05-14-Why-using-SVM-in-scene-categorization-always.html" rel="bookmark" title="Permalink to Why SVM">Why SVM</a></h2>
-        	    </header>
-   	        	<footer class="post-info">
-                    <span class="glyphicon glyphicon-user"></span> rainy
-                    · <span class="glyphicon glyphicon-calendar"></span> 2014.05.14
-                    · <span class="glyphicon glyphicon-folder-close"></span> <a href="http://defsniky.com/category/ren-zhi.html" rel="category" title="category:认知" > 认知</a>
-                    · <span class="glyphicon glyphicon-tags"></span>  <a href="http://defsniky.com/tag/psychology.html" rel="tag" title="tag:Psychology"> Psychology / </a><a href="http://defsniky.com/tag/svm.html" rel="tag" title="tag:SVM"> SVM / </a><a href="http://defsniky.com/tag/chang-jing-shi-bie.html" rel="tag" title="tag:场景识别"> 场景识别 / </a><a href="http://defsniky.com/tag/vision.html" rel="tag" title="tag:Vision"> Vision / </a> 
-        	    </footer><!-- /.post-info -->
-   	        	<div class="entry-content"> <p>自然场景识别或分类无论是在机器视觉(Computer Vision)领域还是认知心理学的研究范畴中都离不开机器学习算法的辅助，而机器学习算法中至关重要的两个步骤分别是提取(选取)特征与学习算法。最近读到一系列关于场景识别的心理学研究，通常会用SVM算法与人类观察者实验结果进行对比，并据以论证所假设的某些特征在场景识别中的有效性，且先不说这一论证方法逻辑的可靠性，为什么多数研究会采用SVM算法呢？</p> </div><!-- /.entry-content -->
-        	</article>
-   	    </li>
-		</ol><!-- /#posts-list -->
-<div class="paginator">
-	<ul class="pagination">
-	    		<li  class="active" ><a href="/">1</a></li>
-	</ul>
+    <footer id="contentinfo" class="row">
+        <address id="about" class="col-md-12">
+            Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+            Theme based on <a href="http://bootswatch.com/paper">Bootstrap paper</a>.
+        </address>
+    </footer>
 </div>
-	</section><!-- /#content -->
-            </div>
-            <div style="clear:both"></div>
-        </div>
-    </div>
-    <footer id="contentinfo" class="body">
-        <ul>
-            <li>Author & Theme designer <span class="me">雨生</span></li>
-            <li>Generated by <a title="pelican" rel="nofollow" href="http://blog.getpelican.com/">Pelican</a></li>
-            <li>Sponsored by <a title="薛老板" rel="nofollow" href="javascript:alert(':)')">颖惠</a></li>
-        </ul>
-    </footer><!-- /#contentinfo -->
-    <!-- QQ STATISTIC -->
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=29616172" charset="UTF-8"></script>
+
+<!-- /#contentinfo -->
+<script type="text/javascript" src="/theme/js/main.js"></script>
 </body>
 </html>
