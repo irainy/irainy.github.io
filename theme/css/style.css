@@ -1,6 +1,7 @@
 html, body {
     padding: 0;
-    margin: 0
+    margin: 0;
+    font: 15px/24px 'Roboto', Palatino, Times, cursive;
 }
 
 ol, ul {
@@ -17,21 +18,12 @@ a:hover {
 }
 
 body {
-    font-size: 1.5em;
     color: #333;
 }
 
 .main-container {
-    max-width: 850%;
     margin: 60px auto;
     margin-bottom: 0px;
-}
-
-.main-row {
-}
-
-.main-content {
-
 }
 
 .avatar {
@@ -153,7 +145,7 @@ ul.tag-list > li {
         text-align: center;
     }
 
-    #side-bar > ul.nav-sidebar, ul.sns{
+    #side-bar > ul.nav-sidebar, ul.sns {
         display: none;
     }
 
